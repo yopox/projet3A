@@ -4,3 +4,9 @@
 *.toc
 
 notes.md
+presentation/synthese.aux
+presentation/synthese.bbl
+presentation/synthese.blg
+presentation/synthese.log
+presentation/synthese.out
+presentation/synthese.synctex.gz
