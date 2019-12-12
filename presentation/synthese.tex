@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169,handout]{beamer}
 
 \mode<presentation>
 {
@@ -15,6 +15,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{tikz-qtree}
 \usepackage[thinlines]{easytable}
+\usepackage{xcolor}
 \usetikzlibrary{arrows}
 
 \title{Synthèse de mi parcours}
@@ -48,7 +49,7 @@
 \subsection{Problématique}
 
 \begin{frame}{Problématique}
- Comment vérifier la présence effective d'un utilisateur à un évènement, et dans la durée ? 
+	Comment vérifier la présence effective d'un utilisateur à un évènement, et dans la durée ? 
 \end{frame}
 
 
@@ -73,9 +74,9 @@
 
 \begin{frame}{Propriétés de Privacy}
     \begin{itemize}
-        \item Eviter le “flicage” (par ex. suivi non sollicité en arrière-plan)\pause
+        \item Eviter le “flicage” (par ex. suivi non sollicité en arrière-plan) \pause
         \item Respecter la réglementation en vigueur (RGPD)\pause
-        \item Avoir un mode “Anonyme” avec un simple compte pour réaliser des statistiques (choisi par le MDC)
+        \item Avoir un mode “Anonyme” avec un simple compte pour réaliser des statistiques(choisi par le MDC)
     \end{itemize}
 \end{frame}
 
@@ -150,9 +151,157 @@
 
 \subsection{Présentation}
 
+\begin{frame}{Les Protocoles Délimiteurs de Distance}
+Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont des protocoles de sécurité qui permettent à un vérificateur V de s'assurer qu'un prouveur P se trouve à une distance bornée et définie de lui-même
+
+\pause
+\begin{itemize}
+\item Introduits par Brands \& Chaum, en 1993
+\item Déterminer a borne supérieure de la distance avec un appareil
+\item Calculs sur la vitesse de déplacement d'une OEM (30 cm en 1 ns)
+\pause
+\item Problème : la vitesse de déplacement d'une OEM est proche de celle d'un calcul dans un CPU 
+\end{itemize}
+
+\end{frame}
+
+
 \subsection{Attaques}
 
-\section{Problèmes technologiques}
+\section{Considérations technologiques}
+
+\begin{frame}{Quelle technologie utiliser ?}
+    Plusieurs technologies possibles :
+    \begin{itemize}
+        \item Bluetooth
+        \item Wi-Fi
+        \item RFID
+        \item NFC
+    \end{itemize}
+
+    \bigskip
+    
+    Exploiter la portée, et les utilisations typiques pour trouver ce qui irait mieux dans notre cas
+\end{frame}
+
+
+\begin{frame}{Bluetooth}
+    
+
+\begin{table}[]
+\begin{tabular}{|l|l|}
+\hline
+Type          & Portée \\ \hline
+Bluetooth 5   & 240 m  \\ \hline
+Bluetooth 4.2 & 60 m   \\ \hline
+\end{tabular}
+\end{table}
+
+\bigskip
+
+Problème : Fonctionne “Bien” pour du 1v1, à confirmer pour du 1v150
+
+\end{frame}
+
+\begin{frame}{Wi-FI}
+    
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Standard} & \textbf{Bande}  & \textbf{Portée}                  & \textbf{Utilisations} \\ \hline
+802.11a           & 5 Ghz           & 120 m                            &                       \\ \hline
+802.11b/g         & 2,4 GHz         & 140 m                            &                       \\ \hline
+802.11n           & 2,4 GHz / 5 Ghz & 250 m                            &                       \\ \hline
+802.11ac          & 5 Ghz           & 10 m                             &                       \\ \hline
+802.11ad          & 5 Ghz           & 1,000 m                          &                       \\ \hline
+802.11af          & 2,4 GHz / 5 Ghz & 1,000 m                          &                       \\ \hline
+802.11ah          & 2,4 GHz / 5 Ghz & 1,000 m                          & Dernière norme parue  \\ \hline
+802.11ax          & 2,4 GHz / 5 Ghz & 300 m                            & WIP                   \\ \hline
+802.11ay          & 60 Ghz          & 300-500 m                        & WIP                   \\ \hline
+802.11az          & 60 Ghz          & \textless{}1m et \textless{}0.1m & WIP, Device Tracking  \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{RFID}
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                           \\ \hline
+120–150 kHz    & 10 cm           & Animaux, accès                                  \\ \hline
+13.56 MHz      & 10 cm — 1 m     & Tags des livres en bibliothèque, forfait de ski \\ \hline
+433 MHz        & 1 m — 100 m     & Communications aériennes (défense)              \\ \hline
+865–868 MHz    & 1 m — 12 m      & Industrie, Science \& Médical (télépéage)       \\ \hline
+2450–5800 MHz  & 1 m — 2 m       & 1,000 m                                         \\ \hline
+3.1–10 GHz     & 200 m           & Pas encore d’ISO                                \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Communication en Champ Proche (NFC)}
+    
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                                                                                                     \\ \hline
+13,56 MHz      & 10 cm           & \begin{tabular}[c]{@{}l@{}}Paiement, déverrouillage, validation\\  présentielle avec action volontaire, etc.\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+
+\bigskip
+
+“La NFC suppose une démarche volontaire de l'utilisateur et normalement ne peut pas être utilisée à son insu.”
+
+\end{frame}
+
+\begin{frame}{Résumé}
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Technologie} & \textbf{Avantages}                                                                              & \textbf{Inconvénients}                                                                            \\ \hline
+Bluetooth            & Portée Idéale                                                                                   & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ \\ plusieurs devices\end{tabular}          \\ \hline
+Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
+RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction des besoins\end{tabular} & Pas présent dans tous les device                                                                  \\ \hline
+NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\end{tabular}           & Portée très courte                                                                                \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{...mais en fait}
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Technologie} & \textbf{Avantages}                                                                                         & \textbf{Inconvénients}                                                                            \\ \hline
+Bluetooth            & Portée Idéale                                                                                              & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ \\ plusieurs devices\end{tabular}          \\ \hline
+Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                           & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
+RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular}            & Pas présent dans tous les device                                                                  \\ \hline
+NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\\ \textcolor{red}{Portée très courte}\end{tabular} &                                                                                                   \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Au final}
+
+Solution hybride à base de Wi-Fi et de NFC :
+\pause
+\begin{itemize}
+    \item NFC pour vérifier l'entrée, et la sortie des élèves dans la salle
+    \pause
+    \item Wi-Fi pour vérifier la présence effective pendant le cours
+    \pause
+    \item Modularité pour le MDC : possibilité de choisir la vérification permanente ou juste à l'entrée et la sortie
+\end{itemize}
+
+
+\end{frame}
+
 
 \section{Swiss-Knife}
 
