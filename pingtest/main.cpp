@@ -71,7 +71,7 @@ long ping(string target) {
 
 
     if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0) {
-        cerr << "Issue opening socket " << s << "\n";
+        cerr << "Issue opening socket, are you sudo ? " << "\n";
         return -1; /* Needs to run as superuser!! */
     }
     icp = (struct icmp *) outpack;
@@ -180,6 +180,7 @@ int main(int argc, char *argv[]) {
     string target;
     if (argc != 2) {
         cout << "Usage : pingtest [target ip]" << endl;
+        cout << "May need to be run as root on certain Unix devices" << endl;
         return 0;
     } else {
         target = argv[1];
