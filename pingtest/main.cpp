@@ -20,12 +20,12 @@
 #include <stdint.h>
 #include <iostream>
 
-#define    DEFDATALEN    (64-ICMP_MINLEN)
-#define    MAXIPLEN    60
-#define    MAXICMPLEN    76
-#define    MAXPACKET    (65536 - 60 - ICMP_MINLEN)
-#define    ITERATIONS 1000
-#define    CELERITY 299792458
+#define	DEFDATALEN	(64-ICMP_MINLEN)
+#define	MAXIPLEN	60
+#define	MAXICMPLEN	76
+#define	MAXPACKET	(65536 - 60 - ICMP_MINLEN)
+#define ITERATIONS 1021
+#define CELERITY 299792458
 
 using namespace std;
 
@@ -44,8 +44,7 @@ long ping(string target) {
     struct icmp *icp;
     int ret, fromlen, hlen;
     fd_set rfds;
-    struct timeval tv;
-    int retval;
+    long retval;
     bool cont = true;
 
     to.sin_family = AF_INET;
@@ -65,16 +64,16 @@ long ping(string target) {
         hostname = hnamebuf;
     }
     packlen = datalen + MAXIPLEN + MAXICMPLEN;
-    if ((packet = (u_char *) malloc((u_int) packlen)) == NULL) {
+    if ((packet = (u_char *) malloc((u_int) packlen)) == nullptr) {
         cerr << "malloc error\n";
         return -1;
     }
 
 
     if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0) {
+        cerr << "Issue opening socket " << s << "\n";
         return -1; /* Needs to run as superuser!! */
     }
-
     icp = (struct icmp *) outpack;
     icp->icmp_type = ICMP_ECHO;
     icp->icmp_code = 0;
@@ -98,11 +97,9 @@ long ping(string target) {
 
     FD_ZERO(&rfds);
     FD_SET(s, &rfds);
-    tv.tv_sec = 1;
-    tv.tv_usec = 0;
 
     while (cont) {
-        retval = select(s + 1, &rfds, NULL, NULL, &tv);
+        retval = select(s + 1, &rfds, NULL, NULL, nullptr);
         if (retval == -1) {
             perror("select()");
             return -1;
@@ -141,8 +138,10 @@ long ping(string target) {
 
             // Stop timer
             auto end = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::nanoseconds>(end - begin).count();
 
+            // Calculate duration and return
+            auto duration = chrono::duration_cast<chrono::nanoseconds>(end - begin).count();
+            cout << "Elapsed time = " << duration << " ns" << endl;
             return duration;
         } else {
             cout << "No data within one seconds.\n";
@@ -177,30 +176,42 @@ uint16_t in_cksum(uint16_t *addr, unsigned len) {
 }
 
 
-int main() {
+int main(int argc, char *argv[]) {
+    string target;
+    if (argc != 2) {
+        cout << "Usage : pingtest [target ip]" << endl;
+        return 0;
+    } else {
+        target = argv[1];
+    }
+
     cout << "Nombre d'itérations : " << ITERATIONS << "\n" << endl;
 
+    int compteur = 0;
     long *results = new long[ITERATIONS];
     long mean = 0;
     long max = 0;
     long min = LLONG_MAX;
     for (int i = 0; i < ITERATIONS; ++i) {
-        auto timelapse = ping("127.0.0.1");
+        auto timelapse = ping(target);
         if (timelapse == -1) {
-            return -1;
+            results[i] = 0;
+        } else if (timelapse == 0) {
+            results[i] = 0;
         } else {
             results[i] = timelapse;
+            ++compteur;
         }
         mean += results[i];
         if (results[i] > max) {
             max = results[i];
         }
-        if (results[i] < min) {
+        if (results[i] != 0 && results[i] < min) {
             min = results[i];
         }
-        cout << "Iteration #" << i << " : " << results[i] << "ns\n" << endl;
+        cout << "Iteration #" << i+1 << " : " << results[i] << "ns\n" << endl;
     }
-    mean = mean / ITERATIONS;
+    mean = mean / compteur;
     double distmean = ((double) (mean)) * CELERITY / 1000000000 / 2;
     double distmax = ((double) (max)) * CELERITY / 1000000000 / 2;
     double distmin = ((double) (min)) * CELERITY / 1000000000 / 2;
