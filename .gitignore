@@ -12,3 +12,5 @@ presentation/synthese.out
 presentation/synthese.synctex.gz
 
 *.DS_Store
+presentation/.synthese.tex.kate-swp
+presentation/synthese.synctex(busy)
