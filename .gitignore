@@ -10,3 +10,5 @@ presentation/synthese.blg
 presentation/synthese.log
 presentation/synthese.out
 presentation/synthese.synctex.gz
+
+*.DS_Store

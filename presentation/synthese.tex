@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 \mode<presentation>
 {
@@ -15,6 +15,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{tikz-qtree}
 \usepackage[thinlines]{easytable}
+\usepackage{siunitx}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{graphicx}
 \usetikzlibrary{arrows}
 
 \title{Synthèse de mi parcours}
@@ -41,16 +45,11 @@
 
 \section{Présentation du sujet}
 
-\begin{frame}
-    
-\end{frame}
-
 \subsection{Problématique}
 
 \begin{frame}{Problématique}
  Comment vérifier la présence effective d'un utilisateur à un évènement, et dans la durée ? 
 \end{frame}
-
 
 \subsection{Cahier des charges}
 
@@ -64,7 +63,7 @@
 \begin{frame}{Propriétés d'utilisation}
     \begin{itemize}
         \item Simple d’utilisation pour les maîtres de conférence\pause
-        \item Supporte ~150 participants\pause
+        \item Supporte $\approx$~150 participants\pause
         \item Peu d’actions de la part des participants\pause
         \item Doit pouvoir fonctionner sur une journée entière\pause
         \item Assurer la présence effective et unique de l’utilisateur
@@ -73,12 +72,11 @@
 
 \begin{frame}{Propriétés de Privacy}
     \begin{itemize}
-        \item Eviter le “flicage” (par ex. suivi non sollicité en arrière-plan)\pause
+        \item Eviter le "flicage" (par ex. suivi non sollicité en arrière-plan)\pause
         \item Respecter la réglementation en vigueur (RGPD)\pause
-        \item Avoir un mode “Anonyme” avec un simple compte pour réaliser des statistiques (choisi par le MDC)
+        \item Avoir un mode "anonyme" avec un simple compte pour réaliser des statistiques (choisi par le MDC)
     \end{itemize}
 \end{frame}
-
 
 \section{Les attaques}
 
@@ -154,6 +152,83 @@
 
 \section{Problèmes technologiques}
 
-\section{Swiss-Knife}
+\section{Un protocole : Swiss-Knife}
+
+\begin{frame}{Propriétés}
+  Protocole délimiteur de distance proposé en 2008.
+
+  \bigskip
+
+  \begin{itemize}
+    \item Authentification
+    \item Résistance aux mafia fraud et terrorist fraud
+    \item Faible complexité algorithmique
+    \item Faible taux de faux positifs
+    \item Confidentialité
+    \item Résistance aux erreurs
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Première phase}
+  \begin{multicols}{2}
+    \begin{minipage}[c]{\linewidth}
+      \centering
+      \bigskip
+      \medskip
+      \includegraphics[width=\linewidth]{assets/sk-phase1.png}
+    \end{minipage}
+
+    \begin{minipage}[t]{\linewidth}
+      \begin{enumerate}
+        \item Le lecteur choisit un nonce $N_A$, et $d$ un nombre avec $m$ bits 1.
+        \item Le tag choisit un nonce $N_B$, et calcule $a = f_x(C_B, N_B)$ avec sa clé secrète $x$ et $N_B$.
+        \item Le tag calcule $Z_0 = a$, $Z_1 = a \oplus x$. Il prépare ensuite les réponses possibles $R_0$ et $R_1$ selon le masque $d$.
+        \item Le tag envoie $N_B$ au lecteur.
+      \end{enumerate}
+    \end{minipage}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}{Seconde phase}
+  \begin{multicols}{2}
+    \begin{minipage}[c]{\linewidth}
+      \centering
+      \bigskip
+      \includegraphics[width=\linewidth]{assets/sk-phase2.png}
+    \end{minipage}
+
+    \begin{minipage}[t]{\linewidth}
+      \begin{enumerate}
+        \item Le lecteur envoie un bit aléatoire $c_i$, et démarre une horloge. Le tag reçoit $c_i'$ (possiblement incorrect).
+        \item Le tag répond $r'_i = R_i^{c'_i}$. Le lecteur reçoit $r_i$.
+        \item Le lecteur arrête l'horloge, et sauvegarde le délai associé $\Delta t_i$ et la réponse $r_i$ reçue.
+      \end{enumerate}
+    \end{minipage}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}{Troisième phase}
+  \begin{multicols}{2}
+    \begin{minipage}[c]{\linewidth}
+      \centering
+      \bigskip
+      \bigskip
+      \bigskip
+      \includegraphics[width=\linewidth]{assets/sk-phase3.png}
+    \end{minipage}
+
+    \begin{minipage}[t]{\linewidth}
+      \begin{enumerate}
+        \item Le lecteur envoie $t_B := f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
+        \item Le lecteur cherche dans sa base de tags jusqu'à trouver $(ID, x)$ générant $t_B$.
+        \item Le lecteur calcule $R^0$ et $R^1$.
+        \item Le lecteur compte les erreurs, si il y en a plus de $T$, échec.
+        \item (optionnel) Le lecteur envoie $t_A := f_x(N_B)$ puis le tag le vérifie.
+      \end{enumerate}
+    \end{minipage}
+  \end{multicols}
+\end{frame}
 
 \end{document}
