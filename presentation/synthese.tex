@@ -20,6 +20,8 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{synthese.bib}
 \usetikzlibrary{arrows}
 
 \title{Synthèse de mi parcours}
@@ -150,12 +152,12 @@
 \subsection{Présentation}
 
 \begin{frame}{Les Protocoles Délimiteurs de Distance}
-Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont des protocoles de sécurité qui permettent à un vérificateur V de s'assurer qu'un prouveur P se trouve à une distance bornée et définie de lui-même
+Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont des protocoles de sécurité qui permettent à un vérificateur V de s'assurer qu'un prouveur P se trouve à une distance bornée et définie de lui-même. \cite{wiki:pdd}
 
 \pause
 \begin{itemize}
-\item Introduits par Brands \& Chaum, en 1993
-\item Déterminer a borne supérieure de la distance avec un appareil
+\item Introduits par Brands \& Chaum, en 1993 \cite{DB1}
+\item Détermine la borne supérieure de la distance avec un appareil
 \item Calculs sur la vitesse de déplacement d'une OEM (30 cm en 1 ns)
 \pause
 \item Problème : la vitesse de déplacement d'une OEM est proche de celle d'un calcul dans un CPU 
@@ -165,6 +167,75 @@ Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont de
 
 
 \subsection{Attaques}
+
+\begin{frame}{Attaques sur les protocoles délimiteurs de distance}
+
+En 2009, un article formalise les différentes attaques. \cite{attack}
+
+\begin{center}
+\begin{tikzpicture}
+    % Zone
+    \draw [black, thick, dotted] (0,0) circle [radius=2.25];
+
+    % Lecteur
+    \draw [fill] (0,0) circle [radius=0.05];
+    \node [above] at (0,0.2) {Lecteur};
+
+    \pause
+
+    % Distance fraud
+    \draw [fill, gray] (3,0) circle [radius=0.05];
+    \node [right, gray] at (3,0) {Tag};
+    \draw [->, thick, line width=1.2, gray] (2.75,0) -- (0.5,0);
+    \node [right, gray] at (4.5,2) {Distance fraud};
+
+    \pause
+
+    % Mafia fraud
+    \draw [fill, red] (1.32, -0.44) circle [radius=0.05];
+    \node [below, red] at (1.32, -0.54) {A};
+
+    \draw [fill, red] (3,-1) circle [radius=0.05];
+    \node [right, red] at (3,-1) {Tag};
+    \draw [->, thick, dashed, line width=1.2, red] (2.79,-0.93) -- (1.51,-0.5);
+    \draw [->, thick, line width=1.2, red] (1.1,-0.37) -- (0.47,-0.16);
+    \node [right, red] at (4.5,1) {Mafia fraud};
+
+    \pause
+
+    % Terrorist fraud
+    \draw [fill, orange] (1.32, 0.44) circle [radius=0.05];
+    \node [above, orange] at (1.32, 0.54) {A};
+
+    \draw [fill, orange] (3,1) circle [radius=0.05];
+    \node [right, orange] at (3,1) {Tag};
+    \draw [->, thick, dashed, line width=1.2, orange] (2.79,0.93) -- (1.51,0.5);
+    \draw [->, thick, line width=1.2, orange] (1.1,0.37) -- (0.47,0.16);
+    \node [right, orange] at (4.5,0) {Terrorist fraud};
+
+    \pause
+
+    % Impersonation fraud
+    \draw [cyan, thick] (-1.32,-0.44) circle [radius=0.3];
+    \node [below, cyan] at (-1.32, -0.74) {A};
+    \draw [fill, cyan] (-1.17,-0.44) circle [radius=0.05];
+    \draw [fill, cyan] (-1.32,-0.29) circle [radius=0.05];
+    \draw [fill, cyan] (-1.47,-0.44) circle [radius=0.05];
+    \draw [fill, cyan] (-1.32,-0.44) circle [radius=0.05];
+    \draw [fill, cyan] (-1.32,-0.59) circle [radius=0.05];
+    \draw [->, thick, line width=1.2, cyan] (-1.04,-0.35) -- (-0.47,-0.16);
+    \node [right, cyan] at (4.5,-1) {Impersonation fraud};
+
+    % Impersonation fraud
+    \draw [fill, olive] (-1.32, 0.44) circle [radius=0.05];
+    \node [above, olive] at (-1.32, 0.44) {A};
+    \draw [->, thick, line width=1.2, olive] (-1.1,0.37) -- (-0.47,0.16);
+    \node [right, olive] at (4.5,-2) {Impersonation fraud};
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
 
 \section{Considérations technologiques}
 
@@ -297,14 +368,12 @@ Solution hybride à base de Wi-Fi et de NFC :
     \item Modularité pour le MDC : possibilité de choisir la vérification permanente ou juste à l'entrée et la sortie
 \end{itemize}
 
-
 \end{frame}
-
 
 \section{Un protocole : Swiss-Knife}
 
 \begin{frame}{Propriétés}
-  Protocole délimiteur de distance proposé en 2008.
+  Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
 
   \bigskip
 
@@ -378,6 +447,11 @@ Solution hybride à base de Wi-Fi et de NFC :
       \end{enumerate}
     \end{minipage}
   \end{multicols}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Références}
+  \printbibliography
 \end{frame}
 
 \end{document}
