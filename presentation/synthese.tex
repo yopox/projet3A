@@ -10,7 +10,7 @@
   \setbeamertemplate{footline}[frame number]
 }
 
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz-qtree}
@@ -48,10 +48,18 @@
 
 \section{Présentation du sujet}
 
-\subsection{Problématique}
+\subsection{Problème}
 
 \begin{frame}{Problématique}
-	Comment vérifier la présence effective d'un utilisateur à un évènement, et dans la durée ? 
+	Comment vérifier la présence effective d'un utilisateur à un évènement, et dans la durée ?
+	
+	\bigskip
+	
+	\begin{itemize}
+        \item Présence en réunion, en cours, à une conférence
+        \item Vérification effectuée par le Maître de Conférence (MDC)
+	\end{itemize}
+
 \end{frame}
 
 \subsection{Cahier des charges}
@@ -334,8 +342,8 @@ Problème : Fonctionne “Bien” pour du 1v1, à confirmer pour du 1v150
 \textbf{Technologie} & \textbf{Avantages}                                                                              & \textbf{Inconvénients}                                                                            \\ \hline
 Bluetooth            & Portée Idéale                                                                                   & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ \\ plusieurs devices\end{tabular}          \\ \hline
 Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
-RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction des besoins\end{tabular} & Pas présent dans tous les device                                                                  \\ \hline
-NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\end{tabular}           & Portée très courte                                                                                \\ \hline
+RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular} & Pas présent dans tous les device                                                                  \\ \hline
+NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\\ ~\end{tabular}           & Portée très courte                                                                                \\ \hline
 \end{tabular}
 \end{table}
 

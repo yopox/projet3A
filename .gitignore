@@ -14,3 +14,5 @@ presentation/synthese.synctex.gz
 *.DS_Store
 *.run.xml
 *.bcf
+presentation/.synthese.tex.kate-swp
+presentation/synthese.synctex(busy)
