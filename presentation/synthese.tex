@@ -91,7 +91,7 @@
     \end{itemize}
 \end{frame}
 
-\section{Les attaques}
+\subsection{Les attaques}
 
 \begin{frame}
     \centering
@@ -110,7 +110,7 @@
     \draw [fill, gray] (4,0) circle [radius=0.05];
     \node [right, gray] at (4,0) {Élève seul};
     \draw [->, thick, line width=1.2, gray] (3.75,0) -- (0.5,0);
-    \node [right, gray] at (6, 2) {Attaque du lit};
+    \node [right, gray] at (6, 2) {Attaque au lit};
 
     \pause
 
@@ -160,6 +160,110 @@
 
 \end{frame}
 
+\section{Considérations technologiques}
+
+\begin{frame}{Quelle technologie utiliser ?}
+    Plusieurs technologies possibles :
+    \begin{itemize}
+        \item RFID
+        \item NFC
+        \item Bluetooth
+        \item Wi-Fi
+    \end{itemize}
+
+    \bigskip
+    
+    On peut exploiter la portée, et les utilisations typiques pour trouver ce qui irait mieux dans notre cas.
+\end{frame}
+
+\begin{frame}{RFID}
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                           \\ \hline
+120–150 kHz    & 10 cm           & Animaux, accès                                  \\ \hline
+13.56 MHz      & 10 cm — 1 m     & Tags des livres en bibliothèque, forfait de ski \\ \hline
+433 MHz        & 1 m — 100 m     & Communications aériennes (défense)              \\ \hline
+865–868 MHz    & 1 m — 12 m      & Industrie, Science \& Médical (télépéage)       \\ \hline
+2450–5800 MHz  & 1 m — 2 m       & 1,000 m                                         \\ \hline
+3.1–10 GHz     & 200 m           & Pas encore d’ISO                                \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Communication en Champ Proche (NFC)}
+    
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                                                                                                     \\ \hline
+13,56 MHz      & 10 cm           & \begin{tabular}[c]{@{}l@{}}Paiement, déverrouillage, validation\\  présentielle avec action volontaire, etc.\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+
+\bigskip
+
+“La NFC suppose une démarche volontaire de l'utilisateur et normalement ne peut pas être utilisée à son insu.”
+
+\end{frame}
+
+
+\begin{frame}{Bluetooth}
+    
+
+\begin{table}[]
+\begin{tabular}{|l|l|}
+\hline
+Type          & Portée \\ \hline
+Bluetooth 5   & 240 m  \\ \hline
+Bluetooth 4.2 & 60 m   \\ \hline
+\end{tabular}
+\end{table}
+
+\bigskip
+
+Problème : Fonctionne “bien” pour du 1v1, à confirmer pour du 1v150
+
+\end{frame}
+
+\begin{frame}{Wi-Fi}
+    
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Standard} & \textbf{Bande}  & \textbf{Portée}                  & \textbf{Utilisations} \\ \hline
+802.11a           & 5 Ghz           & 120 m                            &                       \\ \hline
+802.11b/g         & 2,4 GHz         & 140 m                            &                       \\ \hline
+802.11n           & 2,4 GHz / 5 Ghz & 250 m                            &                       \\ \hline
+802.11ac          & 5 Ghz           & 10 m                             &                       \\ \hline
+802.11ad          & 5 Ghz           & 1,000 m                          &                       \\ \hline
+802.11af          & 2,4 GHz / 5 Ghz & 1,000 m                          &                       \\ \hline
+802.11ah          & 2,4 GHz / 5 Ghz & 1,000 m                          & Dernière norme parue  \\ \hline
+802.11ax          & 2,4 GHz / 5 Ghz & 300 m                            & WIP                   \\ \hline
+802.11ay          & 60 Ghz          & 300-500 m                        & WIP                   \\ \hline
+802.11az          & 60 Ghz          & \textless{}1m et \textless{}0.1m & WIP, Device Tracking  \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Résumé}
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Technologie} & \textbf{Avantages}                                                                              & \textbf{Inconvénients}                                                                            \\ \hline
+Bluetooth            & Portée Idéale                                                                                   & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ plusieurs devices\end{tabular}          \\ \hline
+Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
+RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular} & Pas présent dans tous les device                                                                  \\ \hline
+NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\\ ~\end{tabular}           & Portée très courte                                                                                \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
 \section{Protocoles délimiteurs de distance}
 
 \subsection{Présentation}
@@ -179,19 +283,6 @@ Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont de
 \end{itemize}
 
 \end{frame}
-
-\begin{frame}{Mesure de distance OEM}
-    Programme en C++ permettant de tester avec un ping :
-    \begin{itemize}
-        \item Vers une autre machine
-        \item En local
-    \end{itemize}
-
-    \bigskip
-    
-    On s'aperçoit que même en pingant localhost, sur un test de \si{1000} itérations du programme précédent, on obtient une distance minimale estimée à 3 km. 
-\end{frame}
-
 
 \subsection{Attaques}
 
@@ -263,140 +354,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
 
 \end{frame}
 
-\section{Considérations technologiques}
-
-\begin{frame}{Quelle technologie utiliser ?}
-    Plusieurs technologies possibles :
-    \begin{itemize}
-        \item Bluetooth
-        \item Wi-Fi
-        \item RFID
-        \item NFC
-    \end{itemize}
-
-    \bigskip
-    
-    On peut exploiter la portée, et les utilisations typiques pour trouver ce qui irait mieux dans notre cas.
-\end{frame}
-
-
-\begin{frame}{Bluetooth}
-    
-
-\begin{table}[]
-\begin{tabular}{|l|l|}
-\hline
-Type          & Portée \\ \hline
-Bluetooth 5   & 240 m  \\ \hline
-Bluetooth 4.2 & 60 m   \\ \hline
-\end{tabular}
-\end{table}
-
-\bigskip
-
-Problème : Fonctionne “bien” pour du 1v1, à confirmer pour du 1v150
-
-\end{frame}
-
-\begin{frame}{Wi-Fi}
-    
-\begin{table}[]
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Standard} & \textbf{Bande}  & \textbf{Portée}                  & \textbf{Utilisations} \\ \hline
-802.11a           & 5 Ghz           & 120 m                            &                       \\ \hline
-802.11b/g         & 2,4 GHz         & 140 m                            &                       \\ \hline
-802.11n           & 2,4 GHz / 5 Ghz & 250 m                            &                       \\ \hline
-802.11ac          & 5 Ghz           & 10 m                             &                       \\ \hline
-802.11ad          & 5 Ghz           & 1,000 m                          &                       \\ \hline
-802.11af          & 2,4 GHz / 5 Ghz & 1,000 m                          &                       \\ \hline
-802.11ah          & 2,4 GHz / 5 Ghz & 1,000 m                          & Dernière norme parue  \\ \hline
-802.11ax          & 2,4 GHz / 5 Ghz & 300 m                            & WIP                   \\ \hline
-802.11ay          & 60 Ghz          & 300-500 m                        & WIP                   \\ \hline
-802.11az          & 60 Ghz          & \textless{}1m et \textless{}0.1m & WIP, Device Tracking  \\ \hline
-\end{tabular}
-\end{table}
-
-\end{frame}
-
-\begin{frame}{RFID}
-
-\begin{table}[]
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                           \\ \hline
-120–150 kHz    & 10 cm           & Animaux, accès                                  \\ \hline
-13.56 MHz      & 10 cm — 1 m     & Tags des livres en bibliothèque, forfait de ski \\ \hline
-433 MHz        & 1 m — 100 m     & Communications aériennes (défense)              \\ \hline
-865–868 MHz    & 1 m — 12 m      & Industrie, Science \& Médical (télépéage)       \\ \hline
-2450–5800 MHz  & 1 m — 2 m       & 1,000 m                                         \\ \hline
-3.1–10 GHz     & 200 m           & Pas encore d’ISO                                \\ \hline
-\end{tabular}
-\end{table}
-
-\end{frame}
-
-\begin{frame}{Communication en Champ Proche (NFC)}
-    
-\begin{table}[]
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Bande} & \textbf{Portée} & \textbf{Utilisations}                                                                                                     \\ \hline
-13,56 MHz      & 10 cm           & \begin{tabular}[c]{@{}l@{}}Paiement, déverrouillage, validation\\  présentielle avec action volontaire, etc.\end{tabular} \\ \hline
-\end{tabular}
-\end{table}
-
-\bigskip
-
-“La NFC suppose une démarche volontaire de l'utilisateur et normalement ne peut pas être utilisée à son insu.”
-
-\end{frame}
-
-\begin{frame}{Résumé}
-
-\begin{table}[]
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Technologie} & \textbf{Avantages}                                                                              & \textbf{Inconvénients}                                                                            \\ \hline
-Bluetooth            & Portée Idéale                                                                                   & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ plusieurs devices\end{tabular}          \\ \hline
-Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
-RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular} & Pas présent dans tous les device                                                                  \\ \hline
-NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\\ ~\end{tabular}           & Portée très courte                                                                                \\ \hline
-\end{tabular}
-\end{table}
-
-\end{frame}
-
-\begin{frame}{...mais en fait}
-
-\begin{table}[]
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Technologie} & \textbf{Avantages}                                                                                         & \textbf{Inconvénients}                                                                            \\ \hline
-Bluetooth            & Portée Idéale                                                                                              & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ plusieurs devices\end{tabular}          \\ \hline
-Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                           & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ A délimiter avec des PDD\end{tabular} \\ \hline
-RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular}            & Pas présent dans tous les device                                                                  \\ \hline
-NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\\ \textcolor{red}{Portée très courte}\end{tabular} &                                                                                                   \\ \hline
-\end{tabular}
-\end{table}
-
-\end{frame}
-
-\begin{frame}{Au final}
-
-Potentielle solution hybride à base de Wi-Fi et de NFC :
-\pause
-\begin{itemize}
-    \item NFC pour vérifier l'entrée, et la sortie des élèves dans la salle
-    \pause
-    \item Wi-Fi pour vérifier la présence effective pendant le cours
-    \pause
-    \item Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
-\end{itemize}
-
-\end{frame}
-
-\section{Un protocole : Swiss-Knife}
+\subsection{Un protocole : Swiss-Knife}
 
 \begin{frame}{Propriétés}
   Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
@@ -474,6 +432,47 @@ Potentielle solution hybride à base de Wi-Fi et de NFC :
     \end{minipage}
   \end{multicols}
 \end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Perspectives Technologiques}
+
+Potentielle solution hybride à base de Wi-Fi et de NFC :
+\pause
+\begin{itemize}
+    \item NFC pour vérifier l'entrée, et la sortie des élèves dans la salle
+    \pause
+    \item Wi-Fi pour vérifier la présence effective pendant le cours
+    \pause
+    \item Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Mesure de distance équivalente }
+        
+    Programme en C++ permettant de tester avec un ping :
+    \begin{itemize}
+        \item Localhost
+        \begin{itemize}
+            \item Min : 3 km
+            \item Moyenne : 10 km
+        \end{itemize}
+        \item Routeur d'une résidence étudiante
+        \begin{itemize}
+            \item Min : 100 km
+            \item Moyenne : 140 km
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{A venir...}
+    
+    Combiner 2 technos (Wifi + NFC) et assurer la vérification des PDD par un autre vecteur que le Wifi : Son ? Lumière ?
+    
+\end{frame}
+
 
 \begin{frame}[allowframebreaks]
   \frametitle{Références}
