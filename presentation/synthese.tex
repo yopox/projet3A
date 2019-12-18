@@ -25,10 +25,11 @@
 \addbibresource{synthese.bib}
 \usetikzlibrary{arrows}
 
-\title{Synthèse de mi parcours\\
-Développement d'une solution cryptographique permettant de vérifier la présence ou l'absence à un évènement}
-\author{Thibault de Boutray, Louis Vignier}
+\title{Développement d'une solution cryptographique permettant de vérifier la présence ou l'absence à un événement}
+\subtitle{Soutenance de mi-parcours}
+\author[me]{Thibault de Boutray, Louis Vignier\\[2mm]Encadrant : Christophe Bidan}
 \institute{CentraleSupélec}
+\date{19 décembre 2019}
 
 \AtBeginSection[]
 {
@@ -84,7 +85,7 @@ Développement d'une solution cryptographique permettant de vérifier la présen
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Propriétés de Privacy}
+\begin{frame}{Propriétés de privacy}
     \begin{itemize}
         \item Eviter le "flicage" (par ex. suivi non sollicité en arrière-plan)\pause
         \item Respecter la réglementation en vigueur (RGPD)\pause
@@ -94,7 +95,7 @@ Développement d'une solution cryptographique permettant de vérifier la présen
 
 \subsection{Les attaques}
 
-\begin{frame}
+\begin{frame}{Les attaques}
     \centering
 \begin{tikzpicture}
     % Amphi
@@ -156,7 +157,7 @@ Développement d'une solution cryptographique permettant de vérifier la présen
     \draw [->, thick, line width=1.2, olive] (-1.15,1.35) to [out=15,in=105] (-0.15,0.45);
     \draw [->, thick, line width=1.2, olive] (-1.35,1.15) to [out=255,in=165] (-0.45,0.15);
     \node [right, olive] at (6, -2) {Attaque Sybil};
-
+\onslide<1->
 \end{tikzpicture}
 
 \end{frame}
@@ -269,7 +270,7 @@ NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\
 
 \subsection{Présentation}
 
-\begin{frame}{Les Protocoles Délimiteurs de Distance}
+\begin{frame}{Les Protocoles délimiteurs de distance}
 Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont des protocoles de sécurité qui permettent à un vérificateur $V$ de s'assurer qu'un prouveur $P$ se trouve à une distance bornée et définie de lui-même. \cite{wiki:pdd}
 
 \bigskip
@@ -350,6 +351,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
     \draw [->, thick, line width=1.2, olive] (-1.1,0.37) -- (-0.47,0.16);
     \node [right, olive] at (4.5,-2) {Impersonation fraud};
 
+\onslide<1->
 \end{tikzpicture}
 \end{center}
 
@@ -450,7 +452,7 @@ Potentielle solution hybride à base de Wi-Fi et de NFC :
 
 \end{frame}
 
-\begin{frame}{Mesure de distance équivalente }
+\begin{frame}{Mesure de distance équivalente}
         
     Programme en C++ permettant de tester avec un ping :
     \begin{itemize}
@@ -474,9 +476,7 @@ Potentielle solution hybride à base de Wi-Fi et de NFC :
     
 \end{frame}
 
-
-\begin{frame}[allowframebreaks]
-  \frametitle{Références}
+\begin{frame}{Références}
   \printbibliography
 \end{frame}
 
