@@ -110,7 +110,7 @@
 
     % Eleve seul
     \draw [fill, gray] (4,0) circle [radius=0.05];
-    \node [right, gray] at (4,0) {Élève seul};
+    \node [right, gray] at (4,0) {E};
     \draw [->, thick, line width=1.2, gray] (3.75,0) -- (0.5,0);
     \node [right, gray] at (6, 2) {Attaque au lit};
 
@@ -120,7 +120,7 @@
     \draw [fill, cyan] (1.3, -1.3) circle [radius=0.05];
     \node [above right, cyan] at (1.3, -1.3) {BP};
     \draw [fill, cyan] (3,-3) circle [radius=0.05];
-    \node [right, cyan] at (3,-3) {Complicité interne};
+    \node [right, cyan] at (3,-3) {E};
     \draw [->, thick, dashed, line width=1.2, cyan] (2.85,-2.85) -- (1.45,-1.45);
     \draw [->, thick, line width=1.2, cyan] (1.15,-1.15) -- (0.35,-0.35);
     \node [right, cyan] at (6, 1) {Attaque relai (complice)};
@@ -131,7 +131,7 @@
     \draw [fill, orange] (1.3, 1.3) circle [radius=0.05];
     \node [below right, orange] at (1.3, 1.3) {A};
     \draw [fill, orange] (3,3) circle [radius=0.05];
-    \node [right, orange] at (3,3) {Sans complicité};
+    \node [right, orange] at (3,3) {E};
     \draw [->, thick, dashed, line width=1.2, orange] (2.85,2.85) -- (1.45,1.45);
     \draw [->, thick, line width=1.2, orange] (1.15,1.15) -- (0.35,0.35);
     \node [right, orange] at (6, 0) {Attaque relai (tiers abusé)};
@@ -428,7 +428,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
 
     \begin{minipage}[t]{\linewidth}
       \begin{enumerate}
-        \item Le lecteur envoie $t_B = f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
+        \item Le tag envoie $t_B = f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
         \item Le lecteur cherche dans sa base de tags jusqu'à trouver $(ID, x)$ générant $t_B$.
         \item Le lecteur calcule $R^0$ et $R^1$.
         \item Le lecteur compte les erreurs, si il y en a plus de $T$, échec.
