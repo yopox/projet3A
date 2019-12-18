@@ -292,6 +292,8 @@ Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont de
 
 En 2009, un article formalise les différentes attaques. \cite{attack}
 
+\medskip
+
 \begin{center}
 \begin{tikzpicture}
     % Zone
@@ -359,7 +361,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
 
 \subsection{Un protocole : Swiss-Knife}
 
-\begin{frame}{Propriétés}
+\begin{frame}{Un protocole : Swiss-Knife}
   Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
 
   \bigskip
@@ -426,7 +428,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
 
     \begin{minipage}[t]{\linewidth}
       \begin{enumerate}
-        \item Le lecteur envoie $t_B := f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
+        \item Le lecteur envoie $t_B = f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
         \item Le lecteur cherche dans sa base de tags jusqu'à trouver $(ID, x)$ générant $t_B$.
         \item Le lecteur calcule $R^0$ et $R^1$.
         \item Le lecteur compte les erreurs, si il y en a plus de $T$, échec.
@@ -443,7 +445,7 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
 Potentielle solution hybride à base de Wi-Fi et de NFC :
 \pause
 \begin{itemize}
-    \item NFC pour vérifier l'entrée, et la sortie des élèves dans la salle
+    \item NFC pour vérifier l'entrée et la sortie des élèves dans la salle
     \pause
     \item Wi-Fi pour vérifier la présence effective pendant le cours
     \pause
@@ -470,18 +472,19 @@ Potentielle solution hybride à base de Wi-Fi et de NFC :
 
 \end{frame}
 
-\begin{frame}{A venir...}
+\begin{frame}{À venir...}
     
     \begin{itemize}
         \item Combiner 2 technos pour la vérification :
         \begin{itemize}
-            \item NFC pour la vérification à l'entrée et à la sortie de la salle            \item Wi-Fi pour la vérification sur la durée
+            \item NFC pour la vérification à l'entrée et à la sortie de la salle
+            \item Wi-Fi pour la vérification sur la durée
         \end{itemize}
         \pause
         \bigskip
         \item Effectuer la vérification des PDD par un autre vecteur que le Wi-Fi (Ultrason ?) afin d'assurer :
         \begin{itemize}
-            \item La présence "effective" des utilisateurs dans la salle
+            \item La présence effective des utilisateurs dans la salle
             \item Une compensation de la vitesse trop rapide du Wi-Fi et des collisions des paquets
         \end{itemize}
 
