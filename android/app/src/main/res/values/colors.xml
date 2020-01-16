@@ -5,4 +5,5 @@
     <color name="colorSecondary">#8B7898</color>
     <color name="colorAccent">#005375</color>
     <color name="white">#FFFFFF</color>
+    <color name="divider">#DE000000</color>
 </resources>
