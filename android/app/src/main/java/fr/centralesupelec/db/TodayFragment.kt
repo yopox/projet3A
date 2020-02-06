@@ -29,7 +29,7 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val rootView = inflater.inflate(R.layout.fragment_cours, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_today, container, false)
 
         data = arrayOf(
             CourseModel(

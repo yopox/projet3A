@@ -46,12 +46,12 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <View
+        android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="70dp"
-        app:srcCompat="@color/divider" />
+        android:background="?android:attr/listDivider" />
 
 </RelativeLayout>

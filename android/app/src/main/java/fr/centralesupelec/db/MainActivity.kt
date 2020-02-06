@@ -1,11 +1,13 @@
 package fr.centralesupelec.db
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_schedule.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +48,14 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    fun send(view: View) {
+        received.text = ""
+    }
+
+    fun receive(view: View) {
+        received.text = "test"
     }
 
 }
