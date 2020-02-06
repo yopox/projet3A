@@ -1,7 +1,6 @@
 package fr.centralesupelec.db
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,26 +14,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         bottom_navigation.setOnNavigationItemSelectedListener(navigationListener)
-        openFragment(CoursFragment.newInstance())
+        openFragment(TodayFragment.newInstance())
     }
 
     private val navigationListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_cours -> {
-                toolbar.title = getString(R.string.cours)
-                val coursFragment = CoursFragment.newInstance()
+                toolbar.title = getString(R.string.course)
+                val coursFragment = TodayFragment.newInstance()
                 openFragment(coursFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_edt -> {
-                toolbar.title = getString(R.string.emploi_du_temps)
-                val edtFragment = EDTFragment.newInstance()
+                toolbar.title = getString(R.string.schedule)
+                val edtFragment = ScheduleFragment.newInstance()
                 openFragment(edtFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profil -> {
-                toolbar.title = getString(R.string.profil)
-                val profilFragment = ProfilFragment.newInstance()
+                toolbar.title = getString(R.string.profile)
+                val profilFragment = ProfileFragment.newInstance()
                 openFragment(profilFragment)
                 return@OnNavigationItemSelectedListener true
             }

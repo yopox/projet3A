@@ -8,4 +8,10 @@ enum class PositionVerification {
     ANONYMOUS_CONTINUOUS
 }
 
-data class CourseModel(val name: String, val teacher: String, val room: String, val time: String, val verification: PositionVerification)
+data class CourseModel(
+    val name: String,
+    val teacher: String,
+    val room: String,
+    val time: String,
+    val verification: PositionVerification
+)

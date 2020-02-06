@@ -10,10 +10,10 @@ import android.view.ViewGroup
 /**
  * A simple [Fragment] subclass.
  */
-class EDTFragment : Fragment() {
+class ScheduleFragment : Fragment() {
 
     companion object {
-        fun newInstance(): EDTFragment = EDTFragment()
+        fun newInstance(): ScheduleFragment = ScheduleFragment()
     }
 
     override fun onCreateView(

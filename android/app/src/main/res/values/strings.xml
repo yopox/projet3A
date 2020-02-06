@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">DB</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="cours">Cours</string>
-    <string name="emploi_du_temps">Emploi du temps</string>
-    <string name="profil">Profil</string>
-    <string name="mot_de_passe">Mot de passe</string>
+    <string name="course">Cours</string>
+    <string name="schedule">Emploi du temps</string>
+    <string name="profile">Profil</string>
+    <string name="password">Mot de passe</string>
     <string name="connexion">Connexion</string>
-    <string name="adresse_mail">Adresse mail</string>
+    <string name="mail">Adresse mail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="audio_test">Test Audio</string>
 </resources>

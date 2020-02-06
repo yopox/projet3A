@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
@@ -18,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 /**
  * A simple [Fragment] subclass.
  */
-class CoursFragment : Fragment() {
+class TodayFragment : Fragment() {
 
     var data = arrayOf<CourseModel>()
 
     companion object {
-        fun newInstance(): CoursFragment = CoursFragment()
+        fun newInstance(): TodayFragment = TodayFragment()
         lateinit var adapter: CourseAdapter
     }
 

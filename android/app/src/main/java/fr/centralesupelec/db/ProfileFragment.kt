@@ -10,10 +10,10 @@ import android.view.ViewGroup
 /**
  * A simple [Fragment] subclass.
  */
-class ProfilFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance(): ProfilFragment = ProfilFragment()
+        fun newInstance(): ProfileFragment = ProfileFragment()
     }
 
     override fun onCreateView(
