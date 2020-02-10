@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_schedule.*
+import kotlin.system.measureNanoTime
 
 
 class MainActivity : AppCompatActivity() {
@@ -98,19 +99,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun pingPongEmitter(view: View) {
+        pingTV.text = ""
+        pongTV.text = ""
         val payload = "ping"
+        val start = System.currentTimeMillis()
         if (QuietUtils.send(payload)) {
+            println("Emitter emitted Ping")
             pingTV.text = getString(R.string.ping_success_sent)
             pingTV.setTextColor(getColor(R.color.colorAccent))
         } else {
             pingTV.text = getString(R.string.send_error)
             pingTV.setTextColor(getColor(R.color.colorPrimaryDark))
         }
-        QuietUtils.receive(this, 5, 0)
         val receivedText = QuietUtils.receive(this, 5, 0)
-        println("PP emitter got '$receivedText'")
+        println("Emitter got '$receivedText' (should be pong)")
         if ("pong" in receivedText) {
-            pongTV.text = getString(R.string.pong_success_sent)
+            val elapsed = System.currentTimeMillis() - start
+            val distance = elapsed * 340/2000
+            timeTV.text = "$distance m"
+            pongTV.text = getString(R.string.pong_succes_received)
             pongTV.setTextColor(getColor(R.color.colorAccent))
         } else {
 //            pongTV.text = getString(R.string.pong_error_received_retry)
@@ -121,9 +128,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun pingPongReceiver(view: View) {
+        pingTV.text = ""
+        pongTV.text = ""
         val payload = "pong"
         val receivedText = QuietUtils.receive(this, 5, 0)
-        println("PP receiver got '$receivedText'")
+        println("Receiver got '$receivedText' (should be ping)")
         if ("ping" in receivedText) {
             pingTV.text = getString(R.string.ping_success_received)
             pingTV.setTextColor(getColor(R.color.colorAccent))
@@ -132,6 +141,7 @@ class MainActivity : AppCompatActivity() {
             pingTV.setTextColor(getColor(R.color.colorPrimaryDark))
         }
         if (QuietUtils.send(payload)) {
+            println("Receiver sent pong")
             pongTV.text = getString(R.string.pong_success_sent)
             pongTV.setTextColor(getColor(R.color.colorAccent))
         } else {
