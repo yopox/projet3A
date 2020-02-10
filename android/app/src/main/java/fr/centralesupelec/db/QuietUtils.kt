@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.provider.Settings.Global.getString
-import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,18 +13,19 @@ import java.io.IOException
 object QuietUtils {
     var receiver: FrameReceiver? = null
     var transmitter: FrameTransmitter? = null
+    val profile: String = "ultrasonic"
 
-    fun hasRecordAudioPermission(context: Context): Boolean {
+    private fun hasRecordAudioPermission(context: Context): Boolean {
         return ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun requestPermission(perm: Int, activity: Activity) {
+    private fun requestPermission(perm: Int, activity: Activity) {
         ActivityCompat.requestPermissions(
             activity,
-            arrayOf<String>(Manifest.permission.RECORD_AUDIO),
+            arrayOf(Manifest.permission.RECORD_AUDIO),
             perm
         )
     }
@@ -41,7 +40,7 @@ object QuietUtils {
         val transmitterConfig: FrameTransmitterConfig
         try {
             transmitterConfig = FrameTransmitterConfig(
-                context, "audible"
+                context, profile
             )
             transmitter = FrameTransmitter(transmitterConfig)
         } catch (e: IOException) {
@@ -63,11 +62,11 @@ object QuietUtils {
     }
 
     fun setupReceiver(context: Context) {
-        var receiverConfig: FrameReceiverConfig? = null
+        val receiverConfig: FrameReceiverConfig?
         try {
             receiverConfig = FrameReceiverConfig(
                 context,
-                "audible"
+                profile
             )
             receiver = FrameReceiver(receiverConfig)
         } catch (e: IOException) {
@@ -76,18 +75,18 @@ object QuietUtils {
 
 
         try {
-            receiver!!.setBlocking(1, 500000);
+            receiver!!.setBlocking(1, 500000)
         } catch (e: ModemException) {
             println("could not set up receiver")
         }
     }
     fun send(payload: String) : Boolean {
-        try {
+        return try {
             transmitter!!.send((if (payload.isEmpty()) "Test" else payload).toByteArray())
-            return true
+            true
         } catch (e: IOException) {
             println("Your message '$payload' might be too long or the transmit queue full")
-            return false
+            false
         }
     }
 
@@ -102,10 +101,10 @@ object QuietUtils {
             buf = "".toByteArray()
         }
 
-        if (buf.size != recvLen.toInt()) {
-            return buf.toString(charset("UTF-8"))
+        return if (buf.size != recvLen.toInt()) {
+            buf.toString(charset("UTF-8"))
         } else {
-            return context.getString(R.string.reception_error)
+            context.getString(R.string.reception_error)
         }
     }
 }

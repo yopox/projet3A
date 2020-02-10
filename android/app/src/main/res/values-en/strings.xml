@@ -21,4 +21,10 @@
     <string name="message_to_send">Message to Send</string>
     <string name="ping_success_sent">Ping sent</string>
     <string name="send_error">Send error</string>
+    <string name="pong_succes_received">Pong received</string>
+    <string name="pong_success_sent">Pong sent</string>
+    <string name="ping_success_received">Ping received</string>
+    <string name="pong_error_received">Error when receiving pong</string>
+    <string name="pong_error_received_retry">Error when receiving pong, retry</string>
+    <string name="ping_error_received">Error when receiving ping</string>
 </resources>
