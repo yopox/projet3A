@@ -10,4 +10,15 @@
     <string name="course">Today</string>
     <string name="connexion">Connexion</string>
     <string name="mail">Mail</string>
+    <string name="missing_audio_permission">Missing Audio Permission</string>
+    <string name="reception_error">Reception error</string>
+    <string name="initiate_button">Initiate Ping Pong</string>
+    <string name="receive_ping_pong_button">Receive Ping Pong</string>
+    <string name="initiate_ping_pong_button">Initiate Ping Pong</string>
+    <string name="receive">Receive</string>
+    <string name="send">Send</string>
+    <string name="received_text">Received Text</string>
+    <string name="message_to_send">Message to Send</string>
+    <string name="ping_success_sent">Ping sent</string>
+    <string name="send_error">Send error</string>
 </resources>

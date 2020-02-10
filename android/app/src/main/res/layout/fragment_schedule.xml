@@ -12,9 +12,9 @@
         android:id="@+id/sendTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:text="SEND" />
+        android:layout_marginTop="16dp"
+        android:text="@string/send" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til"
@@ -24,53 +24,107 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="Message to send">
+        android:hint="@string/message_to_send">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/material_button"
+        android:id="@+id/sendButton"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:onClick="send"
-        android:text="SEND" />
+        android:text="@string/send" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
 
     <TextView
+        android:id="@+id/receiveTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:text="RECEIVE" />
+        android:layout_marginTop="16dp"
+        android:text="@string/receive" />
 
     <TextView
         android:id="@+id/received"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Received text"/>
+        android:text="@string/received_text"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/material_button2"
+        android:id="@+id/recvButton"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:onClick="receive"
-        android:text="RECEIVE" />
+        android:text="@string/receive" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/pingPongTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="PING PONG" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="false"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/initPingPongButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:onClick="pingPongEmitter"
+            android:text="@string/initiate_ping_pong_button" />
+
+        <Button
+            android:id="@+id/recvPingPongButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="pingPongReceiver"
+            android:text="@string/receive_ping_pong_button" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pingTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/pongTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center" />
 
 </LinearLayout>
