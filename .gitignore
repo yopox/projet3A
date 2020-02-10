@@ -19,4 +19,9 @@ presentation/synthese.synctex(busy)
 presentation/synthese.bib.bbl
 presentation/synthese.bib.blg
 
+.idea
+swiss-knife/.idea
+swiss-knife/lib
+swiss-knife/*.iml
+
 C_lib/*
