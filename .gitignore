@@ -23,3 +23,5 @@ presentation/synthese.bib.blg
 swiss-knife/.idea
 swiss-knife/lib
 swiss-knife/*.iml
+
+C_lib/*

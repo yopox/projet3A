@@ -27,8 +27,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         println("Creating Network Interfaces")
-        QuietUtils.checkReceiverPermission(this,applicationContext,
-            MY_PERMISSIONS_REQUEST_RECORD_AUDIO)
+        QuietUtils.checkReceiverPermission(
+            this, applicationContext,
+            MY_PERMISSIONS_REQUEST_RECORD_AUDIO
+        )
         QuietUtils.setupTransmitter(this)
     }
 
@@ -92,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun receive(view: View) {
-        received.text = QuietUtils.receive(this,0,0)
+        received.text = QuietUtils.receive(this, 5, 0)
     }
 
     fun pingPongEmitter(view: View) {
@@ -104,10 +106,37 @@ class MainActivity : AppCompatActivity() {
             pingTV.text = getString(R.string.send_error)
             pingTV.setTextColor(getColor(R.color.colorPrimaryDark))
         }
-        
+        QuietUtils.receive(this, 5, 0)
+        val receivedText = QuietUtils.receive(this, 5, 0)
+        println("PP emitter got '$receivedText'")
+        if ("pong" in receivedText) {
+            pongTV.text = getString(R.string.pong_success_sent)
+            pongTV.setTextColor(getColor(R.color.colorAccent))
+        } else {
+//            pongTV.text = getString(R.string.pong_error_received_retry)
+//            pongTV.setTextColor(getColor(R.color.colorSecondary))
+            pongTV.text = getString(R.string.pong_error_received)
+            pongTV.setTextColor(getColor(R.color.colorPrimaryDark))
+        }
     }
 
     fun pingPongReceiver(view: View) {
-
+        val payload = "pong"
+        val receivedText = QuietUtils.receive(this, 5, 0)
+        println("PP receiver got '$receivedText'")
+        if ("ping" in receivedText) {
+            pingTV.text = getString(R.string.ping_success_received)
+            pingTV.setTextColor(getColor(R.color.colorAccent))
+        } else {
+            pingTV.text = getString(R.string.ping_error_received)
+            pingTV.setTextColor(getColor(R.color.colorPrimaryDark))
+        }
+        if (QuietUtils.send(payload)) {
+            pongTV.text = getString(R.string.pong_success_sent)
+            pongTV.setTextColor(getColor(R.color.colorAccent))
+        } else {
+            pongTV.text = getString(R.string.send_error)
+            pongTV.setTextColor(getColor(R.color.colorPrimaryDark))
+        }
     }
 }
