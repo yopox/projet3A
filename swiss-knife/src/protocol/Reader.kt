@@ -1,8 +1,11 @@
+package protocol
+
 import java.util.*
 import kotlin.random.Random
 
-abstract class Server(seed: Int) {
+abstract class Reader(seed: Int) {
 
+    abstract val name: String
     private val random = Random(seed)
     private var values = Values()
 
@@ -12,31 +15,40 @@ abstract class Server(seed: Int) {
     }
 
     private fun slowPhase() {
+        log("Starting slow phase.")
+
         // N_A computation
-        values.N_A = BitSet.valueOf(longArrayOf(random.nextLong()))
+        values.N_A = genNA()
+        log("N_A : ${Values.bitSetToStr(values.N_A)}")
 
         // m random positions
-        val s: Set<Int> = setOf()
+        var s: Set<Int> = setOf()
         while (s.size < Values.m)
-            s.plus(random.nextInt(256))
+            s = s.plus(random.nextInt(hashSize()))
+        values.d = BitSet(hashSize())
         s.forEach { values.d.set(it) }
+        log("d : ${Values.bitSetToStr(values.d)}")
 
         // Send N_A and d
+        log("Sending (N_A, d)")
         send1(Pair(values.N_A, values.d))
 
         // Receive N_B
         values.N_B = receive1()
+        log("Received ${Values.bitSetToStr(values.N_B)}")
 
         rapidPhase()
     }
 
     private inline fun <R> measure(block: () -> R): Pair<R, Long> {
-        val start = System.currentTimeMillis()
+        val start = System.nanoTime()
         val result = block()
-        return result to (System.currentTimeMillis() - start)
+        return result to (System.nanoTime() - start)
     }
 
     private fun rapidPhase() {
+        log("Starting rapid phase.")
+
         for (i in 0 until Values.m) {
             // Send cI
             val cI = random.nextFloat() >= 0.5
@@ -47,48 +59,64 @@ abstract class Server(seed: Int) {
             val (rpI, dt) = measure { receive2() }
             if (rpI) values.c2.set(i)
             values.Dt[i] = dt
+            log("Bit $i : ${dt}ns")
         }
 
         endPhase()
     }
 
     private fun endPhase() {
+        log("Starting end phase.")
+
         // Receive tB & c'I
         val (tB, cpI) = receive3()
 
         // Check ID
-        val (ID, privateKey) = dbSearch(tB, cpI, values.N_A, values.N_B)
+        val (ID, privateKey) = dbSearch(tB, cpI, values.N_A, values.N_B) ?: return tagNotFound()
 
         // R computation
         val a = f_x(privateKey, Values.join(arrayOf(Values.C_B, values.N_B)))
         values.computeR(a, privateKey)
+        log("R0 :\t${Values.bitSetToStr(values.R0).takeLast(Values.m)}")
+        log("R1 :\t${Values.bitSetToStr(values.R1).takeLast(Values.m)}")
 
         // Errors computation
         var errors = 0
 
         for (i in 0 until Values.m) {
             // First class errors : Wrong bit received
-            if (cpI[i] != values.c1[i])
+            if (cpI[i] != values.c1[i]) {
+                log("Bit $i : wrong bit received")
                 errors += 1
-            else {
+            } else {
                 // Second class errors : Wrong response
                 when (values.c1[i]) {
-                    true -> if (cpI[i] != values.R1[i]) errors += 1
-                    false -> if (cpI[i] != values.R0[i]) errors += 1
+                    true -> if (values.c2[i] != values.R1[i]) {
+                        log("Bit $i : wrong bit sent")
+                        errors += 1
+                    }
+                    false -> if (values.c2[i] != values.R0[i]) {
+                        log("Bit $i : wrong bit sent")
+                        errors += 1
+                    }
                 }
 
                 // Third class errors : Response too late
-                if (values.Dt[i] >= Values.tMax)
+                if (values.Dt[i] >= Values.tMax) {
+                    log("Bit $i : too late")
                     errors += 1
+                }
             }
         }
 
         // Accept or reject
         if (errors < Values.T) {
             // Tag accepted
+            log("Tag accepted with $errors errors.")
             accept(ID)
         } else {
             // Tag rejected
+            log("Tag rejected with $errors errors.")
             reject(ID)
         }
 
@@ -98,7 +126,13 @@ abstract class Server(seed: Int) {
 
     }
 
-    abstract fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>
+
+    protected fun log(s: String) = println("$name $s")
+
+    abstract fun hashSize(): Int
+    abstract fun genNA(): BitSet
+    abstract fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>?
+    abstract fun tagNotFound()
     abstract fun f_x(private: BitSet, b: BitSet): BitSet
 
     abstract fun accept(ID: BitSet)

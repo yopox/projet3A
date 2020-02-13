@@ -1,12 +1,14 @@
+package protocol
+
 import java.util.*
 
 class Values {
 
     companion object {
-        val m = 10
+        val m = 32
         val T = 2
-        val C_B = BitSet.valueOf(longArrayOf(1529623414373657642))
-        val tMax = 1000
+        val C_B = easyBitSet("1001010010010100")
+        val tMax = 10000000000000000
 
         fun join(bitsets: Array<BitSet>): BitSet {
             var b1 = BitSet()
@@ -25,6 +27,22 @@ class Values {
             }
             return b1
         }
+
+        fun easyBitSet(s: String): BitSet {
+            val b = BitSet(s.length)
+            for (i in s.indices)
+                if (s[i] == '0')
+                    b.set(s.lastIndex - i + 1)
+            return b
+        }
+
+        fun bitSetToStr(b : BitSet): String {
+            var str = ""
+            for (bit in 0 until b.size()) {
+                str = if (b[bit]) "1$str" else "0$str"
+            }
+            return str
+        }
     }
 
     // Slow phase
@@ -39,11 +57,10 @@ class Values {
     var c2 = BitSet(m)
     var Dt = Array(m) { 0.toLong() }
 
-    // End phase
-    var t_B = 0
-    var t_A = 0
-
     fun computeR(a: BitSet, privateKey: BitSet) {
+
+        R0 = BitSet(m)
+        R1 = BitSet(m)
 
         // Z computation
         val Z0: BitSet = a.clone() as BitSet
@@ -51,11 +68,11 @@ class Values {
         Z1.xor(privateKey)
 
         // R computation
-        var j = 0
+        var j = d.nextSetBit(0)
         for (i in 0 until m) {
-            j = d.nextSetBit(j)
-            R0[i].or(Z0[j])
-            R1[i].or(Z1[j])
+            if (Z0[j]) R0.set(i)
+            if (Z1[j]) R1.set(i)
+            j = d.nextSetBit(j+1)
         }
     }
 
