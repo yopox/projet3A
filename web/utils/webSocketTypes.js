@@ -1,4 +1,5 @@
 const webSocketTypes
     = Object.freeze({
-    NFCPolling: 0,
+    NFCPollingID: 0,
+    NFCPollingData: 1
 });

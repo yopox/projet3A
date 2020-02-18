@@ -9,17 +9,13 @@ const ip = require('ip');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'NFC'});
+  // Get server IP to generate the Web Socket URI
   const uri = ip.address();
+  // Run template
   fs.readFile(__dirname + '/index.html', 'utf-8', (err, content) => {
     const rendered = content.toString().replace('#URI#', uri);
-    res.send(rendered)
+    res.send(rendered);
   });
-  // setTimeout(() => {
-  //   wss.on('connection', function connection(ws) {
-  //     ws.send('coucou');
-  //   });
-  // }, 1000)
 });
 
 module.exports = router;
