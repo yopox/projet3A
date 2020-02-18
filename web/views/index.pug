@@ -1,0 +1,14 @@
+extends layout
+
+script
+  const WebSocket = require('ws');
+  const ws = new WebSocket('ws://www.host.com/path');
+  ws.on('message', function incoming(data) {
+    console.log(data)
+    })
+
+
+
+block content
+  h1= title
+  p Welcome to the #{title} module
