@@ -11,6 +11,9 @@ import java.util.*
 
 class LHTag(seed: Int) : Tag() {
     override val name = "[Tag]"
+    override val privateKey = sha256(easyBitSet("1010"))
+    override val ID = easyBitSet("111")
+
     private val client = Socket("localhost", 9991)
     private val server: Socket
     private val writer: ObjectOutputStream
@@ -23,12 +26,9 @@ class LHTag(seed: Int) : Tag() {
         reader = ObjectInputStream(server.getInputStream())
     }
 
-    override fun privateKey(): BitSet = sha256(easyBitSet("1010"))
     override fun genNB(): BitSet = sha256(easyBitSet("11011001"))
 
     override fun f_x(private: BitSet, b: BitSet): BitSet = sha256(Values.join(arrayOf(b, private)))
-
-    override fun ID(): BitSet = easyBitSet("111")
 
     override fun receive1(): Pair<BitSet, BitSet> {
         return reader.readObject() as Pair<BitSet, BitSet>

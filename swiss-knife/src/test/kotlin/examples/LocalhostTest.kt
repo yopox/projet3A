@@ -1,15 +1,15 @@
 package examples
 
-import protocol.Values
 import java.security.MessageDigest
 import java.util.*
 
-fun main(args: Array<String>) {
+fun main() {
 
     val reader = T1()
     val tag = T2()
 
     reader.start()
+    Thread.sleep(100)
     tag.start()
 
 }

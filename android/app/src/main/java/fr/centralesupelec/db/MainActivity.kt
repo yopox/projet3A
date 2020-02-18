@@ -2,14 +2,21 @@ package fr.centralesupelec.db
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import fr.centralesupelec.db.skowa.DroidReader
+import fr.centralesupelec.db.skowa.DroidTag
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_schedule.*
-import kotlin.system.measureNanoTime
+import kotlinx.android.synthetic.main.fragment_schedule.p_address
+import java.net.Inet4Address
+import java.net.NetworkInterface
+import kotlin.random.Random
+import android.os.StrictMode.setThreadPolicy
+import android.os.StrictMode
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +40,9 @@ class MainActivity : AppCompatActivity() {
             MY_PERMISSIONS_REQUEST_RECORD_AUDIO
         )
         QuietUtils.setupTransmitter(this)
+        QuietUtils.setupReceiver(this)
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        setThreadPolicy(policy)
     }
 
     override fun onStop() {
@@ -90,13 +100,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun send(view: View) {
-        val payload = til.editText!!.text.toString()
+        val payload = p_address.editText!!.text.toString()
         QuietUtils.send(payload)
     }
 
     fun receive(view: View) {
         received.text = QuietUtils.receive(this, 5, 0)
     }
+
+    fun tag(view: View) {
+        val t = DroidTag()
+        t.init(p_address.editText!!.text.toString(), p_ip.editText!!.text.toString().toInt(), this)
+    }
+
+    fun reader(view: View) {
+        val rand = Random(System.currentTimeMillis())
+        val r = DroidReader(rand.nextInt(), results)
+        r.init(p_ip.editText!!.text.toString().toInt(), this)
+    }
+
 
     fun pingPongEmitter(view: View) {
         pingTV.text = ""

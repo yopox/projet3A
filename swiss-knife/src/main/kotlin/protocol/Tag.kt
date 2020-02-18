@@ -6,7 +6,8 @@ abstract class Tag {
 
     abstract val name: String
     private var values = Values()
-    private var privateKey = BitSet()
+    abstract val privateKey: BitSet
+    abstract val ID: BitSet
 
     fun start() {
         values = Values()
@@ -26,7 +27,6 @@ abstract class Tag {
         log("N_B :\t${Values.bitSetToStr(values.N_B)}")
 
         // a computation
-        privateKey = privateKey()
         val a = f_x(privateKey, Values.join(arrayOf(Values.C_B, values.N_B)))
         log("a :\t${Values.bitSetToStr(a)}")
 
@@ -61,7 +61,7 @@ abstract class Tag {
         log("Starting end phase.")
 
         // tB computation
-        val tB = f_x(privateKey, Values.join(arrayOf(values.c1, ID(), values.N_A, values.N_B)))
+        val tB = f_x(privateKey, Values.join(arrayOf(values.c1, ID, values.N_A, values.N_B)))
         send3(Pair(tB, values.c1))
 
         // Receive tA
@@ -75,12 +75,10 @@ abstract class Tag {
         }
     }
 
-    private fun log(s: String) = println("$name $s")
+    open fun log(s: String) = println("$name $s")
 
-    abstract fun privateKey(): BitSet
     abstract fun genNB(): BitSet
     abstract fun f_x(private: BitSet, b: BitSet): BitSet
-    abstract fun ID(): BitSet
 
     abstract fun receive1(): Pair<BitSet, BitSet>
     abstract fun send1(N_B: BitSet)

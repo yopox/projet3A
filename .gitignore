@@ -26,3 +26,4 @@ swiss-knife/*.iml
 swiss-knife/build
 
 C_lib/*
+swiss-knife/gradle/wrapper/gradle-wrapper.jar

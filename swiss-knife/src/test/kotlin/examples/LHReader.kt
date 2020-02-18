@@ -11,7 +11,7 @@ import java.util.*
 
 class LHReader(seed: Int) : Reader(seed) {
     override val name = "[Reader]"
-    override fun hashSize(): Int = 256
+    override val hashSize = 256
 
     private val db = arrayOf(
             easyBitSet("001") to sha256(easyBitSet("1101")),

@@ -5,7 +5,7 @@ import java.util.*
 class Values {
 
     companion object {
-        val m = 32
+        val m = 8
         val T = 2
         val C_B = easyBitSet("1001010010010100")
         val tMax = 10000000000000000

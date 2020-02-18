@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../org.quietmodem.Quiet/quiet" />
+            <option value="$PROJECT_DIR$/../swiss-knife" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

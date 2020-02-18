@@ -6,8 +6,9 @@ import kotlin.random.Random
 abstract class Reader(seed: Int) {
 
     abstract val name: String
+    abstract val hashSize: Int
     private val random = Random(seed)
-    private var values = Values()
+    var values = Values()
 
     fun start() {
         values = Values()
@@ -24,8 +25,8 @@ abstract class Reader(seed: Int) {
         // m random positions
         var s: Set<Int> = setOf()
         while (s.size < Values.m)
-            s = s.plus(random.nextInt(hashSize()))
-        values.d = BitSet(hashSize())
+            s = s.plus(random.nextInt(hashSize))
+        values.d = BitSet(hashSize)
         s.forEach { values.d.set(it) }
         log("d : ${Values.bitSetToStr(values.d)}")
 
@@ -126,10 +127,8 @@ abstract class Reader(seed: Int) {
 
     }
 
+    open fun log(s: String) = println("$name $s")
 
-    protected fun log(s: String) = println("$name $s")
-
-    abstract fun hashSize(): Int
     abstract fun genNA(): BitSet
     abstract fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>?
     abstract fun tagNotFound()

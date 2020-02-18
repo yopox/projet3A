@@ -72,14 +72,8 @@ object QuietUtils {
         } catch (e: IOException) {
             println("could not build configs")
         }
-
-
-        try {
-            receiver!!.setBlocking(1, 500000)
-        } catch (e: ModemException) {
-            println("could not set up receiver")
-        }
     }
+
     fun send(payload: String) : Boolean {
         return try {
             transmitter!!.send((if (payload.isEmpty()) "Test" else payload).toByteArray())
