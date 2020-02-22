@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 let spawn = require("child_process").spawn;
-let process = spawn('python3',["./poll_NFC_badge.py"] );
+let process = spawn('python3',["./fake_NFC_badge.py"] );
+//let process = spawn('python3',["./poll_NFC_badge.py"] );
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
