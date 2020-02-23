@@ -23,9 +23,8 @@ db.serialize(function () {
     //
     //
     // stmt.finalize();
-
     db.each('SELECT * FROM users', function (err, row) {
-        console.log(row.id + ': ' + row.username);
+        console.log("Extracting row #" + row.id + ': ' + row.username);
         let arrayRow = {
             id: row.id,
             username: row.username,
@@ -43,7 +42,8 @@ db.close();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.render(__dirname + '/../templates/users.ejs', {users: users});
+    res.locals.users = users;
+    res.render(__dirname + '/../templates/users.ejs');
 });
 
 module.exports = router;

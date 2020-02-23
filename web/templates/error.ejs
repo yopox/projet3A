@@ -19,8 +19,8 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users">Users</a>
@@ -34,28 +34,11 @@
 </nav>
 
 <div class="container">
-    <h1 class="mt-5">
-        NFC Scanner
-    </h1>
-
-    <div id="badge">
-    </div>
+    <h1 class="mt-5"><%= message %></h1>
+    <h2><%= error.status %></h2>
+    <pre><%= error.stack %></pre>
 </div>
 
-
-<script>
-    const ws = new WebSocket('ws://<%= URI %>:3001');
-
-    ws.onopen = function () {
-        ws.onmessage = function (data) {
-            var id = JSON.parse(data.data)["id"];
-            console.log(id);
-            var myDiv = document.getElementById("badge");
-            myDiv.innerText = "Badge Succesfully scanned !\n";
-            myDiv.innerText += "Badge id : " + id;
-        }
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
