@@ -8,9 +8,13 @@ async def nfcPoll(websocket, path):
     while True:
         for i in range(1,11):
             if i == 1:
-                print("sending ok fake badge !")
+                print("sending Thibault fake badge !")
                 badge = {}
                 badge["id"] = "123456789"
+            elif i == 6 :
+                print("sending Louis fake badge !")
+                badge = {}
+                badge["id"] = "101112131"
             else :
                 print("sending nok fake badge !")
                 badge = {}
