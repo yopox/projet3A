@@ -26,11 +26,13 @@ db.serialize(function () {
 
     db.each('SELECT * FROM users', function (err, row) {
         console.log(row.id + ': ' + row.username);
-        let arrayRow = {id: row.id,
+        let arrayRow = {
+            id: row.id,
             username: row.username,
             firstname: row.firstname,
-            lastname:row.lastname,
-            email:row.email
+            lastname: row.lastname,
+            email: row.email,
+            badgeid: row.badgeid
         };
         users.push(arrayRow);
     })
@@ -41,7 +43,7 @@ db.close();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.render(__dirname + '/../templates/users.ejs', {users:users});
+    res.render(__dirname + '/../templates/users.ejs', {users: users});
 });
 
 module.exports = router;
