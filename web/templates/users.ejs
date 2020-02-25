@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="favicon.ico">
-    <title>NFC App</title>*
+    <title>NFC App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
         tr {
@@ -40,12 +40,16 @@
 </nav>
 
 <div class="container">
+    <div id="warning" class="alert alert-warning" style="transition: all 0.3s;opacity: 0">Placeholder text
+    </div>
+
     <h1 class="mt-5">
         Users
     </h1>
+
     <div id="buttons" style="margin-bottom: 16px">
-        <button type="button" class="btn btn-outline-primary" onclick="startServer()">Start Server</button>
-        <button type="button" class="btn btn-outline-secondary" onclick="stopServer()">Stop Server</button>
+        <button type="button" class="btn btn-outline-primary" onclick="startServer()">Start NFC Server</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="stopServer()">Stop NFC Server</button>
     </div>
 
     <table id="tablePreview" class="table table-striped">
@@ -76,26 +80,58 @@
 </div>
 
 <script>
-    const ws = new WebSocket('ws://<%= URI %>:3001');
+    let ws;
+    let serverIsON = 0;
 
-    ws.onopen = function () {
-        ws.onmessage = function (data) {
-            const id = JSON.parse(data.data)["id"];
-            console.log(id);
-            let myTr = document.getElementById(id);
-            myTr.style.backgroundColor = "#b8ddaa";
+    function startServer() {
+
+        console.log("start server button clicked")
+        $.post("/users/start-server")
+        serverIsON = 1;
+
+        function launchWS() {
+            ws = new WebSocket('ws://<%= URI %>:3001');
+
+            ws.onopen = function () {
+                ws.onmessage = function (data) {
+                    const id = JSON.parse(data.data)["id"];
+                    console.log(id);
+                    let myTr = document.getElementById(id);
+                    if (myTr.className.includes("hasTagged")) {
+                        const warningMessage = document.getElementById("warning");
+                        warningMessage.innerText = "User " + id + " was already tagged.";
+                        warningMessage.style.opacity = "1";
+                        window.setTimeout(function () {
+                            warningMessage.style.opacity = "0";
+                        }, 2000);
+
+                    } else {
+                        myTr.style.backgroundColor = "#b8ddaa";
+                        myTr.className += "hasTagged";
+                    }
+                }
+            }
+        }
+
+        setTimeout(launchWS, 1000);
+    }
+
+    function stopServer() {
+        $.post("/users/stop-server")
+        serverIsON = 0;
+        console.log("stop server button clicked")
+        ws.close();
+        let allTrs = document.getElementsByTagName("tr");
+        for (let theTR of allTrs) {
+            theTR.style.backgroundColor = "";
         }
     }
 
-    function startServer() {
-        $.post("/users/start-server")
-        console.log("start server button clicked")
-    }
-    function stopServer() {
-        $.post("/users/stop-server")
-        console.log("stop server button clicked")
-    }
-
+    $(window).bind('beforeunload', function (e) {
+        if (serverIsON) {
+            stopServer();
+        }
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

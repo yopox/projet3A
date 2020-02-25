@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./coucou.db');
 let users = [];
 const ip = require('ip');
+let pythonProcess = 0;
 
 
 db.serialize(function () {
@@ -43,6 +44,7 @@ db.serialize(function () {
 db.close();
 
 
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     const uri = ip.address();
@@ -51,11 +53,21 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/start-server', function (req, res) {
+    let spawn = require("child_process").spawn;
+    if (pythonProcess !== 0) {
+        console.log("stoping already existing server");
+        pythonProcess.kill();
+    }
     console.log("starting server !");
+    pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
+    //pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
 });
 
 router.post('/stop-server', function (req, res) {
     console.log("stoping server !");
+    pythonProcess.kill();
+    pythonProcess = 0;
+
 });
 
 module.exports = router;
