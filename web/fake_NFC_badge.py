@@ -3,6 +3,7 @@ import time
 import sys
 import asyncio
 import websockets
+import database_NFC_id_checker
 
 async def nfcPoll(websocket, path):
     while True:
@@ -19,8 +20,10 @@ async def nfcPoll(websocket, path):
                 print("sending nok fake badge !")
                 badge = {}
                 badge["id"] = "00000000" + str(i)
-            print(json.dumps(badge))
-            await websocket.send(json.dumps(badge))
+            user = {}
+            user["id"] = database_NFC_id_checker.databaseChecker(badge["id"])
+            if user["id"] != None:
+                await websocket.send(json.dumps(user))
             time.sleep(1)
 
 

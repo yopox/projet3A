@@ -4,6 +4,8 @@ const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./coucou.db');
 let users = [];
+const ip = require('ip');
+
 
 db.serialize(function () {
     console.log("createTable user");
@@ -13,7 +15,8 @@ db.serialize(function () {
         "firstname VARCHAR(100)," +
         "username VARCHAR(100) UNIQUE NOT NULL," +
         "email VARCHAR(255)," +
-        "badgeid VARCHAR(64)" +
+        "badge_id VARCHAR(64) UNIQUE," +
+        "skowa_id VARCHAR(64) UNIQUE" +
         ")"
     );
     // let stmt = db.prepare('INSERT INTO users VALUES (?,?,?,?,?,?)');
@@ -31,7 +34,7 @@ db.serialize(function () {
             firstname: row.firstname,
             lastname: row.lastname,
             email: row.email,
-            badgeid: row.badgeid
+            badgeid: row.badge_id
         };
         users.push(arrayRow);
     })
@@ -42,8 +45,17 @@ db.close();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
+    const uri = ip.address();
     res.locals.users = users;
-    res.render(__dirname + '/../templates/users.ejs');
+    res.render(__dirname + '/../templates/users.ejs', {URI: uri});
+});
+
+router.post('/start-server', function (req, res) {
+    console.log("starting server !");
+});
+
+router.post('/stop-server', function (req, res) {
+    console.log("stoping server !");
 });
 
 module.exports = router;
