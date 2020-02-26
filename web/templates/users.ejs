@@ -47,9 +47,9 @@
         Users
     </h1>
 
-    <div id="buttons" style="margin-bottom: 16px">
-        <button type="button" class="btn btn-outline-primary" onclick="startServer()">Start NFC Server</button>
-        <button type="button" class="btn btn-outline-secondary" onclick="stopServer()">Stop NFC Server</button>
+    <div id="buttons" class="btn-group" style="margin-bottom: 16px">
+        <button id="startServer" type="button" class="btn btn-outline-success" onclick="startServer()">Start NFC Server</button>
+        <button id="stopServer" type="button" class="btn btn-outline-danger" onclick="stopServer()">Stop NFC Server</button>
     </div>
 
     <table id="tablePreview" class="table table-striped">
@@ -88,6 +88,12 @@
         console.log("start server button clicked")
         $.post("/users/start-server")
         serverIsON = 1;
+        document.getElementById("startServer").className = "btn btn-success";
+        $('#startServer').prop('disabled', true);
+        document.getElementById("stopServer").className = "btn btn-outline-danger";
+        $('#stopServer').prop('disabled', false);
+
+
 
         function launchWS() {
             ws = new WebSocket('ws://<%= URI %>:3001');
@@ -120,10 +126,16 @@
         $.post("/users/stop-server")
         serverIsON = 0;
         console.log("stop server button clicked")
+        document.getElementById("startServer").className = "btn btn-outline-success";
+        $('#startServer').prop('disabled', false);
+        document.getElementById("stopServer").className = "btn btn-danger";
+        $('#stopServer').prop('disabled', true);
+
         ws.close();
         let allTrs = document.getElementsByTagName("tr");
         for (let theTR of allTrs) {
             theTR.style.backgroundColor = "";
+            theTR.className -= "hasTagged";
         }
     }
 

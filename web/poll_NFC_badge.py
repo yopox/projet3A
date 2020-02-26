@@ -4,6 +4,7 @@ import time
 import sys
 import asyncio
 import websockets
+import database_NFC_id_checker
 
 
 mifare = nxppy.Mifare()
@@ -14,12 +15,14 @@ async def nfcPoll(websocket, path):
             print("found badge !")
             uid = mifare.select()
             badge = {}
+            user = {}
             badge["id"] = uid
-            print(json.dumps(badge))
-            await websocket.send(json.dumps(badge))
+            user["id"] = database_NFC_id_checker.databaseChecker(badge["id"])
+            if user["id"] != None:
+                await websocket.send(json.dumps(user))
+            time.sleep(1)
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
-            print("no badge found")
             pass
         time.sleep(.1)
 
