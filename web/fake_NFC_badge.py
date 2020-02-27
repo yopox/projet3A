@@ -21,10 +21,10 @@ async def nfcPoll(websocket, path):
                 badge = {}
                 badge["id"] = "00000000" + str(i)
             user = {}
-            user["id"] = database_NFC_id_checker.databaseChecker(badge["id"])
-            if user["id"] != None:
-                await websocket.send(json.dumps(user))
-            time.sleep(1)
+            user["username"] = database_NFC_id_checker.databaseChecker(badge["id"])
+            user["badgeid"] = badge["id"]
+            await websocket.send(json.dumps(user))
+            await asyncio.sleep(1)
 
 
 start_server = websockets.serve(nfcPoll, "", 3001)

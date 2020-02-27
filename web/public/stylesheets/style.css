@@ -1,8 +1,20 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+tr {
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+#warning {
+  transition: all 0.3s;
+  opacity: 0;
+}
+
+#buttons {
+  margin-bottom: 16px;
 }

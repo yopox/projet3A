@@ -20,7 +20,7 @@ async def nfcPoll(websocket, path):
             user["username"] = database_NFC_id_checker.databaseChecker(badge["id"])
             user["badgeid"] = badge["id"]
             await websocket.send(json.dumps(user))
-            time.sleep(1)
+            return
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
             pass

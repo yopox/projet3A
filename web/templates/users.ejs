@@ -3,19 +3,15 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap-material-design-icons/css/material-icons.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="favicon.ico">
     <title>NFC App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <style>
-        tr {
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-    </style>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">NFC Application</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -40,17 +36,36 @@
 </nav>
 
 <div class="container">
-    <div id="warning" class="alert alert-warning" style="transition: all 0.3s;opacity: 0">Placeholder text
+    <div id="warning" class="alert alert-warning">Placeholder text
     </div>
 
     <h1 class="mt-5">
         Users
     </h1>
 
-    <div id="buttons" class="btn-group" style="margin-bottom: 16px">
-        <button id="startServer" type="button" class="btn btn-outline-success" onclick="startServer()">Start NFC Server</button>
-        <button id="stopServer" type="button" class="btn btn-outline-danger" onclick="stopServer()">Stop NFC Server</button>
+    <div id="buttons" class="">
+        <div id="serverButtons" class="btn-group">
+            <button id="startServer" type="button" class="btn btn-outline-success" onclick="startServer()">
+                <i class="mdi mdi-play-arrow"></i>
+                Start NFC Server
+            </button>
+            <button id="stopServer" type="button" class="btn btn-outline-danger" onclick="stopServer()">
+                <i class="mdi mdi-stop"></i>
+                Stop NFC Server
+            </button>
+        </div>
+
+        <button id="addUser" type="button" class="btn btn-outline-primary ml-4" data-toggle="modal"
+                data-target="#addUserModal">
+            <i class="mdi mdi-add"></i>
+            Add User
+        </button>
+        <button id="delUser" type="button" class="btn btn-outline-danger mx-2" onclick="delUser()">
+            <i class="mdi mdi-delete"></i>
+            Delete User
+        </button>
     </div>
+
 
     <table id="tablePreview" class="table table-striped">
         <!--Table head-->
@@ -79,6 +94,55 @@
     </table>
 </div>
 
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="addUserFormUsername">Username</label>
+                        <input type="text" class="form-control" id="addUserFormUsername" placeholder="jdoe">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="addUserFormFirstName">First Name</label>
+                            <input type="text" class="form-control" id="addUserFormFirstName" placeholder="John">
+                        </div>
+                        <div class="form-group col">
+                            <label for="addUserFormLastName">Last Name</label>
+                            <input type="text" class="form-control" id="addUserFormLastName" placeholder="Doe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="addUserFormEmail">Email</label>
+                        <input type="email" class="form-control" id="addUserFormEmail" placeholder="user@server.com">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4 align-bottom align-self-end">
+                            <button type="button" class="btn btn-primary" onclick="scanBadge()">Scan Badge</button>
+                        </div>
+                        <div class="form-group col">
+                            <label for="addUserFormBadgeID">Badge ID</label>
+                            <input type="text" class="form-control" id="addUserFormBadgeID" placeholder="000000000">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Submit">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     let ws;
     let serverIsON = 0;
@@ -94,32 +158,34 @@
         $('#stopServer').prop('disabled', false);
 
 
-
         function launchWS() {
             ws = new WebSocket('ws://<%= URI %>:3001');
 
             ws.onopen = function () {
                 ws.onmessage = function (data) {
-                    const id = JSON.parse(data.data)["id"];
-                    console.log(id);
-                    let myTr = document.getElementById(id);
-                    if (myTr.className.includes("hasTagged")) {
-                        const warningMessage = document.getElementById("warning");
-                        warningMessage.innerText = "User " + id + " was already tagged.";
-                        warningMessage.style.opacity = "1";
-                        window.setTimeout(function () {
-                            warningMessage.style.opacity = "0";
-                        }, 2000);
+                    const id = JSON.parse(data.data)["username"];
+                    if (id) {
+                        console.log(id);
+                        let myTr = document.getElementById(id);
+                        if (myTr.className.includes("hasTagged")) {
+                            const warningMessage = document.getElementById("warning");
+                            warningMessage.innerText = "User " + id + " was already tagged.";
+                            warningMessage.style.opacity = "1";
+                            window.setTimeout(function () {
+                                warningMessage.style.opacity = "0";
+                            }, 2000);
 
-                    } else {
-                        myTr.style.backgroundColor = "#b8ddaa";
-                        myTr.className += "hasTagged";
+                        } else {
+                            myTr.style.backgroundColor = "#b8ddaa";
+                            myTr.className += "hasTagged";
+                        }
                     }
+
                 }
             }
         }
 
-        setTimeout(launchWS, 1000);
+        setTimeout(launchWS, 500);
     }
 
     function stopServer() {
@@ -137,6 +203,49 @@
             theTR.style.backgroundColor = "";
             theTR.className -= "hasTagged";
         }
+    }
+
+    function delUser() {
+        console.log("del user button clicked")
+    }
+
+    function scanBadge() {
+
+        function launchWSScanBadge() {
+            ws = new WebSocket('ws://<%= URI %>:3001');
+
+            ws.onopen = function () {
+                ws.onmessage = function (data) {
+                    const id = JSON.parse(data.data)["badgeid"];
+                    console.log(id);
+                    let myTextInput = document.getElementById("addUserFormBadgeID");
+                    myTextInput.value = id;
+                }
+            }
+
+            ws.onclose = function () {
+                console.log("Turning off server")
+                serverIsON = 0;     
+
+                if (serverWasOn) {
+                    startServer();
+                }
+            }
+        }
+
+        console.log("scan badge button clicked")
+        let serverWasOn = 0;
+        if (serverIsON) {
+            console.log("Server was on, turning it off first")
+            $.post("/users/stop-server")
+            serverIsON = 0;
+            serverWasOn = 1;
+        }
+        console.log("Turning on server")
+        $.post("/users/start-server-once")
+        serverIsON = 1;
+
+        setTimeout(launchWSScanBadge, 500);
     }
 
     $(window).bind('beforeunload', function (e) {
