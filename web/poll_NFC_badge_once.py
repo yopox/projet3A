@@ -24,7 +24,7 @@ async def nfcPoll(websocket, path):
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
             pass
-        time.sleep(.1)
+        await asyncio.sleep(.1)
 
 
 start_server = websockets.serve(nfcPoll, "", 3001)

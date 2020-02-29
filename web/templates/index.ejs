@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap-material-design-icons/css/material-icons.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="favicon.ico">
@@ -10,7 +12,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div id="common-navbar"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">NFC Application</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +29,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/users">Users</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/class">Class</a>
+            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -34,6 +41,9 @@
 </nav>
 
 <div class="container">
+    <div id="warning" class="alert alert-warning">Placeholder text
+    </div>
+
     <h1 class="mt-5">
         NFC Scanner
     </h1>
