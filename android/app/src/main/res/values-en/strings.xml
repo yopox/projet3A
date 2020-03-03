@@ -27,4 +27,6 @@
     <string name="pong_error_received">Error when receiving pong</string>
     <string name="pong_error_received_retry">Error when receiving pong, retry</string>
     <string name="ping_error_received">Error when receiving ping</string>
+    <string name="send_true">Vrai</string>
+    <string name="send_false">Faux</string>
 </resources>

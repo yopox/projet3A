@@ -1,5 +1,6 @@
-package examples
+package examples.skowa
 
+import examples.localhost.sha256
 import protocol.Reader
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -9,26 +10,35 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 
-class LHReader(seed: Int) : Reader(seed) {
+/**
+ * SKoWA (Swiss-Knife over Wifi & Audio) Reader.
+ */
+class Reader(seed: Int) : Reader(seed) {
     override val name = "[Reader]"
     override val hashSize = 256
 
     private val db = arrayOf(
             easyBitSet("001") to sha256(easyBitSet("1101")),
-            easyBitSet("111") to sha256(easyBitSet("1010"))
+            easyBitSet("111") to sha256(easyBitSet("1010")),
+            easyBitSet("1010101") to sha256(easyBitSet("1110"))
     )
-    private val client: Socket
     private val server: Socket
     private val writer: ObjectOutputStream
     private val reader: ObjectInputStream
 
     init {
-        val s = ServerSocket(9991)
+        val s = ServerSocket(9999)
         server = s.accept()
+        writer = ObjectOutputStream(server.getOutputStream())
         reader = ObjectInputStream(server.getInputStream())
-        client = Socket("localhost", 9990)
-        writer = ObjectOutputStream(client.getOutputStream())
     }
+
+    override fun sync2() {
+        writer.writeObject(1)
+        reader.readObject()
+    }
+
+    override fun genNA() = sha256(easyBitSet("100010100111"))
 
     override fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>? {
         for ((id, private) in db)
@@ -37,19 +47,11 @@ class LHReader(seed: Int) : Reader(seed) {
         return null
     }
 
-    override fun tagNotFound() {
-
-    }
-
-    override fun genNA(): BitSet = sha256(easyBitSet("11010001"))
-
     override fun f_x(private: BitSet, b: BitSet) = sha256(Values.join(arrayOf(b, private)))
 
-    override fun accept(ID: BitSet) {
-    }
-
-    override fun reject(ID: BitSet) {
-    }
+    override fun tagNotFound() {}
+    override fun accept(ID: BitSet) {}
+    override fun reject(ID: BitSet) {}
 
     override fun send1(value: Pair<BitSet, BitSet>) {
         writer.writeObject(value)
@@ -73,8 +75,5 @@ class LHReader(seed: Int) : Reader(seed) {
 
     override fun send3(value: BitSet) {
         writer.writeObject(value)
-
-        client.close()
-        server.close()
     }
 }

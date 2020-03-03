@@ -1,5 +1,7 @@
-package examples
+package examples.localhost
 
+import examples.localhost.T1
+import examples.localhost.T2
 import java.security.MessageDigest
 import java.util.*
 

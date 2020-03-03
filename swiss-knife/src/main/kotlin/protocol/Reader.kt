@@ -51,10 +51,15 @@ abstract class Reader(seed: Int) {
         log("Starting rapid phase.")
 
         for (i in 0 until Values.m) {
+
+            sync2()
+
             // Send cI
             val cI = random.nextFloat() >= 0.5
             if (cI) values.c1.set(i)
             send2(cI)
+
+            sync2()
 
             // Receive r'I
             val (rpI, dt) = measure { receive2() }
@@ -65,6 +70,8 @@ abstract class Reader(seed: Int) {
 
         endPhase()
     }
+
+    abstract fun sync2()
 
     private fun endPhase() {
         log("Starting end phase.")

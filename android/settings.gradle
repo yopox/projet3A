@@ -1,6 +1,4 @@
 include ':app'
-include ':quiet'
-project(':quiet').projectDir = new File('../org.quietmodem.Quiet/quiet')
 include ':swiss-knife'
 project(':swiss-knife').projectDir = new File('../swiss-knife')
 rootProject.name='DB'

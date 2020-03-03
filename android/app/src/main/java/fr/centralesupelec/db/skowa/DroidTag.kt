@@ -2,7 +2,6 @@ package fr.centralesupelec.db.skowa
 
 import android.content.Context
 import android.util.Log
-import fr.centralesupelec.db.QuietUtils
 import protocol.Tag
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -19,15 +18,13 @@ class DroidTag : Tag() {
     private lateinit var client: Socket
     private lateinit var writer: ObjectOutputStream
     private lateinit var reader: ObjectInputStream
-    private lateinit var context: Context
 
-    fun init(dstAddress: String, dstPort: Int, context: Context) {
-        log("Connecting to $dstAddress on port $dstPort")
-        client = Socket(dstAddress, dstPort)
+    fun init(dstAddress: String) {
+        log("Connecting to $dstAddress on port 9999")
+        client = Socket(dstAddress, 9999)
         log("Connected")
         writer = ObjectOutputStream(client.getOutputStream())
         reader = ObjectInputStream(client.getInputStream())
-        this.context = context
         start()
     }
 
@@ -44,12 +41,20 @@ class DroidTag : Tag() {
     }
 
     override fun receive2(): Boolean {
-        val received = QuietUtils.receive(context, 1, 0)
-        return received == "1"
+        // return Receiver.receive(5) == 1
+        return reader.readObject() as Boolean
     }
 
     override fun send2(r_i: Boolean) {
-        QuietUtils.send(if (r_i) "1" else "0")
+        // Sender.playSound(r_i)
+        writer.writeObject(r_i)
+    }
+
+    override fun sync2() {
+        reader.readObject()
+        Log.i(name, "READ")
+        writer.writeObject(1)
+        Log.i(name, "WRITE")
     }
 
     override fun send3(value: Pair<BitSet, BitSet>) {
@@ -58,7 +63,6 @@ class DroidTag : Tag() {
 
     override fun receive3(): BitSet {
         val b = reader.readObject() as BitSet
-        client.close()
         return b
     }
 

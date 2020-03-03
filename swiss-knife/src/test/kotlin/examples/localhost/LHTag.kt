@@ -1,5 +1,6 @@
-package examples
+package examples.localhost
 
+import examples.localhost.sha256
 import protocol.Tag
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -44,6 +45,10 @@ class LHTag(seed: Int) : Tag() {
 
     override fun send2(r_i: Boolean) {
         writer.writeObject(r_i)
+    }
+
+    override fun sync2() {
+        reader.readObject()
     }
 
     override fun send3(value: Pair<BitSet, BitSet>) {
