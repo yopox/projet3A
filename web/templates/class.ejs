@@ -94,47 +94,43 @@
     function startServer() {
 
         console.log("start server button clicked")
-        $.post("/class/start-server")
-        serverIsON = 1;
         document.getElementById("startServer").className = "btn btn-success";
         $('#startServer').prop('disabled', true);
         document.getElementById("stopServer").className = "btn btn-outline-danger";
         $('#stopServer').prop('disabled', false);
 
+        ws = new WebSocket('ws://<%= URI %>:3001');
 
-        function launchWS() {
-            ws = new WebSocket('ws://<%= URI %>:3001');
+        ws.onopen = function () {
+            ws.send(`{"id":1}`);
+            ws.onmessage = function (data) {
+                const id = JSON.parse(data.data)["username"];
+                if (id) {
+                    console.log(id);
+                    let myTr = document.getElementById(id);
+                    if (myTr.className.includes("hasTagged")) {
+                        const warningMessage = document.getElementById("warning");
+                        warningMessage.innerText = "User " + id + " was already tagged.";
+                        warningMessage.style.opacity = "1";
+                        window.setTimeout(function () {
+                            warningMessage.style.opacity = "0";
+                        }, 2000);
 
-            ws.onopen = function () {
-                ws.onmessage = function (data) {
-                    const id = JSON.parse(data.data)["username"];
-                    if (id) {
-                        console.log(id);
-                        let myTr = document.getElementById(id);
-                        if (myTr.className.includes("hasTagged")) {
-                            const warningMessage = document.getElementById("warning");
-                            warningMessage.innerText = "User " + id + " was already tagged.";
-                            warningMessage.style.opacity = "1";
-                            window.setTimeout(function () {
-                                warningMessage.style.opacity = "0";
-                            }, 2000);
-
-                        } else {
-                            myTr.style.backgroundColor = "#b8ddaa";
-                            myTr.className += "hasTagged";
-                        }
+                    } else {
+                        myTr.style.backgroundColor = "#b8ddaa";
+                        myTr.className += "hasTagged";
                     }
-
                 }
+
+            }
+            ws.onclose = function (data) {
+                console.log("closing ws");
             }
         }
 
-        setTimeout(launchWS, 500);
     }
 
     function stopServer() {
-        $.post("/class/stop-server")
-        serverIsON = 0;
         console.log("stop server button clicked")
         document.getElementById("startServer").className = "btn btn-outline-success";
         $('#startServer').prop('disabled', false);

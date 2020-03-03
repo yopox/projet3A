@@ -29,18 +29,4 @@ router.get('/', function (req, res, next) {
     res.render(__dirname + '/../templates/users.ejs', {URI: uri});
 });
 
-router.post('/start-server-once', function (req, res) {
-    let spawn = require("child_process").spawn;
-    if (pythonProcess !== 0) {
-        console.log("stoping already existing server");
-        pythonProcess.kill();
-    }
-    console.log("starting temporary server !");
-    pythonProcess = spawn('python3', ["./fake_NFC_badge_once.py"]);
-    pythonProcess.stdout.on('data', function (data) {
-        console.log(data);
-    });
-    //pythonProcess = spawn('python3',["./poll_NFC_badge_once.py"] );
-});
-
 module.exports = router;

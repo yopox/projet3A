@@ -4,6 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+let spawn = require("child_process").spawn;
+console.log("starting temporary server !");
+pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
+//pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
+pythonProcess.stdout.on('data', function (data) {
+    console.log(data);
+});
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var classRouter = require('./routes/class');

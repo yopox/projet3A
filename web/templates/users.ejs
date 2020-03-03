@@ -144,42 +144,19 @@
     }
 
     function scanBadge() {
-
-        function launchWSScanBadge() {
-            ws = new WebSocket('ws://<%= URI %>:3001');
-
-            ws.onopen = function () {
-                ws.onmessage = function (data) {
-                    const id = JSON.parse(data.data)["badgeid"];
-                    console.log(id);
-                    let myTextInput = document.getElementById("addUserFormBadgeID");
-                    myTextInput.value = id;
-                }
-            }
-
-            ws.onclose = function () {
-                console.log("Turning off server")
-                serverIsON = 0;
-
-                if (serverWasOn) {
-                    startServer();
-                }
-            }
-        }
-
         console.log("scan badge button clicked")
-        let serverWasOn = 0;
-        if (serverIsON) {
-            console.log("Server was on, turning it off first")
-            $.post("/users/stop-server")
-            serverIsON = 0;
-            serverWasOn = 1;
-        }
-        console.log("Turning on server")
-        $.post("/users/start-server-once")
-        serverIsON = 1;
 
-        setTimeout(launchWSScanBadge, 500);
+        ws = new WebSocket('ws://<%= URI %>:3001');
+
+        ws.onopen = function () {
+            ws.send(`{"id":0}`);
+            ws.onmessage = function (data) {
+                const id = JSON.parse(data.data)["badgeid"];
+                console.log(id);
+                let myTextInput = document.getElementById("addUserFormBadgeID");
+                myTextInput.value = id;
+            }
+        }
     }
 
     $(window).bind('beforeunload', function (e) {
