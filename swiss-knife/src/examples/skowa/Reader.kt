@@ -1,6 +1,8 @@
 package examples.skowa
 
 import examples.localhost.sha256
+import examples.skowa.audio.Receiver
+import examples.skowa.audio.Sender
 import protocol.Reader
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -62,11 +64,17 @@ class Reader(seed: Int) : Reader(seed) {
     }
 
     override fun send2(value: Boolean) {
-        writer.writeObject(value)
+        Sender.play(value)
     }
 
     override fun receive2(): Boolean {
-        return reader.readObject() as Boolean
+        val bit = Receiver.receive(8)
+        when (bit) {
+            -1 -> log("Timed out :c")
+            1 -> log("Received TRUE")
+            0 -> log("Received FALSE")
+        }
+        return bit == 1
     }
 
     override fun receive3(): Pair<BitSet, BitSet> {

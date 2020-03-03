@@ -2,6 +2,8 @@ package fr.centralesupelec.db.skowa
 
 import android.content.Context
 import android.util.Log
+import fr.centralesupelec.db.audio.Receiver
+import fr.centralesupelec.db.audio.Sender
 import protocol.Tag
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -41,13 +43,13 @@ class DroidTag : Tag() {
     }
 
     override fun receive2(): Boolean {
-        // return Receiver.receive(5) == 1
-        return reader.readObject() as Boolean
+        return Receiver.receive(5) == 1
+        //return reader.readObject() as Boolean
     }
 
     override fun send2(r_i: Boolean) {
-        // Sender.playSound(r_i)
-        writer.writeObject(r_i)
+        Sender.playSound(r_i)
+        //writer.writeObject(r_i)
     }
 
     override fun sync2() {

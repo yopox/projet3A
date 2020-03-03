@@ -3,7 +3,6 @@ package fr.centralesupelec.db.audio
 object FFT {
 
     fun fft(a: Array<Complex>) = innerFFT(a, Complex(0.0, 2.0), 1.0)
-    fun rfft(a: Array<Complex>) = innerFFT(a, Complex(0.0, -2.0), 2.0)
 
     private fun innerFFT(a: Array<Complex>, direction: Complex, scalar: Double): Array<Complex> =
         if (a.size == 1) a

@@ -13,15 +13,15 @@ import kotlin.math.*
 
 object Receiver {
 
-    val mainBuffer = ByteArrayOutputStream()
-    val audioEncoding = ENCODING_PCM_16BIT
-    val audioConfig = CHANNEL_IN_MONO
-    val frequency = 44100
-    val samplesNb = 512
-    val T = 1.0 * samplesNb / frequency
+    private val mainBuffer = ByteArrayOutputStream()
+    private const val audioEncoding = ENCODING_PCM_16BIT
+    private const val audioConfig = CHANNEL_IN_MONO
+    private const val frequency = 44100
+    private const val samplesNb = 512
+    private const val T = 1.0 * samplesNb / frequency
 
-    var bufferSize = AudioRecord.getMinBufferSize(frequency, audioConfig, audioEncoding)
-    lateinit var recorder: AudioRecord
+    private var bufferSize = AudioRecord.getMinBufferSize(frequency, audioConfig, audioEncoding)
+    private lateinit var recorder: AudioRecord
 
     const val FREQ_TRUE = 440
     const val FREQ_FALSE = 330
@@ -74,12 +74,12 @@ object Receiver {
         recorder.release()
 
         val array = mainBuffer.toByteArray()
-        val bits = 16
-        val max = 2.0.pow(bits - 1.0)
         val bb = ByteBuffer.wrap(array)
         bb.order(ByteOrder.LITTLE_ENDIAN)
-        val samples = DoubleArray(array.size * 8 / bits)
 
+        val bits = 16
+        val max = 2.0.pow(bits - 1.0)
+        val samples = DoubleArray(array.size * 8 / bits)
         for (i in samples.indices) samples[i] = bb.short / max
 
         // Result analysis

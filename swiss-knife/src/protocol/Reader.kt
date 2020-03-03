@@ -79,6 +79,8 @@ abstract class Reader(seed: Int) {
         // Receive tB & c'I
         val (tB, cpI) = receive3()
 
+        log("Tag sent :\t${Values.bitSetToStr(cpI).takeLast(Values.m)}")
+
         // Check ID
         val (ID, privateKey) = dbSearch(tB, cpI, values.N_A, values.N_B) ?: return tagNotFound()
 
@@ -87,7 +89,8 @@ abstract class Reader(seed: Int) {
         values.computeR(a, privateKey)
         log("R0 :\t${Values.bitSetToStr(values.R0).takeLast(Values.m)}")
         log("R1 :\t${Values.bitSetToStr(values.R1).takeLast(Values.m)}")
-
+        log("C1 :\t${Values.bitSetToStr(values.c1).takeLast(Values.m)} (bits sent to the tag)")
+        log("C2 :\t${Values.bitSetToStr(values.c2).takeLast(Values.m)} (bits received from the tag)")
         // Errors computation
         var errors = 0
 

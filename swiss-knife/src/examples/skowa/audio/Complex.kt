@@ -1,4 +1,4 @@
-package fr.centralesupelec.db.audio
+package examples.skowa.audio
 
 import kotlin.math.*
 
