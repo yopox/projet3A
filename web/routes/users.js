@@ -4,7 +4,7 @@ const ip = require('ip');
 let pythonProcess = 0;
 const {body, validationResult} = require('express-validator');
 const uri = ip.address();
-
+const db = require('better-sqlite3')('./coucou.db');
 
 function getDatabase() {
     const db = require('better-sqlite3')('./coucou.db');
@@ -33,31 +33,21 @@ router.get('/', function (req, res, next) {
 
 router.post('/add-user/', function(req, res) {
     console.log(req.body);
+    addUser(req.body);
     res.redirect('/users');
 });
-// router.post('/add-user/', [
-//     body("add-user-form-username", "Empty Username").trim().isLength({min: 1}),
-//     body("add-user-form-firstname", "Empty First Name").trim().isLength({min: 1}),
-//     body("add-user-form-lastname", "Empty Last Name").trim().isLength({min: 1}),
-//     body("add-user-form-email", "Email Error").trim().isEmail(),
-//     body("add-user-form-badge-id", "Empty Badge ID").trim().isLength({min: 1})
-// ], (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(422).json({errors: errors.array()});
-//     }
-//     let user = ({
-//         username: req.body.add-user-form-username,
-//         firstname: req.body.add-user-form-firstname,
-//         lastname: req.body.add-user-form-lastname,
-//         email: req.body.add-user-form-email,
-//         badgeid: req.body.add-user-form-badge_id
-//     });
-//     console.log(user);
-//     res.render(__dirname + '/../templates/users.ejs', {URI: uri});
-// });
-//
-// function createUser( userinfo ) {
-// }
+
+function addUser( userinfo ) {
+    const db = require('better-sqlite3')('./coucou.db');
+    const lastID = db.prepare('SELECT id FROM users ORDER BY id DESC LIMIT 1').all();
+    console.log(lastID);
+    const newID = parseInt(lastID[0].id) + 1;
+    console.log(newID);
+    userinfo["id"] = newID;
+    console.log(userinfo);
+    const addRequest = db.prepare('INSERT INTO users (id, username, firstname, lastname, email, badge_id) VALUES (@id,@username, @firstname, @lastname, @email, @badgeid)');
+    addRequest.run(userinfo);
+    console.log(userinfo["username"]);
+}
 
 module.exports = router;
