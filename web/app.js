@@ -6,10 +6,10 @@ var logger = require('morgan');
 
 let spawn = require("child_process").spawn;
 console.log("starting temporary server !");
-pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
-//pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
+//pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
+pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
 pythonProcess.stdout.on('data', function (data) {
-    console.log(data);
+    //console.log(data.toString());
 });
 
 var indexRouter = require('./routes/index');
@@ -21,7 +21,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -38,8 +38,11 @@
     </div>
 </nav>
 
+
 <div class="container">
-    <div id="warning" class="alert alert-warning">Placeholder text
+    <div class="row my-4 justify-content-center">
+        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
     </div>
 
     <h1 class="mt-5">
@@ -50,11 +53,11 @@
         <div id="serverButtons" class="btn-group">
             <button id="startServer" type="button" class="btn btn-outline-success" onclick="startServer()">
                 <i class="mdi mdi-play-arrow"></i>
-                Start NFC Server
+                Start Class
             </button>
             <button id="stopServer" type="button" class="btn btn-outline-danger" onclick="stopServer()">
                 <i class="mdi mdi-stop"></i>
-                Stop NFC Server
+                Stop Class
             </button>
         </div>
     </div>
@@ -104,22 +107,20 @@
         ws.onopen = function () {
             ws.send(`{"id":1}`);
             ws.onmessage = function (data) {
-                const id = JSON.parse(data.data)["username"];
-                if (id) {
-                    console.log(id);
-                    let myTr = document.getElementById(id);
+                const username = JSON.parse(data.data)["username"];
+                const badgeid = JSON.parse(data.data)["badgeid"];
+                if (username) {
+                    console.log(username);
+                    let myTr = document.getElementById(username);
                     if (myTr.className.includes("hasTagged")) {
-                        const warningMessage = document.getElementById("warning");
-                        warningMessage.innerText = "User " + id + " was already tagged.";
-                        warningMessage.style.opacity = "1";
-                        window.setTimeout(function () {
-                            warningMessage.style.opacity = "0";
-                        }, 2000);
+                        bootstrap_alert('warning', "User " + username + " was already tagged.", 2000)
 
                     } else {
                         myTr.style.backgroundColor = "#b8ddaa";
                         myTr.className += "hasTagged";
                     }
+                } else {
+                    bootstrap_alert('danger', "Badge " + badgeid + " doesn't exist.", 2000)
                 }
 
             }
@@ -145,6 +146,17 @@
         }
     }
 
+    function bootstrap_alert(type,message, timeout) {
+        let alert = document.getElementById("alert-warning-placeholder");
+        if (type === 'danger') {
+            alert = document.getElementById("alert-danger-placeholder");
+        }
+        alert.innerText = message;
+        alert.style.opacity = "1";
+        window.setTimeout(function () {
+            alert.style.opacity = "0";
+        }, timeout);
+    }
 
     $(window).bind('beforeunload', function (e) {
         if (serverIsON) {

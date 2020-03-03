@@ -39,7 +39,13 @@
 </nav>
 
 <div class="container">
-    <div id="warning" class="alert alert-warning">Placeholder text
+    <div class="row my-4 justify-content-center">
+        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-success-placeholder" class="alert alert-warning fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
     </div>
 
     <h1 class="mt-5">
@@ -95,36 +101,41 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="">
+            <form action="/users/add-user/" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="addUserFormUsername">Username</label>
-                        <input type="text" class="form-control" id="addUserFormUsername" placeholder="jdoe" required>
+                        <label for="add-user-form-username">Username</label>
+                        <input type="text" class="form-control" id="add-user-form-username" name="username" placeholder="jdoe" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <label for="addUserFormFirstName">First Name</label>
-                            <input type="text" class="form-control" id="addUserFormFirstName" placeholder="John" required>
+                            <label for="add-user-form-firstname">First Name</label>
+                            <input type="text" class="form-control" id="add-user-form-first-name" name="firstname" placeholder="John"
+                                   required>
                         </div>
                         <div class="form-group col">
-                            <label for="addUserFormLastName">Last Name</label>
-                            <input type="text" class="form-control" id="addUserFormLastName" placeholder="Doe" required>
+                            <label for="add-user-form-lastname">Last Name</label>
+                            <input type="text" class="form-control" id="add-user-form-last-name" name="lastname" placeholder="Doe" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="addUserFormEmail">Email</label>
-                        <input type="email" class="form-control" id="addUserFormEmail" placeholder="user@server.com" required>
+                        <label for="add-user-form-email">Email</label>
+                        <input type="email" class="form-control" id="add-user-form-email" name="email" placeholder="user@server.com"
+                               required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4 align-bottom align-self-end">
-                            <button type="button" class="btn btn-primary" onclick="scanBadge()">Scan Badge</button>
+                            <button id="scan-badge" type="button" class="btn btn-primary" onclick="scanBadge()">Scan
+                                Badge
+                            </button>
                         </div>
                         <div class="form-group col">
-                            <label for="addUserFormBadgeID">Badge ID</label>
-                            <input type="text" class="form-control" id="addUserFormBadgeID" placeholder="000000000" disabled required>
+                            <label for="add-user-form-badge-id">Badge ID</label>
+                            <input type="text" class="form-control" id="add-user-form-badge-id" name="badgeid" placeholder="" readonly required>
                         </div>
                     </div>
+                    <small id="scan-error" class="form-text text-muted text-danger"></small>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-success" value="Submit">
@@ -145,18 +156,49 @@
 
     function scanBadge() {
         console.log("scan badge button clicked")
+        $('#scan-badge').prop('disabled', true);
+
 
         ws = new WebSocket('ws://<%= URI %>:3001');
 
         ws.onopen = function () {
             ws.send(`{"id":0}`);
             ws.onmessage = function (data) {
-                const id = JSON.parse(data.data)["badgeid"];
-                console.log(id);
-                let myTextInput = document.getElementById("addUserFormBadgeID");
-                myTextInput.value = id;
+                const badgeid = JSON.parse(data.data)["badgeid"];
+                const username = JSON.parse(data.data)["username"];
+                if (!username) {
+                    console.log(badgeid);
+                    let myTextInput = document.getElementById("add-user-form-badge-id");
+                    myTextInput.value = badgeid;
+                    let scanError = document.getElementById("scan-error");
+                    scanError.innerText = "";
+
+                } else {
+                    console.log(badgeid + " already associated to user " + username);
+                    let myTextInput = document.getElementById("add-user-form-badge-id");
+                    myTextInput.value = "";
+                    let scanError = document.getElementById("scan-error");
+                    scanError.innerText = "Badge " + badgeid + " already associated to user " + username;
+                }
+
             }
         }
+
+        ws.onclose = function () {
+            $('#scan-badge').prop('disabled', false);
+        }
+    }
+
+    function bootstrap_alert(type, message, timeout) {
+        let alert = document.getElementById("alert-warning-placeholder");
+        if (type === 'danger') {
+            alert = document.getElementById("alert-danger-placeholder");
+        }
+        alert.innerText = message;
+        alert.style.opacity = "1";
+        window.setTimeout(function () {
+            alert.style.opacity = "0";
+        }, timeout);
     }
 
     $(window).bind('beforeunload', function (e) {
