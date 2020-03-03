@@ -3,7 +3,8 @@ package fr.centralesupelec.db.skowa
 import android.content.Context
 import android.util.Log
 import android.widget.TextView
-import fr.centralesupelec.db.QuietUtils
+import fr.centralesupelec.db.audio.Receiver
+import fr.centralesupelec.db.audio.Sender
 import protocol.Reader
 import protocol.Values
 import protocol.Values.Companion.easyBitSet
@@ -29,7 +30,7 @@ class DroidReader(seed: Int, val textView: TextView) : Reader(seed) {
 
     fun init(port: Int, context: Context) {
         log("Init")
-        val s = ServerSocket(port, 0, InetAddress.getByName("172.17.3.14"))
+        val s = ServerSocket(port, 0, InetAddress.getByName("192.168.43.40"))
         server = s.accept()
         log("Socket accepted")
         reader = ObjectInputStream(server.getInputStream())
@@ -66,13 +67,18 @@ class DroidReader(seed: Int, val textView: TextView) : Reader(seed) {
     }
 
     override fun send2(value: Boolean) {
-        QuietUtils.send(if (value) "1" else "0")
+        Sender.playSound(value)
     }
 
     override fun receive2(): Boolean {
-        val received = QuietUtils.receive(context, 1, 0)
-        log("Received $received")
-        return received == "1"
+        return Receiver.receive(5) == 1
+    }
+
+    override fun sync2() {
+        writer.writeObject(1)
+        Log.i(name, "WRITE")
+        reader.readObject()
+        Log.i(name, "READ")
     }
 
     override fun receive3(): Pair<BitSet, BitSet> {

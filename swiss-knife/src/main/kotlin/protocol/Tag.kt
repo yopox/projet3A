@@ -46,16 +46,24 @@ abstract class Tag {
         log("Starting rapid phase.")
 
         for (i in 0 until Values.m) {
+
+            sync2()
+
             // Receive c'I
             val cpI = receive2()
             if (cpI) values.c1.set(i)
 
+            sync2()
+
             // Send rI
             if (cpI) send2(values.R1[i]) else send2(values.R0[i])
+
         }
 
         endPhase()
     }
+
+    abstract fun sync2()
 
     private fun endPhase() {
         log("Starting end phase.")

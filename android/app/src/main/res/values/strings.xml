@@ -28,4 +28,6 @@
     <string name="pong_error_received">Erreur lors de la réception du pong</string>
     <string name="pong_error_received_retry">Erreur lors de la réception du pong, réessaye</string>
     <string name="ping_error_received">Erreur lors de la réception du ping</string>
+    <string name="send_true">Vrai</string>
+    <string name="send_false">Faux</string>
 </resources>
