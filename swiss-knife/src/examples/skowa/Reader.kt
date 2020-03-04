@@ -40,7 +40,7 @@ class Reader(seed: Int) : Reader(seed) {
         reader.readObject()
     }
 
-    override fun genNA() = sha256(easyBitSet("100010100111"))
+    override fun genNA() = sha256(easyBitSet(IntArray(16).map { (0..1).random() }.joinToString()))
 
     override fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>? {
         for ((id, private) in db)

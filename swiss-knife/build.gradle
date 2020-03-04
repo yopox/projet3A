@@ -5,27 +5,31 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds
  */
 
+// STANDALONE
 
 plugins {
     id 'application'
-    // Standalone
     id 'org.jetbrains.kotlin.jvm' version '1.3.31'
-    
-    // Plugin
-    //id 'org.jetbrains.kotlin.jvm'
 }
 
+application {
+        mainClassName = 'examples.skowa.SkowaTest'
+    }
+
+
+// PLUGIN
+/*
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+} */
+
+// COMMON
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-}
-
-
-application {
-    mainClassName = 'examples.skowa.SkowaTest'
 }
 
 sourceSets {

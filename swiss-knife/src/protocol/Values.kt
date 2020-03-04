@@ -1,14 +1,15 @@
 package protocol
 
 import java.util.*
+import kotlin.math.pow
 
 class Values {
 
     companion object {
-        val m = 8
-        val T = 2
+        const val m = 8
+        const val T = 3
         val C_B = easyBitSet("1001010010010100")
-        val tMax = 10000000000000000
+        val tMax = 10.0.pow(9)
 
         fun join(bitsets: Array<BitSet>): BitSet {
             var b1 = BitSet()
@@ -42,6 +43,10 @@ class Values {
                 str = if (b[bit]) "1$str" else "0$str"
             }
             return str
+        }
+
+        fun prettyPrint(b : BitSet): String {
+            return bitSetToStr(b).takeLast(m).reversed()
         }
     }
 

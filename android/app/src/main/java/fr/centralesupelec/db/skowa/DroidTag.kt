@@ -54,9 +54,7 @@ class DroidTag : Tag() {
 
     override fun sync2() {
         reader.readObject()
-        Log.i(name, "READ")
         writer.writeObject(1)
-        Log.i(name, "WRITE")
     }
 
     override fun send3(value: Pair<BitSet, BitSet>) {

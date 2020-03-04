@@ -1,6 +1,8 @@
 package protocol
 
+import protocol.Values.Companion.prettyPrint
 import java.util.*
+import kotlin.math.pow
 import kotlin.random.Random
 
 abstract class Reader(seed: Int) {
@@ -65,7 +67,7 @@ abstract class Reader(seed: Int) {
             val (rpI, dt) = measure { receive2() }
             if (rpI) values.c2.set(i)
             values.Dt[i] = dt
-            log("Bit $i : ${dt}ns")
+            log("Bit $i : ${dt}ns ~ ${"%.1f".format(dt / 10.0.pow(9) * 300)}m")
         }
 
         endPhase()
@@ -79,7 +81,6 @@ abstract class Reader(seed: Int) {
         // Receive tB & c'I
         val (tB, cpI) = receive3()
 
-        log("Tag sent :\t${Values.bitSetToStr(cpI).takeLast(Values.m)}")
 
         // Check ID
         val (ID, privateKey) = dbSearch(tB, cpI, values.N_A, values.N_B) ?: return tagNotFound()
@@ -87,10 +88,11 @@ abstract class Reader(seed: Int) {
         // R computation
         val a = f_x(privateKey, Values.join(arrayOf(Values.C_B, values.N_B)))
         values.computeR(a, privateKey)
-        log("R0 :\t${Values.bitSetToStr(values.R0).takeLast(Values.m)}")
-        log("R1 :\t${Values.bitSetToStr(values.R1).takeLast(Values.m)}")
-        log("C1 :\t${Values.bitSetToStr(values.c1).takeLast(Values.m)} (bits sent to the tag)")
-        log("C2 :\t${Values.bitSetToStr(values.c2).takeLast(Values.m)} (bits received from the tag)")
+        log("R0 :\t${prettyPrint(values.R0)}")
+        log("R1 :\t${prettyPrint(values.R1)}")
+        log("C1 :\t${prettyPrint(values.c1)} (bits sent by the reader)")
+        log("C'i:\t${prettyPrint(cpI)} (bits received by the tag)")
+        log("C2 :\t${prettyPrint(values.c2)} (bits sent by the tag)")
         // Errors computation
         var errors = 0
 
