@@ -18,3 +18,26 @@ tr {
 #buttons {
   margin-bottom: 16px;
 }
+
+.table td {
+  vertical-align: middle;
+}
+
+.table th {
+  vertical-align: middle;
+}
+
+*[id^="buttonsTD"] {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+/*[id^="delUser"] {*/
+/*  margin-top: 0;*/
+/*  margin-bottom: 0;*/
+/*}*/
+
+/*[id^="editUser"] {*/
+/*  margin-top: 0;*/
+/*  margin-bottom: 0;*/
+/*}*/

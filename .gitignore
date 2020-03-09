@@ -28,3 +28,6 @@ swiss-knife/build
 C_lib/*
 swiss-knife/gradle/wrapper/gradle-wrapper.jar
 *.pyc
+*.ldif
+*.csv
+LDAPParser/*.db
