@@ -12,11 +12,11 @@ import kotlin.math.pow
 
 object Receiver {
 
-    const val FREQ_TRUE = 440
-    const val FREQ_FALSE = 330
-    private const val WIDTH = 30
+    const val FREQ_TRUE = 19000
+    const val FREQ_FALSE = 18000
+    private const val WIDTH = 300
     private const val frequency = 44100f
-    private const val samplesNb = 2048
+    private const val samplesNb = 1024
     private const val T = 1.0 * samplesNb / frequency
     private val format = AudioFormat(frequency, 16, 1, true, true)
 
@@ -86,21 +86,19 @@ object Receiver {
         val signal = data.clone()
 
         // Mean filter
-        for (i in signal.indices) if (i > 0)
-            signal[i] = (signal[i-1] + signal[i]) / 2.0
+        /*for (i in signal.indices) if (i > 0)
+            signal[i] = (signal[i-1] + signal[i]) / 2.0*/
 
         // Windowing
         for (i in signal.indices) signal[i] *= 0.5 * (1 - cos(2 * Math.PI * i / signal.size))
 
         val f = FFT.fft(signal.map { Complex(it, 0.0) }.toTypedArray())
-        val maxDB = f.copyOfRange(0, samplesNb / 4).map { 10 * log10(it.re.pow(2) + it.im.pow(2)) }.withIndex().maxBy { it.value }
+        val maxDB = f.map { 10 * log10(it.re.pow(2) + it.im.pow(2)) }.withIndex().maxBy { it.value }
 
         maxDB?.let {
-            if (it.value >= 2) {
-                val freq = it.index.div(T)
-                if (abs(freq - FREQ_FALSE) < WIDTH) return 0
-                if (abs(freq - FREQ_TRUE) < WIDTH) return 1
-            }
+            val freq = it.index.div(T)
+            if (abs(freq - FREQ_FALSE) < WIDTH) return 0
+            if (abs(freq - FREQ_TRUE) < WIDTH) return 1
         }
 
         return -1

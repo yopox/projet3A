@@ -7,7 +7,7 @@ class Values {
 
     companion object {
         const val m = 8
-        const val T = 3
+        const val T = 4
         val C_B = easyBitSet("1001010010010100")
         val tMax = 10.0.pow(9)
 

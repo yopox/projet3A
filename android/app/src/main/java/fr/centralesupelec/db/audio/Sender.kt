@@ -13,7 +13,7 @@ object Sender {
             perfectTune.tuneFreq = Receiver.FREQ_FALSE.toDouble()
         }
         perfectTune.playTune()
-        Thread.sleep(500)
+        Thread.sleep(300)
         perfectTune.stopTune()
     }
 

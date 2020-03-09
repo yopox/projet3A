@@ -7,9 +7,9 @@ import kotlin.math.sin
 
 
 object Sender {
-    private const val SAMPLE_RATE = 16 * 1024
-    private val TRUE = createSinWaveBuffer(440.0, 500)
-    private val FALSE = createSinWaveBuffer(330.0, 500)
+    private const val SAMPLE_RATE = 44100
+    private val TRUE = createSinWaveBuffer(19000.0, 300)
+    private val FALSE = createSinWaveBuffer(18000.0, 300)
 
     fun play(value: Boolean) {
         val af = AudioFormat(SAMPLE_RATE.toFloat(), 8, 1, true, true)

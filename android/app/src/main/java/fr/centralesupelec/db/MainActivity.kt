@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun receive(view: View) {
-        when (Receiver.receive(50)) {
+        when (Receiver.receive(10)) {
             0 -> received.text = "FALSE"
             1 -> received.text = "TRUE"
             else -> received.text = "NONE"

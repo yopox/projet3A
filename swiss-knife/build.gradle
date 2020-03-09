@@ -21,8 +21,8 @@ application {
 /*
 plugins {
     id 'org.jetbrains.kotlin.jvm'
-} */
-
+}
+*/
 // COMMON
 repositories {
     mavenCentral()
