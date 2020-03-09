@@ -14,6 +14,12 @@ async def nfcPoll():
         try:
             print("found badge !")
             uid = mifare.select()
+            if (len(uid)%2 != 0 ):
+                uid = str(0) + uid
+            new_uid = ""
+            for i in range(len(uid)//2) :
+                new_uid = uid[int(2*i)] + uid[int(2*i+1)] + new_uid
+            uid = new_uid
             badge = {}
             user = {}
             badge["id"] = uid

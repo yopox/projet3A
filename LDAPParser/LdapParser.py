@@ -5,6 +5,7 @@ import subprocess
 import csv_to_sqlite
 from ldif import LDIFParser,LDIFWriter
 import sqlite3
+import shutil
 
 SKIP_DN = ["ou=people,dc=centralesupelec,dc=fr"]
 ERRORS = {}
@@ -18,10 +19,54 @@ ERRORS['promotionErrors'] = []
 ERRORS['nedapProfileErrors'] = []
 
 
+class SQLUsersTableWriter():
+  def __init__(self, db):
+    self.db = db
+    self.id = 0
+    print("Droping old table...")
+    db.execute("DROP TABLE IF EXISTS users")
+    print("Creating new table...")
+    db.execute("""CREATE TABLE users (
+      id INT PRIMARY KEY NOT NULL,
+      cn VARCHAR(100),
+      lastname VARCHAR(100),
+      firstname VARCHAR(100),
+      username VARCHAR(100) UNIQUE NOT NULL,
+      email VARCHAR(255),
+      badge_id VARCHAR(64),
+      skowa_id VARCHAR(64),
+      affiliations VARCHAR(255),
+      primary_affiliation VARCHAR(255),
+      nedap_profile VARCHAR(255),
+      promotion VARCHAR(255)
+    )""")
+    print("Table created successfully")
+  
+  # To be called by the LDIF handler at each round. Id needs to be incremented each time to ensure unicity
+  def writerow(self, row):
+    self.id += 1
+    request = """INSERT INTO users (
+      id,
+      cn,
+      lastname,
+      firstname,
+      username,
+      email,
+      badge_id,
+      skowa_id,
+      affiliations,
+      primary_affiliation,
+      nedap_profile,
+      promotion)
+    VALUES (""" + str(self.id) + ',"' + '","'.join([str(x) for x in row]) + '")'
+    db.execute(request)
+    db.commit()
+    return
+
 class MyLDIF(LDIFParser):
-  def __init__(self,input,csv_writer):
+  def __init__(self,input,database_writer):
     LDIFParser.__init__(self,input)
-    self.writer = csv_writer
+    self.writer = database_writer
   def handle(self,dn,entry):
     if dn in SKIP_DN:
       return
@@ -83,27 +128,36 @@ class MyLDIF(LDIFParser):
       ERRORS['nedapProfileErrors'].append(str(dn))
       nedapProfile = ""
     # Most of these fields were lists, but with only one member. Let's clean that up ! 
-    toWrite = [cn,login,prenom,nom,affiliation,primaryAffiliation,mail,badgeNFCID,badgePhysicalID,nedapProfile]
+    toWrite = [cn,nom,prenom,login,mail,badgeNFCID,badgePhysicalID,affiliation,primaryAffiliation,nedapProfile]
     for id,x in enumerate(toWrite) :
       if len(x) == 1:
         toWrite[id] = x[0]
     toWrite.append(promotionID)
     self.writer.writerow(toWrite)
 
+with open('ldap.ldif','rb') as infile:
+  print("opening sql table")
+  db = sqlite3.connect('users.db')
+  print("Opened database successfully")
 
-with open('ldap.ldif','rb') as infile, open('LDIFExtract.csv','wb') as outfile:
+  database_writer = SQLUsersTableWriter(db)
   print("Starting LDIF File parsing....")
-  csv_writer = csv.writer(outfile)
-  csv_writer.writerow(['cn','username','firstname','lastname','Affiliation','Primary Affiliation','email','badge_id','badge_physical_id','nedap_profile','promotion'])
-  MyLDIF(infile,csv_writer).parse()
-  print("There were some Errors : \n")
+  MyLDIF(infile,database_writer).parse()
+
+  print("Done !")
+  
+  print("There were some Errors while unparsing the LDIF File: \n")
   print("\ncn Errors : " + str(ERRORS['cnErrors']))
   print("\nAffiliation Errors : " + str(ERRORS['affiliationErrors']))
   print("\nLogin Errors : " + str(ERRORS['loginError']))
   print("\nName Errors : " + str(ERRORS['firstLastNameError']))
-  # print("\nMail Errors : " + str(ERRORS['mailErrors']))
-  # print("\nBadge Errors : " + str(ERRORS['badgeErrors']))
+  print("\nMail Errors : " + str(len(ERRORS['mailErrors'])) + " errors")
+  print("\nBadge Errors : " + str(len(ERRORS['badgeErrors'])) + " errors")
+  
   infile.close
-  outfile.close
+  db.close()
 
-##subprocess.call("python3 csv-to-sqlite -f LDIFExtract.csv -o coucou.db")
+  print("Copying DB file...")
+  shutil.copy2("users.db","../web/")
+  print("File copied")
+  print("synchronization with LDAP complete !")
