@@ -8,10 +8,11 @@ function getDatabase() {
     let classes = [];
     const rows = db.prepare('SELECT * FROM classes').all();
     for (row of rows) {
+        console.log(row.studentsOnEntry.slice(2,-2).split("', '")[0]);
         let arrayRow = {
             classid: row.classid,
-            entry: row.studentsOnEntry,
-            exit: row.studentsOnExit
+            entry: row.studentsOnEntry.slice(2,-2).split("', '"),
+            exit: row.studentsOnExit.slice(2,-2).split("', '")
         };
         classes.push(arrayRow);
     }
@@ -21,6 +22,7 @@ function getDatabase() {
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
+
     const uri = ip.address();
     res.locals.classes = getDatabase();
     res.render(__dirname + '/../templates/presence.ejs', {URI: uri});

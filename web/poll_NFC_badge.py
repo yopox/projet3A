@@ -25,7 +25,7 @@ async def nfcPoll():
             badge["id"] = uid
             user["username"] = database_utils.databaseChecker(badge["id"])
             user["badgeid"] = badge["id"]
-            return user
+            return json.dumps(user)
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
             pass
@@ -42,7 +42,7 @@ async def checkClass(websocket):
             user = await nfcPoll()
             if (user not in users_list):
                 users_list.append(user)
-            await websocket.send(json.dumps(user))
+            await websocket.send(user)
     finally:
         return users_list
 

@@ -27,7 +27,7 @@ async def fakeNFCServer():
     user["username"] = database_utils.databaseChecker(badge["id"])
     user["badgeid"] = badge["id"]
     await asyncio.sleep(.5)
-    return user
+    return json.dumps(user)
 
 async def checkOnce():
     return await fakeNFCServer()
@@ -39,7 +39,7 @@ async def checkClass(websocket):
             user = await fakeNFCServer()
             if (user not in users_list):
                 users_list.append(user)
-            await websocket.send(json.dumps(user))
+            await websocket.send(user)
     finally:
         return users_list
 
@@ -67,7 +67,6 @@ async def handler(websocket, path):
         users = await checkClass(websocket)
 
 
-        file = open("testfile.txt","a") 
         if (type_of_connection["type"] == 1):
             print("Type of connection : class entry")
             database_utils.saveClassEntry(classID,users)
@@ -76,10 +75,6 @@ async def handler(websocket, path):
         if (type_of_connection["type"] == 2):
             print("Type of connection : class exit")
             database_utils.saveClassExit(classID,users)
-
-
-        file.writelines(["\n" + str(x) for x in users])
-        file.close()
         
     print("Closing Connection...")
     

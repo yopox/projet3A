@@ -44,21 +44,21 @@
 
 <div class="container">
     <div class="row my-4 justify-content-center">
-        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
-        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
     </div>
 
     <h1 class="mt-5">
-        Class
+        Presence
     </h1>
-
 
 
     <table id="tablePreview" class="table table-striped">
         <!--Table head-->
         <thead>
         <tr>
-            <th>#</th>
             <th>ClassID</th>
             <th>Entry List</th>
             <th>Exit List</th>
@@ -68,8 +68,24 @@
         <% for(var i = 0 ; i < classes.length ; i++) { %>
             <tr id="<%= classes[i].classid %>">
                 <th scope="row"><%= classes[i].classid %></th>
-                <td class="entry"><%= classes[i].entry %></td>
-                <td class="exit"><%= classes[i].exit %></td>
+                <td class="entry">
+                    <ul>
+                        <% for(var j = 0 ; j < classes[i].entry.length ; j++) { %>
+                            <li>
+                                <%= classes[i].entry[j] %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </td>
+                <td class="exit">
+                    <ul>
+                        <% for(var j = 0 ; j < classes[i].exit.length ; j++) { %>
+                            <li>
+                                <%= classes[i].exit[j] %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </td>
             </tr>
         <% } %>
         </tbody>
