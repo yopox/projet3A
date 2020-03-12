@@ -6,7 +6,7 @@ let pythonProcess = 0;
 function getDatabase(number,offset) {
     const db = require('better-sqlite3')('./users.db');
     let users = [];
-    const rows = db.prepare('SELECT * FROM users WHERE promotion LIKE ? ORDER BY lastname ASC LIMIT ? OFFSET ?').all("%{BASEELEVES}ENE%",number,offset);
+    const rows = db.prepare('SELECT * FROM users WHERE promotion LIKE ? ORDER BY lastname ASC LIMIT ? OFFSET ?').all("%{BASEELEVES}SIS%",number,offset);
     for (row of rows) {
         let arrayRow = {
             id: row.id,

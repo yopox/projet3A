@@ -12,13 +12,13 @@ connected = set()
 async def fakeNFCServer():
     i = randrange(1,11)
     if i == 1:
-        print("sending Thibault's fake badge !")
+        print("sending Thibault's badge !")
         badge = {}
-        badge["id"] = "123456789"
+        badge["id"] = "805A4232305704"
     elif i == 6:
         print("sending Louis's fake badge !")
         badge = {}
-        badge["id"] = "101112131"
+        badge["id"] = "805A423A821E04"
     else :
         print("sending nok fake badge !")
         badge = {}

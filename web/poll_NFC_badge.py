@@ -29,7 +29,7 @@ async def nfcPoll():
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
             pass
-        await asyncio.sleep(.5)
+        await asyncio.sleep(.7)
 
 
 async def checkOnce():
