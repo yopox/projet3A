@@ -36,7 +36,6 @@ class Reader(seed: Int) : Reader(seed) {
     }
 
     override fun sync2() {
-        Thread.sleep(200)
         writer.writeObject(1)
         reader.readObject()
     }

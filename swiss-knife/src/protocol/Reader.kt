@@ -67,7 +67,7 @@ abstract class Reader(seed: Int) {
             val (rpI, dt) = measure { receive2() }
             if (rpI) values.c2.set(i)
             values.Dt[i] = dt
-            log("Bit $i : ${dt}ns ~ ${"%.1f".format(dt / 10.0.pow(9) * 300)}m")
+            log("Bit $i : ${dt}ns ~ ${"%.1f".format(dt / 10.0.pow(9) * 150)}m")
         }
 
         endPhase()
