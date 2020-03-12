@@ -243,7 +243,7 @@
         ws = new WebSocket('ws://<%= URI %>:3001');
 
         ws.onopen = function () {
-            ws.send(`{"id":0}`);
+            ws.send(`{"type":0}`);
             ws.onmessage = function (data) {
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 const username = JSON.parse(data.data)["username"];

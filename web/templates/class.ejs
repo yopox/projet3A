@@ -122,10 +122,13 @@
 <script>
     let ws;
     let serverIsON = 0;
+    let classID;
 
     function startServer1() {
 
         console.log("start server 1 button clicked")
+
+        classID = (new Date()).getTime();
         $('#startServer1').prop('disabled', true).addClass("btn-outline-success").removeClass("btn-success");
         $('#stopServer1').prop('disabled', false).addClass("btn-danger").removeClass("btn-secondary");
 
@@ -135,7 +138,7 @@
         ws = new WebSocket('ws://<%= URI %>:3001');
 
         ws.onopen = function () {
-            ws.send(`{"id":1}`);
+            ws.send(`{"type":1,"id":`+ classID +`}`);
             ws.onmessage = function (data) {
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
@@ -179,7 +182,7 @@
         ws = new WebSocket('ws://<%= URI %>:3001');
 
         ws.onopen = function () {
-            ws.send(`{"id":1}`);
+            ws.send(`{"type":2,"id":`+ classID +`}`);
             ws.onmessage = function (data) {
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
