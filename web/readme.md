@@ -21,8 +21,8 @@ This app is separated in 3 pages:
 This page lists all users from the `users.db` sqlite3 database.
 
 You can access it via `http://<URL>/users/<number>/<offset>` where: 
-* number is the number of users to display on the page
-* offset is the offset in the database. 
+* `number` is the number of users to display on the page
+* `offset` is the offset in the database. 
 
 By default, you can access `http://<URL>/users` which will put 25 users on the page with an offset of 0.
 
@@ -42,11 +42,7 @@ After a class is done, this page will recapitulate the presence, at entry and at
 
 ### Node JS
 
-This is an express js application. Just run 
-
-```npm install``` 
-
-in this directory 
+This is an express js application. Just run `npm install` in this directory 
 
 ### Python
 
