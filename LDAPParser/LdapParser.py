@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-import unicodecsv as csv
 import subprocess
-import csv_to_sqlite
 from ldif import LDIFParser,LDIFWriter
 import sqlite3
 import shutil
