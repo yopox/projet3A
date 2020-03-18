@@ -10,8 +10,8 @@ function getDatabase() {
     for (row of rows) {
         let arrayRow = {
             classid: row.classid,
-            entry: row.studentsOnEntry.slice(2,-2).split("', '"),
-            exit: row.studentsOnExit.slice(2,-2).split("', '")
+            entry: row.studentsOnEntry ? row.studentsOnEntry.slice(2, -2).split("', '") : [],
+            exit: row.studentsOnExit ? row.studentsOnExit.slice(2, -2).split("', '") : []
         };
         classes.push(arrayRow);
     }
