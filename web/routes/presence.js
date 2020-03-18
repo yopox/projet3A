@@ -8,7 +8,6 @@ function getDatabase() {
     let classes = [];
     const rows = db.prepare('SELECT * FROM classes').all();
     for (row of rows) {
-        console.log(row.studentsOnEntry.slice(2,-2).split("', '")[0]);
         let arrayRow = {
             classid: row.classid,
             entry: row.studentsOnEntry.slice(2,-2).split("', '"),

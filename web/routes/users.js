@@ -51,7 +51,6 @@ router.get('/:number(10|25|50|100)/:offset([0-9]+)', function (req, res, next) {
 
 
 router.post('/add-user/', function(req, res) {
-    console.log(req.body);
     addUser(req.body);
     res.redirect('/users');
 });

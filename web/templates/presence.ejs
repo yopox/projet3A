@@ -61,6 +61,7 @@
         <tr>
             <th>ClassID</th>
             <th>Entry List</th>
+            <th>SKoWA Verification</th>
             <th>Exit List</th>
         </tr>
         </thead>
@@ -69,22 +70,35 @@
             <tr id="<%= classes[i].classid %>">
                 <th scope="row"><%= classes[i].classid %></th>
                 <td class="entry">
-                    <ul>
-                        <% for(var j = 0 ; j < classes[i].entry.length ; j++) { %>
-                            <li>
-                                <%= classes[i].entry[j] %>
-                            </li>
-                        <% } %>
-                    </ul>
+                    <table class="table">
+                        <tbody>
+                        <% for(var j = 0 ; j < classes[i].entry.length ; j++) {
+                            if(JSON.parse(classes[i].entry[j])["username"] != null) {%>
+                            <tr>
+                                <th>
+                                    <%= JSON.parse(classes[i].entry[j])["username"] %>
+                                </th>
+                            </tr>
+                        <% }} %>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+
                 </td>
                 <td class="exit">
-                    <ul>
-                        <% for(var j = 0 ; j < classes[i].exit.length ; j++) { %>
-                            <li>
-                                <%= classes[i].exit[j] %>
-                            </li>
-                        <% } %>
-                    </ul>
+                    <table class="table">
+                        <tbody>
+                        <% for(var j = 0 ; j < classes[i].exit.length ; j++) {
+                        if(JSON.parse(classes[i].exit[j])["username"] != null) {%>
+                            <tr>
+                                <th>
+                                    <%= JSON.parse(classes[i].exit[j])["username"] %>
+                                </th>
+                            </tr>
+                        <% }} %>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         <% } %>
