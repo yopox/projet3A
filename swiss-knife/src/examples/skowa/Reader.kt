@@ -68,12 +68,7 @@ class Reader(seed: Int) : Reader(seed) {
     }
 
     override fun receive2(): Boolean {
-        val bit = Receiver.receive(8)
-        /*when (bit) {
-            -1 -> log("Timed out :c")
-            1 -> log("Received TRUE")
-            0 -> log("Received FALSE")
-        }*/
+        val bit = Receiver.receive(2)
         return bit == 1
     }
 

@@ -16,9 +16,17 @@ object Receiver {
     const val FREQ_FALSE = 18000
     private const val WIDTH = 300
     private const val frequency = 44100f
-    private const val samplesNb = 1024
+    private const val samplesNb = 256
     private const val T = 1.0 * samplesNb / frequency
     private val format = AudioFormat(frequency, 16, 1, true, true)
+    var microphone: TargetDataLine
+
+    init {
+        microphone = AudioSystem.getTargetDataLine(format)
+        val info = DataLine.Info(TargetDataLine::class.java, format)
+        microphone = AudioSystem.getLine(info) as TargetDataLine
+        microphone.open(format)
+    }
 
     /**
      * Tries to receive a bit [rounds] times.
@@ -35,13 +43,9 @@ object Receiver {
     }
 
     private fun round(): Int {
-        var microphone: TargetDataLine
+
 
         try {
-            microphone = AudioSystem.getTargetDataLine(format)
-            val info = DataLine.Info(TargetDataLine::class.java, format)
-            microphone = AudioSystem.getLine(info) as TargetDataLine
-            microphone.open(format)
             val out = ByteArrayOutputStream()
             var numBytesRead: Int
             val bufferSize = microphone.bufferSize / 5
@@ -81,18 +85,10 @@ object Receiver {
 
     private fun analyse(data: DoubleArray): Int {
 
-        // println("[" + data.joinToString("; ") { "%.4f".format(it) } + "]")
-
-        val signal = data.clone()
-
-        // Mean filter
-        /*for (i in signal.indices) if (i > 0)
-            signal[i] = (signal[i-1] + signal[i]) / 2.0*/
-
         // Windowing
-        for (i in signal.indices) signal[i] *= 0.5 * (1 - cos(2 * Math.PI * i / signal.size))
+        for (i in data.indices) data[i] *= 0.5 * (1 - cos(2 * Math.PI * i / data.size))
 
-        val f = FFT.fft(signal.map { Complex(it, 0.0) }.toTypedArray())
+        val f = FFT.fft(data.map { Complex(it, 0.0) }.toTypedArray())
         val maxDB = f.map { 10 * log10(it.re.pow(2) + it.im.pow(2)) }.withIndex().maxBy { it.value }
 
         maxDB?.let {

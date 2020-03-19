@@ -13,8 +13,8 @@ plugins {
 }
 
 application {
-        mainClassName = 'examples.skowa.SkowaTest'
-    }
+    mainClassName = 'examples.skowa.SkowaTest'
+}
 
 
 // PLUGIN
@@ -23,6 +23,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 */
+
 // COMMON
 repositories {
     mavenCentral()
