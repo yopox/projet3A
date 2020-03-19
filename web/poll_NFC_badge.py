@@ -4,7 +4,7 @@ import time
 import sys
 import asyncio
 import websockets
-import database_NFC_id_checker
+import database_utils
 
 
 mifare = nxppy.Mifare()
@@ -23,13 +23,13 @@ async def nfcPoll():
             badge = {}
             user = {}
             badge["id"] = uid
-            user["username"] = database_NFC_id_checker.databaseChecker(badge["id"])
+            user["username"] = database_utils.databaseChecker(badge["id"])
             user["badgeid"] = badge["id"]
-            return user
+            return json.dumps(user)
         except nxppy.SelectError:
             # SelectError is raised if no card is in the field.
             pass
-        await asyncio.sleep(.5)
+        await asyncio.sleep(.7)
 
 
 async def checkOnce():
@@ -40,26 +40,48 @@ async def checkClass(websocket):
     try:
         while True:
             user = await nfcPoll()
-            users_list.append(user)
-            await websocket.send(json.dumps(user))
+            if (user not in users_list):
+                users_list.append(user)
+            await websocket.send(user)
     finally:
         return users_list
 
 async def handler(websocket, path):
     # Awaiting connection type
     # 0: Once
-    # 1: Class verification
+    # 1: Class Entrance verification
+    # 2: Class Exit Verification
     type_of_connection = await websocket.recv()
     type_of_connection = json.loads(type_of_connection)
-    if type_of_connection["id"] == 0:
+
+    # Once 
+    if type_of_connection["type"] == 0:
         print("Type of connection : once")
+        classID = None
         user = await checkOnce()
         await websocket.send(json.dumps(user))
+
+    # Class Entrance and Exit
+    else :
+        classID = type_of_connection["id"]
+        users = await checkClass(websocket)
+
+
+        file = open("testfile.txt","a") 
+        if (type_of_connection["type"] == 1):
+            print("Type of connection : class entry")
+            database_utils.saveClassEntry(classID,users)
+
+            
+        if (type_of_connection["type"] == 2):
+            print("Type of connection : class exit")
+            database_utils.saveClassExit(classID,users)
+
+
+        file.writelines(["\n" + str(x) for x in users])
+        file.close()
         
-    elif type_of_connection["id"] == 1:
-        print("Type of connection : class")
-        await checkClass(websocket)
-        print("Closing Connection...")
+    print("Closing Connection...")
 
 
 

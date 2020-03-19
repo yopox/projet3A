@@ -3,7 +3,7 @@ import time
 import sys
 import asyncio
 import websockets
-import database_NFC_id_checker
+import database_utils
 from random import randrange
 
 connected = set()
@@ -12,22 +12,22 @@ connected = set()
 async def fakeNFCServer():
     i = randrange(1,11)
     if i == 1:
-        print("sending Thibault's fake badge !")
+        print("sending Thibault's badge !")
         badge = {}
-        badge["id"] = "123456789"
+        badge["id"] = "805A4232305704"
     elif i == 6:
         print("sending Louis's fake badge !")
         badge = {}
-        badge["id"] = "101112131"
+        badge["id"] = "805A423A821E04"
     else :
         print("sending nok fake badge !")
         badge = {}
         badge["id"] = "00000000" + str(i)
     user = {}
-    user["username"] = database_NFC_id_checker.databaseChecker(badge["id"])
+    user["username"] = database_utils.databaseChecker(badge["id"])
     user["badgeid"] = badge["id"]
     await asyncio.sleep(.5)
-    return user
+    return json.dumps(user)
 
 async def checkOnce():
     return await fakeNFCServer()
@@ -37,8 +37,9 @@ async def checkClass(websocket):
     try:
         while True:
             user = await fakeNFCServer()
-            users_list.append(user)
-            await websocket.send(json.dumps(user))
+            if (user not in users_list):
+                users_list.append(user)
+            await websocket.send(user)
     finally:
         return users_list
 
@@ -48,19 +49,35 @@ async def checkClass(websocket):
 async def handler(websocket, path):
     # Awaiting connection type
     # 0: Once
-    # 1: Class verification
+    # 1: Class Entrance verification
+    # 2: Class Exit Verification
     type_of_connection = await websocket.recv()
     type_of_connection = json.loads(type_of_connection)
-    if type_of_connection["id"] == 0:
+
+    # Once 
+    if type_of_connection["type"] == 0:
         print("Type of connection : once")
+        classID = None
         user = await checkOnce()
         await websocket.send(json.dumps(user))
-        
-    elif type_of_connection["id"] == 1:
-        print("Type of connection : class")
-        await checkClass(websocket)
-        print("Closing Connection...")
 
+    # Class Entrance and Exit
+    else :
+        classID = type_of_connection["id"]
+        users = await checkClass(websocket)
+
+
+        if (type_of_connection["type"] == 1):
+            print("Type of connection : class entry")
+            database_utils.saveClassEntry(classID,users)
+
+            
+        if (type_of_connection["type"] == 2):
+            print("Type of connection : class exit")
+            database_utils.saveClassExit(classID,users)
+        
+    print("Closing Connection...")
+    
 
 
 start_server = websockets.serve(handler, "", 3001)

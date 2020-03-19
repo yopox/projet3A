@@ -19,7 +19,12 @@ tr {
   margin-bottom: 16px;
 }
 
-.table td {
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.table > tbody > tr > td > input{
+  position: inherit;
   vertical-align: middle;
 }
 

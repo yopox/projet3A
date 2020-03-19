@@ -5,11 +5,13 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/bootstrap-material-design-icons/css/material-icons.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="/favicon.ico">
     <title>NFC App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,6 +32,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/class">Class<span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/presence">Presence</a>
+            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -41,8 +46,10 @@
 
 <div class="container">
     <div class="row my-4 justify-content-center">
-        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
-        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto" style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-danger-placeholder" class="alert alert-danger fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
     </div>
 
     <h1 class="mt-5">
@@ -51,28 +58,53 @@
 
     <div id="buttons" class="">
         <div id="serverButtons" class="btn-group">
-            <button id="startServer" type="button" class="btn btn-outline-success" onclick="startServer()">
+            <button id="startServer1" type="button" class="btn btn-success" onclick="startServer1()">
                 <i class="mdi mdi-play-arrow"></i>
-                Start Class
+                Start Entry Verification
             </button>
-            <button id="stopServer" type="button" class="btn btn-outline-danger" onclick="stopServer()">
+            <button id="stopServer1" type="button" class="btn btn-secondary" onclick="stopServer1()" disabled>
                 <i class="mdi mdi-stop"></i>
-                Stop Class
+                Stop Entry Verification
+            </button>
+        </div>
+        <div id="serverButtons" class="btn-group">
+            <button id="startServer2" type="button" class="btn btn-secondary" onclick="startServer2()" disabled>
+                <i class="mdi mdi-play-arrow"></i>
+                Start Exit Verification
+            </button>
+            <button id="stopServer2" type="button" class="btn btn-secondary" onclick="stopServer2()" disabled>
+                <i class="mdi mdi-stop"></i>
+                Stop Exit Verification
             </button>
         </div>
     </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="selectPromotion">Promotion</label>
+    <form id="selectPromotionAndDiploma" action="/class/filter" method="post">
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="selectPromotion">Promotion</label>
+                </div>
+                <select multiple class="selectpicker" id="selectPromotion" name="selectPromotion" title="Choose..." form="selectPromotionAndDiploma" data-width="75%">
+                    <% for(i = 0 ; i < promotions.length ; i++) { %>
+                        <option value="<%= promotions[i].promotion %>" name="<%= promotions[i].promotion %>"><%= promotions[i].promotion %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="selectDiplome">Diplome</label>
+                </div>
+                <select multiple class="selectpicker" id="selectDiplome" name="selectDiplome" form="selectPromotionAndDiploma" title="Choose..." data-width="75%">
+                    <% for(i = 0 ; i < diplomes.length ; i++) { %>
+                        <option value="<%= diplomes[i].diplome %>" name="<%= diplomes[i].diplome %>"><%= diplomes[i].diplome %></option>
+                    <% } %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary" value="Submit">Filter</button>
         </div>
-        <select class="custom-select" id="selectPromotion">
-            <option selected>Choose...</option>
-            <% for(var i = 0 ; i < promotions.length ; i++) { %>
-            <option><%=promotions[i].promotion%></option>
-            <% } %>
-        </select>
-    </div>
+    </form>
 
     <table id="tablePreview" class="table table-striped">
         <!--Table head-->
@@ -84,6 +116,8 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Badge ID</th>
+            <th>Entered</th>
+            <th>Exited</th>
         </tr>
         </thead>
         <tbody>
@@ -95,6 +129,13 @@
                 <td><%= users[i].firstname %></td>
                 <td><a href="mailto:<%= users[i].email %>"><%= users[i].email %></a></td>
                 <td><%= users[i].badgeid %></td>
+                <td class="text-center">
+                    <input class="form-check-input entry" id="<%= users[i].username %>-entered" type="checkbox"
+                           disabled>
+                </td>
+                <td class="text-center">
+                    <input class="form-check-input" id="<%= users[i].username %>-exited" type="checkbox" disabled>
+                </td>
             </tr>
         <% } %>
         </tbody>
@@ -104,34 +145,38 @@
 <script>
     let ws;
     let serverIsON = 0;
+    let classID;
 
-    function startServer() {
+    function startServer1() {
 
-        console.log("start server button clicked")
-        document.getElementById("startServer").className = "btn btn-success";
-        $('#startServer').prop('disabled', true);
-        document.getElementById("stopServer").className = "btn btn-outline-danger";
-        $('#stopServer').prop('disabled', false);
+        console.log("start server 1 button clicked")
+
+        classID = (new Date()).getTime();
+        $('#startServer1').prop('disabled', true).addClass("btn-outline-success").removeClass("btn-success");
+        $('#stopServer1').prop('disabled', false).addClass("btn-danger").removeClass("btn-secondary");
+
+        // In case the cache wasn't flushed
+        $('input:checkbox').prop('checked', false);
 
         ws = new WebSocket('ws://<%= URI %>:3001');
 
         ws.onopen = function () {
-            ws.send(`{"id":1}`);
+            ws.send(`{"type":1,"id":` + classID + `}`);
             ws.onmessage = function (data) {
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 if (username) {
                     console.log(username);
                     let myTr = document.getElementById(username);
-                    if (myTr.className.includes("hasTagged")) {
+                    if (myTr.className.includes("hasTaggedOnEntry")) {
                         bootstrap_alert('warning', "User " + username + " was already tagged.", 2000)
 
                     } else {
-                        myTr.style.backgroundColor = "#b8ddaa";
-                        myTr.className += "hasTagged";
+                        myTr.className += "hasTaggedOnEntry";
+                        $('#' + username + '-entered').prop('checked', true);
                     }
                 } else {
-                    bootstrap_alert('danger', "Badge " + badgeid + " doesn't exist.", 2000)
+                    bootstrap_alert('danger', "Badge " + badgeid + " not associated to any user in the database.", 2000)
                 }
 
             }
@@ -142,22 +187,65 @@
 
     }
 
-    function stopServer() {
-        console.log("stop server button clicked")
-        document.getElementById("startServer").className = "btn btn-outline-success";
-        $('#startServer').prop('disabled', false);
-        document.getElementById("stopServer").className = "btn btn-danger";
-        $('#stopServer').prop('disabled', true);
+    function stopServer1() {
+        console.log("stop server 1 button clicked")
+        $('#startServer1').prop('disabled', true).addClass("btn-secondary").removeClass("btn-outline-success");
+        $('#stopServer1').prop('disabled', true).addClass("btn-secondary").removeClass("btn-danger");
+        $('#startServer2').prop('disabled', false).addClass("btn-success").removeClass("btn-secondary");
+        $('#stopServer2').prop('disabled', true).addClass("btn-danger").removeClass("btn-secondary");
+
+        ws.close();
+    }
+
+    function startServer2() {
+        console.log("start server 2 button clicked")
+        $('#startServer2').prop('disabled', true).addClass("btn-outline-success").removeClass("btn-success");
+        $('#stopServer2').prop('disabled', false).addClass("btn-danger");
+
+        ws = new WebSocket('ws://<%= URI %>:3001');
+
+        ws.onopen = function () {
+            ws.send(`{"type":2,"id":` + classID + `}`);
+            ws.onmessage = function (data) {
+                const username = JSON.parse(data.data)["username"];
+                const badgeid = JSON.parse(data.data)["badgeid"];
+                if (username) {
+                    console.log(username);
+                    let myTr = document.getElementById(username);
+                    if (myTr.className.includes("hasTaggedOnExit")) {
+                        bootstrap_alert('warning', "User " + username + " was already tagged.", 2000)
+
+                    } else {
+                        myTr.className += "hasTaggedOnExit";
+                        $('#' + username + '-exited').prop('checked', true);
+                    }
+                } else {
+                    bootstrap_alert('danger', "Badge " + badgeid + " not associated to any user in the database.", 2000)
+                }
+
+            }
+            ws.onclose = function (data) {
+                console.log("closing ws");
+            }
+        }
+    }
+
+    function stopServer2() {
+        console.log("stop server 2 button clicked")
+        $('#startServer1').prop('disabled', false).addClass("btn-success").removeClass("btn-outline-success");
+        $('#startServer2').prop('disabled', true).addClass("btn-secondary").removeClass("btn-outline-success");
+        $('#stopServer2').prop('disabled', true).addClass("btn-secondary").removeClass("btn-danger");
 
         ws.close();
         let allTrs = document.getElementsByTagName("tr");
         for (let theTR of allTrs) {
-            theTR.style.backgroundColor = "";
-            theTR.className -= "hasTagged";
+            theTR.className -= "hasTaggedOnEntry";
+            theTR.className -= "hasTaggedOnExit";
         }
+        $('input:checkbox').prop('checked', false);
     }
 
-    function bootstrap_alert(type,message, timeout) {
+    function bootstrap_alert(type, message, timeout) {
         let alert = document.getElementById("alert-warning-placeholder");
         if (type === 'danger') {
             alert = document.getElementById("alert-danger-placeholder");

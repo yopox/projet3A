@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-import unicodecsv as csv
 import subprocess
-import csv_to_sqlite
 from ldif import LDIFParser,LDIFWriter
 import sqlite3
 import shutil
@@ -17,6 +15,8 @@ ERRORS['mailErrors'] = []
 ERRORS['badgeErrors'] = []
 ERRORS['promotionErrors'] = []
 ERRORS['nedapProfileErrors'] = []
+ERRORS['supannDiplomeErrors'] = []
+
 
 
 class SQLUsersTableWriter():
@@ -38,6 +38,7 @@ class SQLUsersTableWriter():
       affiliations VARCHAR(255),
       primary_affiliation VARCHAR(255),
       nedap_profile VARCHAR(255),
+      supann_diplome VARCHAR(255),
       promotion VARCHAR(255)
     )""")
     print("Table created successfully")
@@ -57,6 +58,7 @@ class SQLUsersTableWriter():
       affiliations,
       primary_affiliation,
       nedap_profile,
+      supann_diplome,
       promotion)
     VALUES (""" + str(self.id) + ',"' + '","'.join([str(x) for x in row]) + '")'
     db.execute(request)
@@ -127,8 +129,14 @@ class MyLDIF(LDIFParser):
     except:
       ERRORS['nedapProfileErrors'].append(str(dn))
       nedapProfile = ""
+    # Supann Diplome
+    try:
+      supannDiplome = [x.decode("utf-8") for x in entry['supannEtuDiplome']]
+    except:
+      ERRORS['supannDiplomeErrors'].append(str(dn))
+      supannDiplome = ""
     # Most of these fields were lists, but with only one member. Let's clean that up ! 
-    toWrite = [cn,nom,prenom,login,mail,badgeNFCID,badgePhysicalID,affiliation,primaryAffiliation,nedapProfile]
+    toWrite = [cn,nom,prenom,login,mail,badgeNFCID,badgePhysicalID,affiliation,primaryAffiliation,nedapProfile,supannDiplome]
     for id,x in enumerate(toWrite) :
       if len(x) == 1:
         toWrite[id] = x[0]
@@ -136,6 +144,8 @@ class MyLDIF(LDIFParser):
     self.writer.writerow(toWrite)
 
 with open('ldap.ldif','rb') as infile:
+  print("Copying DB file...")
+  shutil.copy2("../web/users.db",".")
   print("opening sql table")
   db = sqlite3.connect('users.db')
   print("Opened database successfully")
