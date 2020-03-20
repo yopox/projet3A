@@ -4,6 +4,18 @@
 
 This project is about checking events attendees presence.
 
+### Structure
+
+Here are the different parts of our project :
+
+- `LDAPParser/` : Parses CS LDAP into a SQLite 3 database.
+- `android/` : The Android app (SKoWA tag).
+- `pingtest/` : A `C++` app to measure the distance of a `ping` command.
+- `presentation/` : Our presentations.
+- `sketch/` : Android app design ideas.
+- `swiss-knife/` : `Kotlin` implementation of the Swiss-Knife protocol.
+- `web/` : A `node.js` website to manage NFC user verification.
+
 ## Properties
 
 ### Usage
