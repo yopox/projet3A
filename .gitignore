@@ -31,3 +31,8 @@ swiss-knife/gradle/wrapper/gradle-wrapper.jar
 *.ldif
 *.csv
 LDAPParser/*.db
+presentation/mi-parcours/synthese.synctex.gz
+*.bib
+*.fdb_latexmk
+*.fls
+*.gz

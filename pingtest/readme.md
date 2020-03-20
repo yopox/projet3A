@@ -10,7 +10,8 @@ This C++ program was intended to have a basic understanding of the ping time bet
 
 This is a CMake project. CMake 3.10 or higher is required
 
-```mkdir build
+```
+mkdir build
 cd build
 cmake ..
 cmake --build .
