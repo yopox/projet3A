@@ -36,3 +36,8 @@ presentation/mi-parcours/synthese.synctex.gz
 *.fdb_latexmk
 *.fls
 *.gz
+*.aux
+*.bbl
+*.blg
+*.log
+*.out

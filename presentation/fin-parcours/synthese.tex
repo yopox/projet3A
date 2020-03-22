@@ -159,7 +159,7 @@
 
 \end{frame}
 
-\section{Considérations technologiques}
+\section{Choix technologiques}
 
 \begin{frame}{Résumé des études préliminaires}
 
@@ -176,20 +176,63 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
 
 \end{frame}
 
-\begin{frame}{Choix Technologiques}
+\begin{frame}{Choix Technologiques Globaux}
 
-  \begin{table}[]
-  \begin{tabular}{|l|l|l|}
-  \hline
-  \textbf{Technologie} & \textbf{Avantages}                                                                              & \textbf{Inconvénients}                                                                            \\ \hline
-  NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\end{tabular}           & Portée très courte                                                                                \\ \hline
-  Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs device\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ À délimiter avec des PDD\end{tabular} \\ \hline
-  \end{tabular}
-  \end{table}
+  Solution hybride à base de Wi-Fi, de son et de NFC :
+  \begin{itemize}
+      \item NFC pour vérifier l'entrée et la sortie des élèves dans la salle
+      \item Wi-Fi et son pour vérifier la présence effective pendant le cours (PDD)
+      \item Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
+  \end{itemize}
   
-  \end{frame}
+\end{frame}
+  
+\begin{frame}{Mesure de distance équivalente}
+          
+      Programme en C++ permettant de tester avec un ping :
+      \begin{itemize}
+          \item Localhost
+          \begin{itemize}
+              \item Min : 3 km
+              \item Moyenne : 10 km
+          \end{itemize}
+          \item Routeur d'une résidence étudiante
+          \begin{itemize}
+              \item Min : 100 km
+              \item Moyenne : 140 km
+          \end{itemize}
+      \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{Architecture du système}
+  \centering
+  \includegraphics[height=0.8\textheight]{assets/architecture.png}
+\end{frame}
 
 
+\section{Raspberry Pi}
+
+\begin{frame}{Présentation}
+  \begin{itemize}
+    \item Lecteur NFC géré par une librairie python (NxpPy)
+    \item Backend de l'application web (node JS)
+    \item Base de donnée (SQLite3 pour le développement)
+    \item Parsing du LDAP de CentraleSupélec puis écriture dans la DB
+  \end{itemize}
+
+  
+\end{frame}
+
+\section{Conclusion}
+
+
+
+\begin{frame}{Références}
+  \printbibliography
+\end{frame}
+
+\section{Appendix}
 
 \section{Protocoles délimiteurs de distance}
 
@@ -363,58 +406,20 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
   \end{multicols}
 \end{frame}
 
-\section{Conclusion}
-
-\begin{frame}{Perspectives Technologiques}
-
-Potentielle solution hybride à base de Wi-Fi et de NFC :
-\pause
-\begin{itemize}
-    \item NFC pour vérifier l'entrée et la sortie des élèves dans la salle
-    \pause
-    \item Wi-Fi pour vérifier la présence effective pendant le cours (PDD)
-    \pause
-    \item Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Mesure de distance équivalente}
-        
-    Programme en C++ permettant de tester avec un ping :
-    \begin{itemize}
-        \item Localhost
-        \begin{itemize}
-            \item Min : 3 km
-            \item Moyenne : 10 km
-        \end{itemize}
-        \item Routeur d'une résidence étudiante
-        \begin{itemize}
-            \item Min : 100 km
-            \item Moyenne : 140 km
-        \end{itemize}
-    \end{itemize}
-
-\end{frame}
 
 \begin{frame}{À venir...}
     
-    \begin{itemize}
-        \item Cycle de Développement itératif
-        \item Vérification par NFC    
-        \item Vérification sur la durée : phase rapide du Swiss-Knife par un autre vecteur que le Wi-Fi (Ultrason ?) afin d'assurer :
-        \begin{itemize}
-            \item La présence effective des utilisateurs dans la salle
-            \item Une compensation de la vitesse trop rapide du Wi-Fi et des collisions des paquets
-        \end{itemize}
+  \begin{itemize}
+      \item Cycle de Développement itératif
+      \item Vérification par NFC    
+      \item Vérification sur la durée : phase rapide du Swiss-Knife par un autre vecteur que le Wi-Fi (Ultrason ?) afin d'assurer :
+      \begin{itemize}
+          \item La présence effective des utilisateurs dans la salle
+          \item Une compensation de la vitesse trop rapide du Wi-Fi et des collisions des paquets
+      \end{itemize}
 
-    \end{itemize}
+  \end{itemize}
 
-    
-\end{frame}
-
-\begin{frame}{Références}
-  \printbibliography
 \end{frame}
 
 \end{document}
