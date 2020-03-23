@@ -60,6 +60,7 @@
         <thead>
         <tr>
             <th>ClassID</th>
+            <th>Class Date & Time</th>
             <th>Entry List</th>
             <th>SKoWA Verification</th>
             <th>Exit List</th>
@@ -69,6 +70,13 @@
         <% for(var i = 0 ; i < classes.length ; i++) { %>
             <tr id="<%= classes[i].classid %>">
                 <th scope="row"><%= classes[i].classid %></th>
+                <td>
+                    <% var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                    d.setUTCSeconds(classes[i].classid/1000);
+                    d = d.toLocaleString();
+                    %>
+                    <%=d%>
+                </td>
                 <td class="entry">
                     <table class="table">
                         <tbody>
