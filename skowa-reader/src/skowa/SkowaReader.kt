@@ -14,7 +14,7 @@ import java.util.*
 /**
  * SKoWA (Swiss-Knife over Wifi & Audio) Reader.
  */
-class Reader(seed: Int) : Reader(seed) {
+class SkowaReader(seed: Int) : Reader(seed) {
     override val name = "[Reader]"
     override val hashSize = 256
 
