@@ -20,47 +20,11 @@
     \begin{adjustwidth}{-0.75in}{-1.25in}
     \begin{sequencediagram}
 
-        \newthread{pi}{PI}
-        \newinst[3]{web}{Prof : web}
-        \newinst[3]{kt}{Prof : kt}
-        \newinst[3]{tag}{tag $T$}
+        \newthread{a}{A}
+        \newinst[3]{b}{B}
 
-        \begin{call}{kt}{./skowa : listens on port 9998}{kt}{}
-        \begin{call}{web}{POST /start1 $\lbrace ip: IP \rbrace$ }{pi}{}
+        \begin{call}{a}{A to B}{b}{Return}
         \end{call}
-
-        \begin{call}{pi}{Start NFC 1}{pi}{}
-
-            \begin{call}{tag}{GET /prof-ip}{pi}{$\lbrace ip: IP \rbrace$}
-            \end{call}
-
-            \begin{call}{web}{POST /stop1}{pi}{OK}
-            \end{call}
-            
-        \end{call}
-
-        \begin{call}{web}{SKoWA for tag $T$}{web}{}
-
-        \begin{call}{tag}{SKoWA phase 1}{kt}{}
-        \end{call}
-
-        \begin{call}{tag}{SKoWA phase 2}{kt}{}
-        \end{call}
-
-        \begin{call}{tag}{SKoWA phase 3}{kt}{}
-            \begin{call}{kt}{$(t_B, (c'_i), N_A, N_B)$}{web}{Found}
-                \begin{call}{web}{POST /skowaSearch}{pi}{Found user $ID$}
-                \end{call}
-            \end{call}
-
-            \begin{call}{kt}{SKoWA results}{web}{}
-            \end{call}
-        \end{call}
-
-
-        \end{call}
-        \end{call}
-            
 
     \end{sequencediagram}
     \end{adjustwidth}
