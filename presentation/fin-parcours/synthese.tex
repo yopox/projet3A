@@ -23,7 +23,10 @@
 \usepackage{xcolor}
 \usepackage{verbatim}
 \usepackage{textcomp}
+\usepackage{chngpage}
 \usepackage{csquotes}
+\usepackage{pgfplots}
+\usepackage{pgf-umlsd}
 \usepackage[backend=biber]{biblatex}
 \usepackage{pgfplots}
 \usepackage{pgf-umlsd}
@@ -36,11 +39,11 @@
 \institute{CentraleSupélec}
 \date{26 mars 2020}
 
-\AtBeginSection[]
+\AtBeginSubsection[]
 {
   \begin{frame}
   \frametitle{Sommaire}
-  \tableofcontents[currentsection]
+  \tableofcontents[currentsubsection]
   \end{frame}
 }
 
@@ -331,6 +334,183 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
 \end{frame}
 
 \section{SKoWA}
+
+\subsection{Swiss-Knife}
+
+\begin{frame}{Le protocole Swiss-Knife}
+  Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
+
+  \bigskip
+
+  \begin{itemize}
+    \item Authentification
+    \item Résistance aux mafia fraud et terrorist fraud
+    \item Faible complexité algorithmique
+    \item Faible taux de faux positifs
+    \item Confidentialité
+    \item Résistance aux erreurs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Le protocole Swiss-Knife}
+  
+  \centering
+  \begin{tikzpicture}
+
+      % Partie 1
+      \draw (-3, 2) rectangle (3, 0.5);
+      \node [above, blue] at (0, 1.25) {Phase de préparation};
+      \node at (0, 1) {Initialisation, réponses};
+
+
+      \draw (-3, 0) rectangle (3, -1.5);
+      \node [above, blue] at (0, -0.75) {Phase rapide};
+      \node at (0, -1) {$m$ questions / réponses};
+
+      \draw (-3, -2) rectangle (3, -3.5);
+      \node [above, blue] at (0, -2.75) {Phase de vérification};
+      \node at (0, -3) {Vérification};
+
+  \onslide<1->
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Librairie .jar : Structure}
+  Structure de la librairie
+\end{frame}
+
+\begin{frame}{Phase de préparation}
+  \begin{multicols}{2}
+    \begin{minipage}[c]{\linewidth}
+      \centering
+      \bigskip
+      \medskip
+      \includegraphics[width=\linewidth]{../assets/sk-phase1.png}
+    \end{minipage}
+
+    \begin{minipage}[t]{\linewidth}
+      \begin{enumerate}
+        \item Le lecteur choisit un nonce $N_A$, et $d$ un nombre avec $m$ bits 1.
+        \item Le tag choisit un nonce $N_B$, et calcule $a = f_x(C_B, N_B)$ avec sa clé secrète $x$ et $N_B$. ($C_B$ est une constante)
+        \item Le tag calcule $Z_0 = a$, $Z_1 = a \oplus x$. Il prépare ensuite les réponses possibles $R_0$ et $R_1$ selon le masque $d$.
+        \item Le tag envoie $N_B$ au lecteur.
+      \end{enumerate}
+    \end{minipage}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}{Phase rapide}
+  \begin{figure}[!htb]
+    \centering
+
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../assets/reader2}
+    \end{minipage}%
+    \begin{minipage}{.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../assets/tag2}
+    \end{minipage}
+
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Phase de vérification}
+  \begin{multicols}{2}
+    \begin{minipage}[c]{\linewidth}
+      \centering
+      \bigskip
+      \bigskip
+      \bigskip
+      \includegraphics[width=\linewidth]{../assets/sk-phase3}
+    \end{minipage}
+
+    \begin{minipage}[t]{\linewidth}
+      \begin{enumerate}
+        \item Le tag envoie $t_B = f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
+        \item Le lecteur cherche dans sa base de tags jusqu'à trouver $(ID, x)$ générant $t_B$.
+        \item Le lecteur calcule $R^0$ et $R^1$.
+        \item Le lecteur compte les erreurs, si il y en a plus de $T$, échec.
+        \item (optionnel) Le lecteur envoie $t_A := f_x(N_B)$ puis le tag le vérifie.
+      \end{enumerate}
+    \end{minipage}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}{Fonctions abstraites du Tag}
+  \centering
+  \includegraphics[width=.75\linewidth]{../assets/tagAbs}
+\end{frame}
+
+\begin{frame}{Fonctions abstraites du Reader}
+  \centering
+  \includegraphics[width=.95\linewidth]{../assets/readerAbs}
+\end{frame}
+
+\begin{frame}{Librairie .jar : Test unitaire}
+  LocalhostTest
+\end{frame}
+
+\begin{frame}{Librairie .jar : Utilisation}
+  Comment on va utiliser la librairie : SKoWA
+\end{frame}
+
+\subsection{Application Android}
+
+\begin{frame}{Application Android : Fonctionnalités}
+  
+  \begin{itemize}
+    \item Voir ses cours de la journée
+    \item Adhérer à la vérification de présence
+    \item Effectuer le SKoWA
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Maquette de l'application}
+  \begin{adjustwidth}{-1.8em}{2em}
+    \centering
+    \includegraphics[width=1.1\linewidth]{../assets/maquette.png}
+  \end{adjustwidth}
+\end{frame}
+
+\begin{frame}{App actuelle}
+  
+  \begin{itemize}
+    \item Liste de cours (custom RecyclerView / Adapter)
+    \item Test Audio
+    \item SKoWA tag
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation du Swiss-Knife}
+  Détails de l'implémentation
+\end{frame}
+
+\subsection{SKoWA Reader}
+
+\begin{frame}{SKoWA Reader : Fonctionnalités}
+  
+  \begin{itemize}
+    \item Vérifier un tag
+    \item Logs
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation du Swiss-Knife}
+  Détails de l'implémentation
+\end{frame}
+
+\begin{frame}{Traitement du signal}
+  Détails de l'implémentation
+\end{frame}
+
+\begin{frame}{Résultats}
+  Vidéo du SKoWA
+\end{frame}
 
 \section{Perspectives}
 
