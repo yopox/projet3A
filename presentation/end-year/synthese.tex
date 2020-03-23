@@ -30,6 +30,7 @@
 \usepackage[backend=biber]{biblatex}
 \usepackage{pgfplots}
 \usepackage{pgf-umlsd}
+\usepackage{caption}
 \addbibresource{synthese.bib}
 \usetikzlibrary{arrows}
 
@@ -515,22 +516,22 @@
 
 \begin{frame}{Fonctions abstraites du Tag}
   \centering
-  \includegraphics[width=.75\linewidth]{../assets/tagAbs}
+  \includegraphics[height=\textheight]{../assets/tagAbs}
 \end{frame}
 
 \begin{frame}{Fonctions abstraites du Reader}
   \centering
-  \includegraphics[width=.95\linewidth]{../assets/readerAbs}
+  \includegraphics[height=\textheight]{../assets/readerAbs}
 \end{frame}
 
 \begin{frame}{Librairie Swiss-Knife : Test unitaire}
   \centering
-  \includegraphics[width=.65\linewidth]{../assets/uml_test}
+  \includegraphics[height=.9\textheight]{../assets/uml_test}
 \end{frame}
 
 \begin{frame}{Librairie Swiss-Knife : Test unitaire}
   \centering
-  \includegraphics[width=.9\linewidth]{../assets/uml_test_detail}
+  \includegraphics[height=.9\textheight]{../assets/uml_test_detail}
 \end{frame}
 
 \begin{frame}{Librairie Swiss-Knife : Notre utilisation}
@@ -558,7 +559,7 @@
 \begin{frame}{Maquette de l'application}
   \begin{adjustwidth}{-1.8em}{2em}
     \centering
-    \includegraphics[width=1.1\linewidth]{../assets/maquette.png}
+    \includegraphics[width=1.1\textwidth]{../assets/maquette.png}
   \end{adjustwidth}
 \end{frame}
 
@@ -573,18 +574,18 @@
   \end{minipage}%
   \begin{minipage}{.3\textwidth}
     \centering
-    \includegraphics[width=.7\linewidth]{../assets/android1}
+    \includegraphics[height=.8\textheight]{../assets/android1}
   \end{minipage}%
   \begin{minipage}{.3\textwidth}
     \centering
-    \includegraphics[width=.7\linewidth]{../assets/android2}
+    \includegraphics[height=.8\textheight]{../assets/android2}
   \end{minipage}
 
 \end{frame}
 
 \begin{frame}{Traitement du signal}
   \centering
-  \includegraphics[width=.6\linewidth]{../assets/uml_signal}
+  \includegraphics[height=.9\textheight]{../assets/uml_signal}
 \end{frame}
 
 \begin{frame}{Traitement du signal : rounds}
@@ -656,17 +657,42 @@
 
 \end{frame}
 
-\begin{frame}{Implémentation du Swiss-Knife}
-  Détails de l'implémentation
+\begin{frame}{Implémentation}
+  \centering
+  \includegraphics[height=.9\textheight]{../assets/uml_skowa_reader}
 \end{frame}
 
 \begin{frame}{Résultats}
-  Vidéo du SKoWA
+  Démo enregistrée du SKoWA.
 \end{frame}
 
 \section{Perspectives}
 
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=.9\textheight]{../assets/seq.png}
+    \captionsetup{labelformat=empty}
+    \caption{Mise en commun : diagramme de séquence}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Pour continuer...}
+
+  \begin{itemize}
+    \item Améliorer le traitement du signal
+    \item Mettre en commun la partie NFC et le SKoWA
+    \item Vérifier les nouvelles normes Wi-Fi
+    \item Finaliser l'application Android
+  \end{itemize}  
+
+\end{frame}
+
 \section{Conclusion}
+
+\begin{frame}{Conclusion}
+
+\end{frame}
 
 
 \begin{frame}{Références}

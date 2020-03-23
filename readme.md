@@ -1,4 +1,4 @@
-# projet3A
+# End-of-studies project : distance bounding protocols
 
 ## Introduction
 
@@ -11,9 +11,9 @@ Here are the different parts of our project :
 - `LDAPParser/` : Parses CS LDAP into a SQLite 3 database.
 - `android/` : The Android app (SKoWA tag).
 - `pingtest/` : A `C++` app to measure the distance of a `ping` command.
-- `presentation/` : Our presentations.
+- `presentation/` : Our presentations (FR). `mid-year/` explains our objectives, and `end-year` explains our work.
 - `sketch/` : Android app design ideas.
-- `swiss-knife/` : `Kotlin` implementation of the Swiss-Knife protocol (git submodule).
+- `swiss-knife/` : `Kotlin` library of the Swiss-Knife protocol.
 - `skowa-reader/` : `Kotlin` implementation of a Swiss-Knife reader using Wi-Fi & audio. 
 - `web/` : A `node.js` website to manage NFC user verification.
 
@@ -56,6 +56,8 @@ To prevent the following attacks, we are using a distance-bounding protocol.
 ### Swiss-Knife over Wi-Fi and Audio (SKoWA)
 
 We use the [Swiss-Knife protocol](http://www.avoine.net/rfid/download/papers/KimAKSP-2008-icisc.pdf) over Wi-Fi and audio. The second phase (rapid bit exchange) cannot be done via traditional Wi-Fi systems because it is too fast to measure distance with ~10 meters accuracy.
+
+We made a [library](https://www.github.com/yopox/swiss-knife) which makes it possible to implement Swiss-Knife tags and readers easily. `skowa-reader/` is a desktop SKoWA reader implementation, and `android/` is an Android SKoWA tag implementation. 
 
 ## References
 

@@ -13,7 +13,7 @@ class SkowaTest {
             //receiveTest()
 
             // SKoWA receiver
-            Reader((0..9999999).random()).start()
+            SkowaReader((0..9999999).random()).start()
         }
 
         fun receiveTest() {
