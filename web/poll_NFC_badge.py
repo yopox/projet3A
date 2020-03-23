@@ -10,26 +10,25 @@ import database_utils
 mifare = nxppy.Mifare()
 
 async def nfcPoll():
-    while True:
-        try:
-            uid = mifare.select()
-            print("found badge !")
-            if (len(uid)%2 != 0 ):
-                uid = str(0) + uid
-            new_uid = ""
-            for i in range(len(uid)//2) :
-                new_uid = uid[int(2*i)] + uid[int(2*i+1)] + new_uid
-            uid = new_uid
-            badge = {}
-            user = {}
-            badge["id"] = uid
-            user["username"] = database_utils.databaseChecker(badge["id"])
-            user["badgeid"] = badge["id"]
-            return json.dumps(user)
-        except nxppy.SelectError:
-            # SelectError is raised if no card is in the field.
-            await asyncio.sleep(.7)
-            return None
+    try:
+        uid = mifare.select()
+        print("found badge !")
+        if (len(uid)%2 != 0 ):
+            uid = str(0) + uid
+        new_uid = ""
+        for i in range(len(uid)//2) :
+            new_uid = uid[int(2*i)] + uid[int(2*i+1)] + new_uid
+        uid = new_uid
+        badge = {}
+        user = {}
+        badge["id"] = uid
+        user["username"] = database_utils.databaseChecker(badge["id"])
+        user["badgeid"] = badge["id"]
+        return json.dumps(user)
+    except nxppy.SelectError:
+        # SelectError is raised if no card is in the field.
+        await asyncio.sleep(.7)
+        return None
         
 
 
