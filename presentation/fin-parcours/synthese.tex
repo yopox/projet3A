@@ -42,17 +42,13 @@
 \AtBeginSubsection[]
 {
   \begin{frame}
-  \frametitle{Sommaire}
-  \tableofcontents[currentsubsection]
-  \end{frame}
-}
-
-\AtBeginSubsection[]
-{
-  \begin{frame}
-  \frametitle{Sommaire}
-  \tableofcontents[currentsubsection]
-  \end{frame}
+    \frametitle{Sommaire}
+    \tableofcontents[
+        currentsection,
+        sectionstyle=show/shaded,
+        subsectionstyle=show/shaded/hide
+    ]
+    \end{frame}
 }
 
 \begin{document}
@@ -233,6 +229,15 @@
 
 \section{Raspberry Pi}
 
+\begin{frame}
+    \frametitle{Sommaire}
+    \tableofcontents[
+      currentsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=show/shaded/hide
+    ]
+\end{frame}
+
 \begin{frame}{Présentation}
     Le raspberry Pi a plusieurs utilités dans notre projet, et sert de serveur pour certains composants.
     \begin{itemize}
@@ -364,12 +369,42 @@
 
 \subsection{LDAP Parser}
 
-\begin{frame}{Présentation}
-
+\begin{frame}{Présentation du parser LDAP}
+    Parser les fichier LDIF extraits du LDAP de l'école.
+    \begin{itemize}
+        \item Création des fichiers LDIF à partir du LDAP de l'école
+        \item Utilisation de la librairie python-ldap
+        \item Ecriture dans la BDD Sqlite3
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.45\textwidth]{../assets/ldapparserarchitecture.png}
+    \end{figure}
 \end{frame}
 
-\begin{frame}{Champs récupérés}
+\begin{frame}{Champs Récupérés}
+   Voici les champs récupérés dès qu'ils existent dans le LDAP de l'école :
+   \begin{itemize}
+       \item cn (sous la forme \textit{Nom Prénom})
+       \item lastname
+       \item firstname
+       \item username
+       \item email
+       \item badge\_id (l'ID NFC du badge étudiant ou de la carte pro)
+       \item skowa\_id (un identifiant unique pour le SKoWA)
+       \item affiliations (student, member, teacher, ...)
+       \item primary\_affiliation (l'affiliation principale)
+       \item nedap\_profile (student, employee)
+       \item supann\_diplome (IS\_3A, ...)
+       \item promotion (SIS, 2A, ...)
+   \end{itemize}
+\end{frame}
 
+\begin{frame}{Récapitulatif de l'architecture}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.45\textwidth]{../assets/architectureraspberrypi.png}
+    \end{figure}
 \end{frame}
 
 \section{SKoWA}
