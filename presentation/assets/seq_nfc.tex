@@ -1,0 +1,115 @@
+\documentclass{report}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgf-umlsd}
+\usepackage{chngpage}
+
+\usepackage[utf8]{inputenc} 
+
+\begin{document}
+    
+\begin{figure}
+    \centering
+    \begin{adjustwidth}{-0.75in}{-1.25in}
+    \begin{sequencediagram}
+        \newthread{f}{Front}
+        \newinst[1]{h}{Handler}
+        \newinst[1]{c}{Checker}
+        \newinst[1]{p}{Poller}
+        \newinst[2]{d}{DB\_utils}
+
+        \begin{call}{f}{Type = 0}{h}{user}
+        \begin{call}{h}{checkOnce()}{c}{user}
+            \begin{call}{c}{nfcPoll()}{p}{user}
+                \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
+                    
+                \end{call}{p}{MiFare.select()}{p}
+                \begin{call}{p}{dbChecker(uid)}{d}{user}
+                \end{call}
+            \end{call}
+        \end{call}
+      \end{call}{f}
+            
+
+    \end{sequencediagram}
+    \end{adjustwidth}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{adjustwidth}{-0.75in}{-1.25in}
+    \begin{sequencediagram}
+        \newthread{f}{Front}
+        \newinst[2]{h}{Handler}
+        \newinst[2]{c}{Checker}
+        \newinst[2]{p}{Poller}
+        \newinst[2]{d}{DB\_utils}
+
+        \begin{messcall}{f}{Type=1, classID}{h}
+            \begin{call}{h}{checkClass(websocket)}{c}{users}
+                \begin{sdblock}{Poll Loop}{}
+                    \begin{call}{c}{nfcPoll()}{p}{user}
+                        \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
+                        \end{call}{p}{MiFare.select()}{p}
+                        
+                        \begin{call}{p}{dbChecker(uid)}{d}{user}
+                        \end{call}
+                    \end{call}
+
+                    \begin{call}{c}{Add user to users}{c}{}
+                    \end{call}
+
+                    \mess[1]{c}{user}{f}
+                \end{sdblock}
+            \end{call}
+            \begin{call}{h}{saveClassEntry(classID,users)}{d}{}
+            \end{call}
+        \end{messcall}
+            
+    \end{sequencediagram}
+    \end{adjustwidth}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{adjustwidth}{-0.75in}{-1.25in}
+    \begin{sequencediagram}
+        \newthread{f}{Front}
+        \newinst[2]{h}{Handler}
+        \newinst[2]{c}{Checker}
+        \newinst[2]{p}{Poller}
+        \newinst[2]{d}{DB\_utils}
+
+        \begin{messcall}{f}{Type=2, classID}{h}
+            \begin{call}{h}{checkClass(websocket)}{c}{users}
+                \begin{sdblock}{Poll Loop}{}
+                    \begin{call}{c}{nfcPoll()}{p}{user}
+                        \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
+                        \end{call}{p}{MiFare.select()}{p}
+                        
+                        \begin{call}{p}{dbChecker(uid)}{d}{user}
+                        \end{call}
+                    \end{call}
+
+                    \begin{call}{c}{Add user to users}{c}{}
+                    \end{call}
+
+                    \mess[1]{c}{user}{f}
+                \end{sdblock}
+            \end{call}
+            \begin{call}{h}{saveClassExit(classID,users)}{d}{}
+            \end{call}
+        \end{messcall}
+            
+    \end{sequencediagram}
+    \end{adjustwidth}
+\end{figure}
+
+\end{document}
