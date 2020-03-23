@@ -20,7 +20,9 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage{verbatim}
 \usepackage{textcomp}
+\usepackage{csquotes}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{synthese.bib}
 \usetikzlibrary{arrows}
@@ -193,14 +195,22 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
       \begin{itemize}
           \item Localhost
           \begin{itemize}
-              \item Min : 3 km
-              \item Moyenne : 10 km
+              \item Min : \SI{3}{\kilo\meter} 
+              \item Moyenne : \SI{10}{\kilo\meter} 
           \end{itemize}
           \item Routeur d'une résidence étudiante
           \begin{itemize}
-              \item Min : 100 km
-              \item Moyenne : 140 km
+              \item Min : \SI{100}{\kilo\meter} 
+              \item Moyenne : \SI{140}{\kilo\meter} 
           \end{itemize}
+      \end{itemize}
+
+      \bigskip
+
+      Implémentation du Swiss-Knife en localhost :
+      \begin{itemize}
+          \item Min : \SI{24}{\kilo\meter} 
+          \item Moyenne : \SI{39}{\kilo\meter} 
       \end{itemize}
   
 \end{frame}

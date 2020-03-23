@@ -13,7 +13,8 @@ Here are the different parts of our project :
 - `pingtest/` : A `C++` app to measure the distance of a `ping` command.
 - `presentation/` : Our presentations.
 - `sketch/` : Android app design ideas.
-- `swiss-knife/` : `Kotlin` implementation of the Swiss-Knife protocol.
+- `swiss-knife/` : `Kotlin` implementation of the Swiss-Knife protocol (git submodule).
+- `skowa-reader/` : `Kotlin` implementation of a Swiss-Knife reader using Wi-Fi & audio. 
 - `web/` : A `node.js` website to manage NFC user verification.
 
 ## Properties
