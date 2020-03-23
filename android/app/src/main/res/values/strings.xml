@@ -3,7 +3,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="course">Cours</string>
     <string name="schedule">Emploi du temps</string>
-    <string name="profile">Swiss-Knife</string>
+    <string name="profile">Skowa Tag</string>
     <string name="password">Mot de passe</string>
     <string name="connexion">Connexion</string>
     <string name="mail">Adresse mail</string>
@@ -18,7 +18,7 @@
     <string name="initiate_ping_pong_button">Initier Ping Pong</string>
     <string name="receive">Recevoir</string>
     <string name="send">Envoyer</string>
-    <string name="received_text">Texte Reçu</string>
+    <string name="received_text">Booléen Reçu</string>
     <string name="message_to_send">Message à Envoyer</string>
     <string name="ping_success_sent">Ping envoyé</string>
     <string name="send_error">Erreur d\'envoi</string>

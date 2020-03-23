@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        bottom_navigation.setOnNavigationItemSelectedListener(navigationListener)
-        currentFragment = ScheduleFragment.newInstance()
 
-        openFragment(currentFragment)
+        bottom_navigation.setOnNavigationItemSelectedListener(navigationListener)
+
+        bottom_navigation.selectedItemId = R.id.navigation_profil
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 200)
     }
@@ -86,46 +86,6 @@ class MainActivity : AppCompatActivity() {
     fun reader(view: View) {
         val rand = Random(System.currentTimeMillis())
         val r = DroidReader(rand.nextInt(), results)
-        //r.init(p_ip.editText!!.text.toString().toInt(), this)
     }
 
-    fun pingPongEmitter(view: View) {
-        pingTV.text = ""
-        pongTV.text = ""
-        val payload = "ping"
-        val start = System.currentTimeMillis()
-        sendTrue(view)
-        println("Emitter emitted Ping")
-        pingTV.text = getString(R.string.ping_success_sent)
-        pingTV.setTextColor(getColor(R.color.colorAccent))
-
-        val receivedText = Receiver.receive(10)
-        println("Emitter got '$receivedText' (should be False)")
-        if (receivedText >= 0) {
-            val elapsed = System.currentTimeMillis() - start
-            val distance = elapsed * 340 / 2000
-            timeTV.text = "$distance m"
-            pongTV.text = getString(R.string.pong_succes_received)
-            pongTV.setTextColor(getColor(R.color.colorAccent))
-        } else {
-            pongTV.text = getString(R.string.pong_error_received)
-            pongTV.setTextColor(getColor(R.color.colorPrimaryDark))
-        }
-    }
-
-    fun pingPongReceiver(view: View) {
-        pingTV.text = ""
-        pongTV.text = ""
-        val payload = "pong"
-        val receivedText = Receiver.receive(10)
-        println("Receiver got '$receivedText' (should be True)")
-        if (receivedText >= 0) {
-            pingTV.text = getString(R.string.ping_success_received)
-            pingTV.setTextColor(getColor(R.color.colorAccent))
-        } else {
-            pingTV.text = getString(R.string.ping_error_received)
-            pingTV.setTextColor(getColor(R.color.colorPrimaryDark))
-        }
-        Sender.playSound(false)
-    }
 }

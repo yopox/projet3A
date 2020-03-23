@@ -11,6 +11,9 @@ import java.io.ObjectOutputStream
 import java.net.Socket
 import java.util.*
 
+/**
+ * Skowa tag implementation.
+ */
 class DroidTag : Tag() {
     override val name = "DroidTag"
     override val privateKey = sha256(easyBitSet("1110"))
