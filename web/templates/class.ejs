@@ -163,6 +163,8 @@
         ws.onopen = function () {
             ws.send(`{"type":1,"id":` + classID + `}`);
             ws.onmessage = function (data) {
+                // Ignoring the connection check issued by the python script
+                if (data.data === "") return;
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 if (username) {
@@ -207,6 +209,8 @@
         ws.onopen = function () {
             ws.send(`{"type":2,"id":` + classID + `}`);
             ws.onmessage = function (data) {
+                // Ignoring the connection check issued by the python script
+                if (data.data === "") return;
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 if (username) {

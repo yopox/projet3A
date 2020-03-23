@@ -72,14 +72,24 @@
                 <td class="entry">
                     <table class="table">
                         <tbody>
-                        <% for(var j = 0 ; j < classes[i].entry.length ; j++) {
-                            if(JSON.parse(classes[i].entry[j])["username"] != null) {%>
-                            <tr>
-                                <th>
-                                    <%= JSON.parse(classes[i].entry[j])["username"] %>
-                                </th>
-                            </tr>
-                        <% }} %>
+                        <% if  (classes[i].entry.length == 0) {%>
+                            <i>No students</i>
+                        <%} else {
+                            for(var j = 0 ; j < classes[i].entry.length ; j++) {
+                                // In case the list is empty
+                                try {
+                                    if(JSON.parse(classes[i].entry[j])["username"] != null) {%>
+                                    <tr>
+                                        <th>
+                                            <%= JSON.parse(classes[i].entry[j])["username"] %>
+                                        </th>
+                                    </tr>
+                                <% }
+                                } catch(e) {%>
+                                <i>No students</i>
+                            <%  }
+                            }
+                        }%>
                         </tbody>
                     </table>
                 </td>
@@ -89,14 +99,24 @@
                 <td class="exit">
                     <table class="table">
                         <tbody>
-                        <% for(var j = 0 ; j < classes[i].exit.length ; j++) {
-                        if(JSON.parse(classes[i].exit[j])["username"] != null) {%>
-                            <tr>
-                                <th>
-                                    <%= JSON.parse(classes[i].exit[j])["username"] %>
-                                </th>
-                            </tr>
-                        <% }} %>
+                        <% if  (classes[i].exit.length == 0) {%>
+                            <i>No students</i>
+                        <%} else {
+                            // In case the list is empty
+                            try {
+                                for(var j = 0 ; j < classes[i].exit.length ; j++) {
+                                    if(JSON.parse(classes[i].exit[j])["username"] != null) {%>
+                                        <tr>
+                                            <th>
+                                                <%= JSON.parse(classes[i].exit[j])["username"] %>
+                                            </th>
+                                        </tr>
+                                    <% }
+                                }
+                            } catch(e) {%>
+                                <i>No students</i>
+                        <%  }
+                        } %>
                         </tbody>
                     </table>
                 </td>
