@@ -3,9 +3,9 @@ package fr.centralesupelec.db.skowa
 import android.util.Log
 import fr.centralesupelec.db.audio.Receiver
 import fr.centralesupelec.db.audio.Sender
-import protocol.Tag
-import protocol.Values
-import protocol.Values.Companion.easyBitSet
+import fr.yopox.swiss_knife.Tag
+import fr.yopox.swiss_knife.Values
+import fr.yopox.swiss_knife.Values.Companion.easyBitSet
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.Socket

@@ -1,4 +1,4 @@
-package protocol
+package fr.yopox.swiss_knife
 
 import java.util.*
 import kotlin.math.pow
@@ -6,9 +6,15 @@ import kotlin.math.pow
 class Values {
 
     companion object {
-        const val m = 8
-        const val T = 4
+        // Protocol parameters
+        var m = 8 // Rounds nb
+        var T = 2 // Errors allowed
+        var speed = 300 // Rapid phase speed in m/s
+
+        // System constant
         val C_B = easyBitSet("1001010010010100")
+
+        // Maximum reception length allowed
         val tMax = 10.0.pow(9)
 
         fun join(bitsets: Array<BitSet>): BitSet {

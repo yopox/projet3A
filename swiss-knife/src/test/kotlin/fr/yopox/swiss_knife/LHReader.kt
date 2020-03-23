@@ -1,8 +1,6 @@
-package examples.localhost
+package fr.yopox.swiss_knife
 
-import protocol.Reader
-import protocol.Values
-import protocol.Values.Companion.easyBitSet
+import fr.yopox.swiss_knife.Values.Companion.easyBitSet
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket
@@ -18,17 +16,17 @@ class LHReader(seed: Int) : Reader(seed) {
             easyBitSet("001") to sha256(easyBitSet("1101")),
             easyBitSet("111") to sha256(easyBitSet("1010"))
     )
-    private val client: Socket
-    private val server: Socket
+
+    private val socket: Socket
     private val writer: ObjectOutputStream
     private val reader: ObjectInputStream
 
     init {
-        val s = ServerSocket(9991)
-        server = s.accept()
-        reader = ObjectInputStream(server.getInputStream())
-        client = Socket("localhost", 9990)
-        writer = ObjectOutputStream(client.getOutputStream())
+        val s = ServerSocket(9990)
+        socket = s.accept()
+        log("Socket accepted.")
+        reader = ObjectInputStream(socket.getInputStream())
+        writer = ObjectOutputStream(socket.getOutputStream())
     }
 
     override fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>? {
@@ -79,7 +77,6 @@ class LHReader(seed: Int) : Reader(seed) {
     override fun send3(value: BitSet) {
         writer.writeObject(value)
 
-        client.close()
-        server.close()
+        socket.close()
     }
 }

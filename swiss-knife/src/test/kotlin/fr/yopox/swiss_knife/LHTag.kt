@@ -1,30 +1,25 @@
-package examples.localhost
+package fr.yopox.swiss_knife
 
-import examples.localhost.sha256
-import protocol.Tag
-import protocol.Values
-import protocol.Values.Companion.easyBitSet
+import fr.yopox.swiss_knife.Values.Companion.easyBitSet
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 
-class LHTag(seed: Int) : Tag() {
+class LHTag() : Tag() {
     override val name = "[Tag]"
     override val privateKey = sha256(easyBitSet("1010"))
     override val ID = easyBitSet("111")
 
-    private val client = Socket("localhost", 9991)
-    private val server: Socket
+    private val socket: Socket
     private val writer: ObjectOutputStream
     private val reader: ObjectInputStream
 
     init {
-        writer = ObjectOutputStream(client.getOutputStream())
-        val s = ServerSocket(9990)
-        server = s.accept()
-        reader = ObjectInputStream(server.getInputStream())
+        socket = Socket("localhost", 9990)
+        writer = ObjectOutputStream(socket.getOutputStream())
+        reader = ObjectInputStream(socket.getInputStream())
     }
 
     override fun genNB(): BitSet = sha256(easyBitSet("11011001"))
@@ -57,8 +52,7 @@ class LHTag(seed: Int) : Tag() {
 
     override fun receive3(): BitSet {
         val b = reader.readObject() as BitSet
-        client.close()
-        server.close()
+        socket.close()
         return b
     }
 }

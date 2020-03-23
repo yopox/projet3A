@@ -1,4 +1,4 @@
-package examples.skowa.audio
+package skowa.audio
 
 import kotlin.math.*
 

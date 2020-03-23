@@ -1,8 +1,8 @@
-package examples.skowa
+package skowa
 
-import examples.skowa.audio.Receiver
-import examples.skowa.audio.Sender
-import kotlin.random.Random
+import skowa.audio.Receiver
+import java.security.MessageDigest
+import java.util.*
 
 class SkowaTest {
 
@@ -24,6 +24,10 @@ class SkowaTest {
         }
     }
 
-
 }
 
+fun sha256(bs: BitSet): BitSet {
+    val crypt = MessageDigest.getInstance("SHA-256")
+    crypt.reset()
+    return BitSet.valueOf(crypt.digest(bs.toByteArray()))
+}

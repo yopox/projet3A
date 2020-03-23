@@ -1,20 +1,26 @@
-package protocol
+package fr.yopox.swiss_knife
 
-import protocol.Values.Companion.prettyPrint
+import fr.yopox.swiss_knife.Values.Companion.prettyPrint
 import java.util.*
 import kotlin.math.pow
 import kotlin.random.Random
 
 abstract class Reader(seed: Int) {
 
+    data class Status(val accepted: Boolean, val ID: BitSet? = null, val errors: Int = 0)
+
     abstract val name: String
     abstract val hashSize: Int
     private val random = Random(seed)
     var values = Values()
+    var status: Status = Status(false)
 
-    fun start() {
+    fun start(): Boolean {
         values = Values()
         slowPhase()
+        rapidPhase()
+        endPhase()
+        return status.accepted
     }
 
     private fun slowPhase() {
@@ -39,8 +45,6 @@ abstract class Reader(seed: Int) {
         // Receive N_B
         values.N_B = receive1()
         log("Received ${Values.bitSetToStr(values.N_B)}")
-
-        rapidPhase()
     }
 
     private inline fun <R> measure(block: () -> R): Pair<R, Long> {
@@ -67,10 +71,8 @@ abstract class Reader(seed: Int) {
             val (rpI, dt) = measure { receive2() }
             if (rpI) values.c2.set(i)
             values.Dt[i] = dt
-            log("Bit $i : ${dt}ns ~ ${"%.1f".format(dt / 10.0.pow(9) * 150)}m")
+            log("Bit $i : ${dt}ns\t${"%.1f".format(dt / 10.0.pow(9) * Values.speed)}m")
         }
-
-        endPhase()
     }
 
     abstract fun sync2()
@@ -127,10 +129,12 @@ abstract class Reader(seed: Int) {
             // Tag accepted
             log("Tag accepted with $errors errors.")
             accept(ID)
+            status = Status(true, ID, errors)
         } else {
             // Tag rejected
             log("Tag rejected with $errors errors.")
             reject(ID)
+            status = Status(false, ID, errors)
         }
 
         // Send tA

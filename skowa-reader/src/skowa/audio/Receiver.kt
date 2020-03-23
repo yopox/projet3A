@@ -1,4 +1,4 @@
-package examples.skowa.audio
+package skowa.audio
 
 import java.io.ByteArrayOutputStream
 import java.lang.Integer.min

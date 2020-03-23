@@ -1,4 +1,4 @@
-package examples.skowa.audio
+package skowa.audio
 
 import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioSystem

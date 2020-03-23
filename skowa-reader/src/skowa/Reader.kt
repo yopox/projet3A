@@ -1,11 +1,10 @@
-package examples.skowa
+package skowa
 
-import examples.localhost.sha256
-import examples.skowa.audio.Receiver
-import examples.skowa.audio.Sender
-import protocol.Reader
-import protocol.Values
-import protocol.Values.Companion.easyBitSet
+import skowa.audio.Receiver
+import skowa.audio.Sender
+import fr.yopox.swiss_knife.Reader
+import fr.yopox.swiss_knife.Values
+import fr.yopox.swiss_knife.Values.Companion.easyBitSet
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket

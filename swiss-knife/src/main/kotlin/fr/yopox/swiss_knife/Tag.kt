@@ -1,4 +1,4 @@
-package protocol
+package fr.yopox.swiss_knife
 
 import java.util.*
 
@@ -12,6 +12,8 @@ abstract class Tag {
     fun start() {
         values = Values()
         slowPhase()
+        rapidPhase()
+        endPhase()
     }
 
     private fun slowPhase() {
@@ -38,12 +40,12 @@ abstract class Tag {
         // Send N_B
         log("Sending N_B")
         send1(values.N_B)
-
-        rapidPhase()
     }
 
     private fun rapidPhase() {
         log("Starting rapid phase.")
+
+        // TODO: 1 Fake exchange ([send2] is slower the first time it is called ???)
 
         for (i in 0 until Values.m) {
 
@@ -57,10 +59,7 @@ abstract class Tag {
 
             // Send rI
             if (cpI) send2(values.R1[i]) else send2(values.R0[i])
-
         }
-
-        endPhase()
     }
 
     abstract fun sync2()
