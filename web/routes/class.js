@@ -32,7 +32,10 @@ function getDatabaseFilter(promotions,diplomas,number,offset) {
     // Let's make sure there are promotions and diplomas !
     if (promotions.length > 0 || diplomas.length > 0) request += 'WHERE ';
 
+    // This is the parameter list
     let params = [];
+    // Add the "promotion LIKE ? OR promotion LIKE ?" for each diploma
+    // Also add the parameter for each
     if (promotions.length > 0) {
         request += 'promotion LIKE ? ';
         params.push("%" + promotions[0] + "%");
@@ -41,6 +44,9 @@ function getDatabaseFilter(promotions,diplomas,number,offset) {
             params.push("%" + promotions[i + 1] + "%");
         }
     }
+
+    // Add the "AND supann_diplome LIKE ? OR supann_diplome LIKE ?" for each diploma
+    // Also add the parameter for each
     if (diplomas.length > 0) {
         if (promotions.length > 0) request += 'AND ';
         request +='supann_diplome LIKE ? ';
@@ -53,9 +59,11 @@ function getDatabaseFilter(promotions,diplomas,number,offset) {
     }
     request += 'ORDER BY lastname ASC LIMIT ? OFFSET ?';
     console.log(request);
+    // Let's add number and offset as SQL parameters
     params.push(number);
     params.push(offset);
     console.log(params);
+    // this is our final query
     const rows = db.prepare(request).all(params);
     for (row of rows) {
         let arrayRow = {
@@ -78,6 +86,7 @@ function getPromotions() {
     let promotions = [];
     const rows = db.prepare('SELECT DISTINCT promotion FROM users ORDER BY promotion ASC').all();
     for (row of rows) {
+        // If it is a list, we return each and every element once
         if (row.promotion[0] === "[") {
             let arrayRow = row.promotion.slice(2, -2).split("', '");
             for (let element of arrayRow) {
@@ -85,7 +94,9 @@ function getPromotions() {
                     promotions.push(element);
                 }
             }
-        } else {
+        }
+        // If it isn't a list, only return one element
+        else {
             let element = row.promotion;
             if (!promotions.includes(element)) {
                 promotions.push(element);
@@ -102,6 +113,7 @@ function getSupAnn() {
     let diplomes = [];
     const rows = db.prepare('SELECT DISTINCT supann_diplome FROM users ORDER BY supann_diplome ASC').all();
     for (row of rows) {
+        // If it is a list, we return each and every element once
         if (row.supann_diplome[0] === "[") {
             let arrayRow = row.supann_diplome.slice(2, -2).split("', '");
             for (let element of arrayRow) {
@@ -109,7 +121,9 @@ function getSupAnn() {
                     diplomes.push(element);
                 }
             }
-        } else {
+        }
+        // If it isn't a list, only return one element
+        else {
             let element = row.supann_diplome;
             if (!diplomes.includes(element)) {
                 diplomes.push(element);
@@ -138,12 +152,17 @@ router.post('/filter', function(req, res) {
     // If they are string, let's create lists
     if (typeof promotions === "string") {
         promotions = [promotions];
-    } else if (typeof promotions === "undefined") {
+    }
+    //If they are empty, let's create empty lists
+    else if (typeof promotions === "undefined") {
         promotions = [];
     }
+    // If they are string, let's create lists
     if (typeof diplomas === "string") {
         diplomas = [diplomas];
-    } else if (typeof diplomas === "undefined") {
+    }
+    //If they are empty, let's create empty lists
+    else if (typeof diplomas === "undefined") {
         diplomas = [];
     }
 
@@ -152,7 +171,6 @@ router.post('/filter', function(req, res) {
     res.locals.users = getDatabaseFilter(promotions,diplomas,100,0);
     res.locals.promotions = getPromotions();
     res.locals.diplomes = getSupAnn();
-
     res.render(__dirname + '/../templates/class.ejs', {URI: uri});
 });
 
