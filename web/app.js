@@ -7,8 +7,8 @@ const bodyParser  = require('body-parser');
 
 let spawn = require("child_process").spawn;
 console.log("starting temporary server !");
-pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
-//pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
+//pythonProcess = spawn('python3', ["./fake_NFC_badge.py"]);
+pythonProcess = spawn('python3',["./poll_NFC_badge.py"] );
 pythonProcess.stdout.on('data', function (data) {
     //console.log(data.toString());
 });

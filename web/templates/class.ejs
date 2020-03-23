@@ -50,6 +50,8 @@
              style="display:block; position: fixed; opacity: 0"></div>
         <div id="alert-warning-placeholder" class="alert alert-warning fade mx-auto"
              style="display:block; position: fixed; opacity: 0"></div>
+        <div id="alert-success-placeholder" class="alert alert-success fade mx-auto"
+             style="display:block; position: fixed; opacity: 0"></div>
     </div>
 
     <h1 class="mt-5">
@@ -163,6 +165,8 @@
         ws.onopen = function () {
             ws.send(`{"type":1,"id":` + classID + `}`);
             ws.onmessage = function (data) {
+                // Ignoring the connection check issued by the python script
+                if (data.data === "") return;
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 if (username) {
@@ -172,6 +176,7 @@
                         bootstrap_alert('warning', "User " + username + " was already tagged.", 2000)
 
                     } else {
+                        bootstrap_alert('success', "User " + username + " tagged.", 2000)
                         myTr.className += "hasTaggedOnEntry";
                         $('#' + username + '-entered').prop('checked', true);
                     }
@@ -207,6 +212,8 @@
         ws.onopen = function () {
             ws.send(`{"type":2,"id":` + classID + `}`);
             ws.onmessage = function (data) {
+                // Ignoring the connection check issued by the python script
+                if (data.data === "") return;
                 const username = JSON.parse(data.data)["username"];
                 const badgeid = JSON.parse(data.data)["badgeid"];
                 if (username) {
@@ -216,6 +223,7 @@
                         bootstrap_alert('warning', "User " + username + " was already tagged.", 2000)
 
                     } else {
+                        bootstrap_alert('success', "User " + username + " tagged.", 2000)
                         myTr.className += "hasTaggedOnExit";
                         $('#' + username + '-exited').prop('checked', true);
                     }
@@ -249,6 +257,8 @@
         let alert = document.getElementById("alert-warning-placeholder");
         if (type === 'danger') {
             alert = document.getElementById("alert-danger-placeholder");
+        } else if (type === 'success') {
+            alert = document.getElementById("alert-success-placeholder");
         }
         alert.innerText = message;
         alert.style.opacity = "1";
