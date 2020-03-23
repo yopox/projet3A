@@ -88,9 +88,13 @@
                     <label class="input-group-text" for="selectPromotion">Promotion</label>
                 </div>
                 <select multiple class="selectpicker" id="selectPromotion" name="selectPromotion" title="Choose..." form="selectPromotionAndDiploma" data-width="75%">
-                    <% for(i = 0 ; i < promotions.length ; i++) { %>
-                        <option value="<%= promotions[i].promotion %>" name="<%= promotions[i].promotion %>"><%= promotions[i].promotion %></option>
-                    <% } %>
+                    <% for(i = 0 ; i < promotions.length ; i++) {
+                        if (promotions[i] === "") {%>
+                        <option value="<%= promotions[i] %>" name="<%= promotions[i] %>" disabled><%= promotions[i] %></option>
+                    <%} else { %>
+                            <option value="<%= promotions[i] %>" name="<%= promotions[i] %>"><%= promotions[i] %></option>
+                    <%  }
+                    }%>
                 </select>
             </div>
 
@@ -100,7 +104,7 @@
                 </div>
                 <select multiple class="selectpicker" id="selectDiplome" name="selectDiplome" form="selectPromotionAndDiploma" title="Choose..." data-width="75%">
                     <% for(i = 0 ; i < diplomes.length ; i++) { %>
-                        <option value="<%= diplomes[i].diplome %>" name="<%= diplomes[i].diplome %>"><%= diplomes[i].diplome %></option>
+                        <option value="<%= diplomes[i] %>" name="<%= diplomes[i] %>"><%= diplomes[i] %></option>
                     <% } %>
                 </select>
             </div>
