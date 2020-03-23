@@ -45,7 +45,7 @@ To prevent the following attacks, we are using a distance-bounding protocol.
 ### Attacks
 
 <p align="center">
-  <img src="presentation/mi-parcours/assets/schema.svg">
+  <img src="presentation/assets/schema.svg">
 </p>
 
 - *Distance fraud* : A tag outside of the zone manages to be verified.

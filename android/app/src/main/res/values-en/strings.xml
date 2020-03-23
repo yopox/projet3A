@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">DB</string>
     <string name="audio_test">Audio Test</string>
-    <string name="profile">Swiss-Knife</string>
+    <string name="profile">Skowa Tag</string>
     <string name="password">Password</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -17,7 +17,7 @@
     <string name="initiate_ping_pong_button">Initiate Ping Pong</string>
     <string name="receive">Receive</string>
     <string name="send">Send</string>
-    <string name="received_text">Received Text</string>
+    <string name="received_text">Received Boolean</string>
     <string name="message_to_send">Message to Send</string>
     <string name="ping_success_sent">Ping sent</string>
     <string name="send_error">Send error</string>
@@ -27,6 +27,6 @@
     <string name="pong_error_received">Error when receiving pong</string>
     <string name="pong_error_received_retry">Error when receiving pong, retry</string>
     <string name="ping_error_received">Error when receiving ping</string>
-    <string name="send_true">Vrai</string>
-    <string name="send_false">Faux</string>
+    <string name="send_true">True</string>
+    <string name="send_false">False</string>
 </resources>

@@ -15,6 +15,10 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 
+/**
+ * Skowa reader implementation.
+ * Unused.
+ */
 class DroidReader(seed: Int, val textView: TextView) : Reader(seed) {
     override val name = "DroidReader"
     override val hashSize = 256
