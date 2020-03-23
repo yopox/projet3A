@@ -32,7 +32,6 @@ swiss-knife/gradle/wrapper/gradle-wrapper.jar
 *.csv
 LDAPParser/*.db
 presentation/mi-parcours/synthese.synctex.gz
-*.bib
 *.fdb_latexmk
 *.fls
 *.gz
