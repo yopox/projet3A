@@ -143,7 +143,7 @@
     \node [right, orange] at (3,3) {E};
     \draw [->, thick, dashed, line width=1.2, orange] (2.85,2.85) -- (1.45,1.45);
     \draw [->, thick, line width=1.2, orange] (1.15,1.15) -- (0.35,0.35);
-    \node [right, orange] at (6, 0) {Attaque relai (tiers abusé)};
+    \node [right, orange] at (6, 0.5) {Attaque relai (tiers abusé)};
 
     \pause
 
@@ -363,7 +363,7 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
       \node at (0, 1) {Initialisation, réponses};
 
 
-      \draw (-3, 0) rectangle (3, -1.5);
+      \draw (-3, 0.5) rectangle (3, -1.5);
       \node [above, blue] at (0, -0.75) {Phase rapide};
       \node at (0, -1) {$m$ questions / réponses};
 
@@ -376,8 +376,9 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
 
 \end{frame}
 
-\begin{frame}{Librairie .jar : Structure}
-  Structure de la librairie
+\begin{frame}{Librairie Swiss-Knife : Structure}
+  \centering
+  \includegraphics[width=.8\linewidth]{../assets/uml_jar.png}
 \end{frame}
 
 \begin{frame}{Phase de préparation}
@@ -448,12 +449,24 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
   \includegraphics[width=.95\linewidth]{../assets/readerAbs}
 \end{frame}
 
-\begin{frame}{Librairie .jar : Test unitaire}
-  LocalhostTest
+\begin{frame}{Librairie Swiss-Knife : Test unitaire}
+  \centering
+  \includegraphics[width=.65\linewidth]{../assets/uml_test}
 \end{frame}
 
-\begin{frame}{Librairie .jar : Utilisation}
-  Comment on va utiliser la librairie : SKoWA
+\begin{frame}{Librairie Swiss-Knife : Test unitaire}
+  \centering
+  \includegraphics[width=.9\linewidth]{../assets/uml_test_detail}
+\end{frame}
+
+\begin{frame}{Librairie Swiss-Knife : Notre utilisation}
+  SKoWA : Swiss-Knife Over Wi-Fi and Audio
+  \bigskip
+
+  \begin{itemize}
+    \item On utilise un socket pour les phases 1 et 3
+    \item On utilise du son pour la phase 2
+  \end{itemize}
 \end{frame}
 
 \subsection{Application Android}
@@ -476,17 +489,86 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
 \end{frame}
 
 \begin{frame}{App actuelle}
-  
-  \begin{itemize}
-    \item Liste de cours (custom RecyclerView / Adapter)
-    \item Test Audio
-    \item SKoWA tag
-  \end{itemize}
+
+    \begin{minipage}{.4\textwidth}
+        \begin{itemize}
+          \item Liste de cours (custom RecyclerView / Adapter)
+          \item Test Audio
+          \item SKoWA tag
+        \end{itemize}
+    \end{minipage}%
+    \begin{minipage}{.3\textwidth}
+        \centering
+        \includegraphics[width=.7\linewidth]{../assets/android1}
+    \end{minipage}%
+    \begin{minipage}{.3\textwidth}
+        \centering
+        \includegraphics[width=.7\linewidth]{../assets/android2}
+    \end{minipage}
 
 \end{frame}
 
-\begin{frame}{Implémentation du Swiss-Knife}
-  Détails de l'implémentation
+\begin{frame}{Traitement du signal}
+  \centering
+  \includegraphics[width=.6\linewidth]{../assets/uml_signal}
+\end{frame}
+
+\begin{frame}{Traitement du signal : rounds}
+  \centering
+  \begin{tikzpicture}
+
+      \draw (-3, 1) rectangle (-1, 0);
+      \node at (-2, 0.5) {-1};
+
+      \draw (-1, 1) rectangle (1, 0);
+      \node at (0, 0.5) {-1};
+
+      \draw (1, 1) rectangle (3, 0);
+      \node [blue] at (2, 0.5) {1};
+
+      \draw (3, 1) rectangle (5, 0);
+      \node at (4, 0.5) {};
+
+  \onslide<1->
+  \end{tikzpicture}
+
+  \medskip
+
+  \begin{tikzpicture}
+
+      \draw (-3, 1) rectangle (-1, 0);
+      \node at (-2, 0.5) {-1};
+
+      \draw (-1, 1) rectangle (1, 0);
+      \node [blue] at (0, 0.5) {0};
+
+      \draw (1, 1) rectangle (3, 0);
+      \node at (2, 0.5) {};
+
+      \draw (3, 1) rectangle (5, 0);
+      \node at (4, 0.5) {};
+
+  \onslide<1->
+  \end{tikzpicture}
+
+  \medskip
+
+  \begin{tikzpicture}
+
+      \draw (-3, 1) rectangle (-1, 0);
+      \node at (-2, 0.5) {-1};
+
+      \draw (-1, 1) rectangle (1, 0);
+      \node at (0, 0.5) {-1};
+
+      \draw (1, 1) rectangle (3, 0);
+      \node at (2, 0.5) {-1};
+
+      \draw (3, 1) rectangle (5, 0);
+      \node [red] at (4, 0.5) {-1};
+
+  \onslide<1->
+  \end{tikzpicture}
 \end{frame}
 
 \subsection{SKoWA Reader}
@@ -501,10 +583,6 @@ Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plus
 \end{frame}
 
 \begin{frame}{Implémentation du Swiss-Knife}
-  Détails de l'implémentation
-\end{frame}
-
-\begin{frame}{Traitement du signal}
   Détails de l'implémentation
 \end{frame}
 
