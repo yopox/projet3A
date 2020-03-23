@@ -63,7 +63,16 @@
         </button>
     </div>
 
-
+    <div>
+        <select id="table-row-number">
+            <option id="option10" name="10" value="10">10</option>
+            <option id="option25" name="25" value="25">25</option>
+            <option id="option50" name="50" value="50">50</option>
+            <option id="option100" name="100" value="100">100</option>
+        </select>
+        <button id="previous-page" onclick="previousPage()"><i class="mdi mdi-chevron-left"></i></button>
+        <button id="next-page" onclick="nextPage()"><i class="mdi mdi-chevron-right"></i></button>
+    </div>
     <table id="users-table" class="table table-striped">
         <!--Table head-->
         <thead>
@@ -213,6 +222,8 @@
 <script>
     let ws;
     let serverIsON = 0;
+    let number = 0;
+    let offset = 0;
 
     function delUser(id) {
         console.log("del user " + id +" button clicked")
@@ -220,10 +231,38 @@
 
     // Basic example
     $(document).ready(function () {
-        $('#users-table').DataTable({
-            "paging": "first_last_numbers" // false to disable pagination (or any other option)
-        });
-        $('.dataTables_length').addClass('bs-select');
+        const pathname = window.location.pathname;
+        console.log(pathname);
+        if (pathname === "/users" || pathname === "/users/") {
+            $("#previous-page").prop('disabled', true);
+            number = 25;
+            offset = 0;
+        } else if (/^(\/users\/(10|25|50|100)\/?)$/.test(pathname)) {
+            number = pathname.split('/')[2];
+            offset = 0;
+            $("#previous-page").prop('disabled', true);
+        } else if (/^(\/users\/(10|25|50|100)\/([0-9]+)(\/?))$/.test(pathname)) {
+            number = parseInt(pathname.split('/')[2]);
+            offset = parseInt(pathname.split('/')[3]);
+            if (offset < number) {
+                $("#previous-page").prop('disabled', true);
+            }
+        }
+        $("#table-row-number").val(number);
+
+    });
+
+    function nextPage() {
+        window.location.href = "http://<%= URI %>:3000/users/" + number.toString() +"/" + (parseInt(offset)+parseInt(number)).toString();
+    }
+
+    function previousPage() {
+        window.location.href = "http://<%= URI %>:3000/users/" + number.toString() +"/" + (parseInt(offset)-parseInt(number)).toString();
+    }
+
+    $(document).on('change','#table-row-number',function(){
+        number = $("#table-row-number").val();
+        window.location.href = "http://<%= URI %>:3000/users/" + number.toString() +"/" + (offset).toString();
     });
 
     function editUser(id) {
