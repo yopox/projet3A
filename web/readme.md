@@ -44,6 +44,12 @@ After a class is done, this page will recapitulate the presence, at entry and at
 
 This is an express js application. Just run `npm install` in this directory 
 
+### Bootstrap material design icons
+
+After running `npm install`, you may need to run the following command from the root of the projectunder a linux terminal to make sure that a simlink is created to the public folder, which holds all the static stuff :
+
+```ln -sr web/node_modules/bootstrap-material-design-icons web/public```
+
 ### Python
 
 You will need the following packages which can be installed via pip :
