@@ -34,8 +34,10 @@
 \usepackage{caption}
 \usepackage{hyperref}
 \usepackage[title]{appendix}
+\usepackage{xcolor}
 \addbibresource{synthese.bib}
 \usetikzlibrary{arrows}
+
 
 \title{Développement d'une solution cryptographique permettant de vérifier la présence ou l'absence à un événement}
 \subtitle{Soutenance de fin de projet}
@@ -614,22 +616,11 @@
 
 \section{Perspectives}
 
-\begin{frame}
-  \begin{figure}
-    \centering
-    \includegraphics[height=.9\textheight]{../assets/seq.png}
-    \captionsetup{labelformat=empty}
-    \caption{Mise en commun : diagramme de séquence}
-  \end{figure}
-\end{frame}
+\subsection{Raspberry Pi}
 
-\begin{frame}{Pour continuer...}
+\begin{frame}{A Faire sur le raspberry pi}
 
   \begin{itemize}
-    \item Améliorer le traitement du signal
-    \item Mettre en commun la partie NFC et le SKoWA
-    \item Vérifier les nouvelles normes Wi-Fi
-    \item Finaliser l'application Android
     \item Améliorer le filtrage de l'interface web
     \item Améliorer l'ergonomie générale de l'interface web (user friendliness)
     \item Intégrer le calendrier de l'école pour chaque User
@@ -637,9 +628,49 @@
 
 \end{frame}
 
+\subsection{SKoWA}
+
+\begin{frame}{A Faire sur le SKoWA}
+
+  \begin{itemize}
+    \item Améliorer le traitement du signal
+    \item Vérifier les nouvelles normes Wi-Fi
+    \item Finaliser l'application Android
+    \item Mettre en commun la partie NFC et le SKoWA
+    \item Vérification simultanée de plusieurs tags (150 élèves dans une classe)
+  \end{itemize}  
+
+\end{frame}
+
+\subsection{Mise en commun}
+
+\begin{frame}
+  \begin{minipage}{.7\textwidth}
+    \begin{figure}
+      \centering
+      \includegraphics[height=.9\textheight]{../assets/seq.png}
+      \captionsetup{labelformat=empty}
+      \caption{Mise en commun : diagramme de séquence}
+    \end{figure}
+  \end{minipage}%
+  \begin{minipage}{.3\textwidth}
+    Les parties surlignées sont déjà implémentées.
+  \end{minipage}
+  
+\end{frame}
+
 \section{Conclusion}
 
-\begin{frame}{Conclusion}
+\begin{frame}
+  \frametitle{Sommaire}
+  \tableofcontents[
+      currentsection,
+      sectionstyle=show/shaded,
+      subsectionstyle=hide/hide/hide
+  ]
+\end{frame}
+
+\begin{frame}{Conclusion 1/2}
   Projet très vaste, beaucoup de facettes pas forcément simples à interfacer.
   
   \bigskip
@@ -649,6 +680,17 @@
     \centering
     \includegraphics[width=\textwidth]{../assets/languages.png}
   \end{figure}
+\end{frame}
+
+\begin{frame}{Conclusion 2/2}
+  Notre solution reste au stade de POC. 
+
+  L'utilisation de la NFC comme "signature digitale" à l'entrée et à la sortie de l'amphi est assez efficace, et remplace sans trop de complications les méthodes de signatures actuelles. 
+
+  L'idée d'utiliser des Protocoles Délimiteurs de Distance est très intéressante car elle permet de s'assurer de la présence continue d'un utilisateur dans un environnement délimité. 
+
+  Reste à débattre sur le sujet de l'utilisation du son. La technologie est assez prometteuse, et on trouve un certain nombre d'applications dans la littérature et de brevets (Cisco Proximity, \href{https://github.com/ganny26/awesome-audioqr}{Audio QR\footnote{\url{https://github.com/ganny26/awesome-audioqr}}}, Indoor GPS), mais reste difficile à implémenter.
+
 \end{frame}
 
 \begin{frame}{Références}
