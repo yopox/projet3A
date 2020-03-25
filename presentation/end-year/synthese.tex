@@ -291,21 +291,18 @@
   \begin{figure}[]
     \includegraphics[height=.9\textheight]{../assets/nfcSeqOnce.png}
   \end{figure}
-
 \end{frame}
 
 \begin{frame}{Type 1 (Verification à l'entrée)}
   \begin{figure}[]
     \includegraphics[height=.9\textheight]{../assets/nfcSeqEntry.png}
   \end{figure}
-
 \end{frame}
 
 \begin{frame}{Type 2 (Vérification à la sortie)}
   \begin{figure}[]
     \includegraphics[height=.9\textheight]{../assets/nfcSeqExit.png}
   \end{figure}
-
 \end{frame}
 
 \subsection{Application Web}
@@ -332,27 +329,6 @@
     \item \textbf{Class :} Gestion de l'appel en Amphi
     \item \textbf{Presence :} Révision à posteriori de la présence
   \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \begin{figure}
-    \centering
-    \includegraphics[height=.9\textheight]{../assets/capture_page_users.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \begin{figure}
-    \centering
-    \includegraphics[height=.9\textheight]{../assets/capture_page_class.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \begin{figure}
-    \centering
-    \includegraphics[height=.9\textheight]{../assets/capture_page_presence.png}
-  \end{figure}
 \end{frame}
 
 \begin{frame}{Démonstration}
@@ -677,7 +653,6 @@
   \printbibliography
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%   Appendix   %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -687,7 +662,7 @@
 \appendix
 
 % Renew toc command
-\AtBeginSubsection[]
+\AtBeginSection[]
 {
   \begin{frame}
     \frametitle{Sommaire des Annexes}
@@ -705,177 +680,30 @@
   Annexes
 \end{frame}
 
+\section{Appli web}
 
-\section{Protocoles délimiteurs de distance}
-
-\subsection{Présentation}
-
-\begin{frame}{Les Protocoles délimiteurs de distance}
-Les Distance Bounding Protocols, ou Protocoles Délimiteurs de Distance, sont des protocoles de sécurité qui permettent à un vérificateur $V$ de s'assurer qu'un prouveur $P$ se trouve à une distance bornée et définie de lui-même. \cite{wiki:pdd}
-
-\bigskip
-
-\begin{itemize}
-\item Introduits par Brands \& Chaum, en 1993 \cite{DB1}
-\item Détermine la borne supérieure de la distance avec un appareil
-\item Calculs basés sur la vitesse de déplacement d'une OEM (30 cm en 1 ns)
-
-\item Problème : la vitesse de déplacement d'une OEM est proche de celle d'un calcul dans un CPU
-\end{itemize}
-
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=.9\textheight]{../assets/capture_page_users.png}
+  \end{figure}
 \end{frame}
 
-\subsection{Attaques}
-
-\begin{frame}{Attaques sur les protocoles délimiteurs de distance}
-
-En 2009, un article formalise les différentes attaques. \cite{attack}
-
-\medskip
-
-\begin{center}
-\begin{tikzpicture}
-    % Zone
-    \draw [black, thick, dotted] (0,0) circle [radius=2.25];
-
-    % Lecteur
-    \draw [fill] (0,0) circle [radius=0.05];
-    \node [above] at (0,0.2) {Lecteur};
-
-    \pause
-
-    % Distance fraud
-    \draw [fill, gray] (3,0) circle [radius=0.05];
-    \node [right, gray] at (3,0) {Tag};
-    \draw [->, thick, line width=1.2, gray] (2.75,0) -- (0.5,0);
-    \node [right, gray] at (4.5,2) {Distance fraud};
-
-    \pause
-
-    % Mafia fraud
-    \draw [fill, cyan] (1.32, -0.44) circle [radius=0.05];
-    \node [below, cyan] at (1.32, -0.54) {A};
-    \draw [fill, cyan] (3,-1) circle [radius=0.05];
-    \node [right, cyan] at (3,-1) {Tag};
-    \draw [->, thick, dashed, line width=1.2, cyan] (2.79,-0.93) -- (1.51,-0.5);
-    \draw [->, thick, line width=1.2, cyan] (1.1,-0.37) -- (0.47,-0.16);
-    \node [right, cyan] at (4.5,1) {Mafia fraud};
-
-    \pause
-
-    % Terrorist fraud
-    \draw [fill, orange] (1.32, 0.44) circle [radius=0.05];
-    \node [above, orange] at (1.32, 0.54) {A};
-
-    \draw [fill, orange] (3,1) circle [radius=0.05];
-    \node [right, orange] at (3,1) {Tag};
-    \draw [->, thick, dashed, line width=1.2, orange] (2.79,0.93) -- (1.51,0.5);
-    \draw [->, thick, line width=1.2, orange] (1.1,0.37) -- (0.47,0.16);
-    \node [right, orange] at (4.5,0) {Terrorist fraud};
-
-    \pause
-
-    % Impersonation fraud
-    \draw [red, thick] (-1.32,-0.44) circle [radius=0.3];
-    \node [below, red] at (-1.32, -0.74) {A};
-    \draw [fill, red] (-1.17,-0.44) circle [radius=0.05];
-    \draw [fill, red] (-1.32,-0.29) circle [radius=0.05];
-    \draw [fill, red] (-1.47,-0.44) circle [radius=0.05];
-    \draw [fill, red] (-1.32,-0.44) circle [radius=0.05];
-    \draw [fill, red] (-1.32,-0.59) circle [radius=0.05];
-    \draw [->, thick, line width=1.2, red] (-1.04,-0.35) -- (-0.47,-0.16);
-    \node [right, red] at (4.5,-1) {Impersonation fraud};
-
-    % Impersonation fraud
-    \draw [fill, olive] (-1.32, 0.44) circle [radius=0.05];
-    \node [above, olive] at (-1.32, 0.44) {A};
-    \draw [->, thick, line width=1.2, olive] (-1.1,0.37) -- (-0.47,0.16);
-    \node [right, olive] at (4.5,-2) {Impersonation fraud};
-
-\onslide<1->
-\end{tikzpicture}
-\end{center}
-
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=.9\textheight]{../assets/capture_page_class.png}
+  \end{figure}
 \end{frame}
 
-\subsection{Un protocole : Swiss-Knife}
-
-\begin{frame}{Un protocole : Swiss-Knife}
-  Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
-
-  \bigskip
-
-  \begin{itemize}
-    \item Authentification
-    \item Résistance aux mafia fraud et terrorist fraud
-    \item Faible complexité algorithmique
-    \item Faible taux de faux positifs
-    \item Confidentialité
-    \item Résistance aux erreurs
-  \end{itemize}
-
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=.9\textheight]{../assets/capture_page_presence.png}
+  \end{figure}
 \end{frame}
 
-
-\begin{frame}{Première phase : phase de préparation}
-  \begin{multicols}{2}
-    \begin{minipage}[c]{\linewidth}
-      \centering
-      \bigskip
-      \medskip
-      \includegraphics[width=\linewidth]{../assets/sk-phase1.png}
-    \end{minipage}
-
-    \begin{minipage}[t]{\linewidth}
-      \begin{enumerate}
-        \item Le lecteur choisit un nonce $N_A$, et $d$ un nombre avec $m$ bits 1.
-        \item Le tag choisit un nonce $N_B$, et calcule $a = f_x(C_B, N_B)$ avec sa clé secrète $x$ et $N_B$. ($C_B$ est une constante)
-        \item Le tag calcule $Z_0 = a$, $Z_1 = a \oplus x$. Il prépare ensuite les réponses possibles $R_0$ et $R_1$ selon le masque $d$.
-        \item Le tag envoie $N_B$ au lecteur.
-      \end{enumerate}
-    \end{minipage}
-  \end{multicols}
-\end{frame}
-
-\begin{frame}{Seconde phase : phase rapide}
-  \begin{multicols}{2}
-    \begin{minipage}[c]{\linewidth}
-      \centering
-      \bigskip
-      \includegraphics[width=\linewidth]{../assets/sk-phase2.png}
-    \end{minipage}
-
-    \begin{minipage}[t]{\linewidth}
-      \begin{enumerate}
-        \item Le lecteur envoie un bit aléatoire $c_i$, et démarre une horloge. Le tag reçoit $c_i'$ (possiblement incorrect).
-        \item Le tag répond $r'_i = R_i^{c'_i}$. Le lecteur reçoit $r_i$.
-        \item Le lecteur arrête l'horloge, et sauvegarde le délai associé $\Delta t_i$ et la réponse $r_i$ reçue.
-      \end{enumerate}
-    \end{minipage}
-  \end{multicols}
-\end{frame}
-
-\begin{frame}{Troisième phase : phase de vérification}
-  \begin{multicols}{2}
-    \begin{minipage}[c]{\linewidth}
-      \centering
-      \bigskip
-      \bigskip
-      \bigskip
-      \includegraphics[width=\linewidth]{../assets/sk-phase3.png}
-    \end{minipage}
-
-    \begin{minipage}[t]{\linewidth}
-      \begin{enumerate}
-        \item Le tag envoie $t_B = f_x(c'_1, \hdots, c'_n, ID, N_A, N_B)$, et les $c'_i$.
-        \item Le lecteur cherche dans sa base de tags jusqu'à trouver $(ID, x)$ générant $t_B$.
-        \item Le lecteur calcule $R^0$ et $R^1$.
-        \item Le lecteur compte les erreurs, si il y en a plus de $T$, échec.
-        \item (optionnel) Le lecteur envoie $t_A := f_x(N_B)$ puis le tag le vérifie.
-      \end{enumerate}
-    \end{minipage}
-  \end{multicols}
-\end{frame}
+\section{Swiss-Knife}
 
 \begin{frame}{Librairie Swiss-Knife : Fonctions abstraites du Tag}
   \centering
@@ -891,6 +719,8 @@ En 2009, un article formalise les différentes attaques. \cite{attack}
   \centering
   \includegraphics[height=.9\textheight]{../assets/uml_test}
 \end{frame}
+
+\section{SKoWA}
 
 \begin{frame}{SKoWA Reader : UML}
   \centering
