@@ -25,17 +25,39 @@
         \newinst[1]{p}{Poller}
         \newinst[2]{d}{DB\_utils}
 
-        \begin{call}{f}{Type = 0}{h}{user}
-        \begin{call}{h}{checkOnce()}{c}{user}
-            \begin{call}{c}{nfcPoll()}{p}{user}
-                \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
+        \begin{call}{f}{Type = 0}{h}{user,uid}
+        \begin{call}{h}{checkOnce()}{c}{user,uid}
+            \begin{call}{c}{nfcPoll()}{p}{user,uid}
+                \begin{call}{p}{mifare.select()}{p}{byteReorder(user,uid)}
                     
                 \end{call}{p}{MiFare.select()}{p}
-                \begin{call}{p}{dbChecker(uid)}{d}{user}
+                \begin{call}{p}{dbChecker(uid)}{d}{user,uid}
+                    \begin{sdblock}{alt}{[User Found in DB]}
+                        \begin{call}{d}{return user=user}{d}{}
+                        \end{call}
+                    
+                        \stepcounter{seqlevel} %Vertical empty space between `calls`
+                    
+                        \begin{call}{d}{return user=None}{d}{}
+                        \end{call}
+                    \end{sdblock}
+                    \path (nw)--coordinate (aux) (se); 
+                    \draw[dashed] (nw|-aux)--(aux-|se);
                 \end{call}
             \end{call}
         \end{call}
-      \end{call}{f}
+      \end{call}
+      \begin{sdblock}{alt}{[user==None]}
+        \begin{call}{f}{add uid to user}{f}{}
+        \end{call}
+    
+        \stepcounter{seqlevel} %Vertical empty space between `calls`
+    
+        \begin{call}{f}{Error: uid already used}{f}{}
+        \end{call}
+    \end{sdblock}
+    \path (nw)--coordinate (aux) (se); 
+    \draw[dashed] (nw|-aux)--(aux-|se);
             
 
     \end{sequencediagram}
@@ -55,18 +77,18 @@
         \begin{messcall}{f}{Type=1, classID}{h}
             \begin{call}{h}{checkClass(websocket)}{c}{users}
                 \begin{sdblock}{Poll Loop}{}
-                    \begin{call}{c}{nfcPoll()}{p}{user}
+                    \begin{call}{c}{nfcPoll()}{p}{user,uid}
                         \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
                         \end{call}{p}{MiFare.select()}{p}
                         
-                        \begin{call}{p}{dbChecker(uid)}{d}{user}
+                        \begin{call}{p}{dbChecker(uid)}{d}{user,uid}
                         \end{call}
                     \end{call}
 
-                    \begin{call}{c}{Add user to users}{c}{}
+                    \begin{call}{c}{Add user,uid to users}{c}{}
                     \end{call}
 
-                    \mess[1]{c}{user}{f}
+                    \mess[1]{c}{user,uid}{f}
                 \end{sdblock}
             \end{call}
             \begin{call}{h}{saveClassEntry(classID,users)}{d}{}
@@ -90,18 +112,18 @@
         \begin{messcall}{f}{Type=2, classID}{h}
             \begin{call}{h}{checkClass(websocket)}{c}{users}
                 \begin{sdblock}{Poll Loop}{}
-                    \begin{call}{c}{nfcPoll()}{p}{user}
+                    \begin{call}{c}{nfcPoll()}{p}{user,uid}
                         \begin{call}{p}{mifare.select()}{p}{byteReorder(uid)}
                         \end{call}{p}{MiFare.select()}{p}
                         
-                        \begin{call}{p}{dbChecker(uid)}{d}{user}
+                        \begin{call}{p}{dbChecker(uid)}{d}{user,uid}
                         \end{call}
                     \end{call}
 
-                    \begin{call}{c}{Add user to users}{c}{}
+                    \begin{call}{c}{Add user,uid to users}{c}{}
                     \end{call}
 
-                    \mess[1]{c}{user}{f}
+                    \mess[1]{c}{user,uid}{f}
                 \end{sdblock}
             \end{call}
             \begin{call}{h}{saveClassExit(classID,users)}{d}{}
