@@ -1,10 +1,10 @@
 package skowa
 
-import skowa.audio.Receiver
-import skowa.audio.Sender
 import fr.yopox.swiss_knife.Reader
 import fr.yopox.swiss_knife.Values
 import fr.yopox.swiss_knife.Values.Companion.easyBitSet
+import skowa.audio.Receiver
+import skowa.audio.Sender
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket
@@ -43,12 +43,12 @@ class SkowaReader(seed: Int) : Reader(seed) {
 
     override fun dbSearch(tB: BitSet, cpI: BitSet, nA: BitSet, nB: BitSet): Pair<BitSet, BitSet>? {
         for ((id, private) in db)
-            if (f_x(private, Values.join(arrayOf(cpI, id, nA, nB))) == tB)
+            if (f_x(private, Values.join(cpI, id, nA, nB)) == tB)
                 return id to private
         return null
     }
 
-    override fun f_x(private: BitSet, b: BitSet) = sha256(Values.join(arrayOf(b, private)))
+    override fun f_x(private: BitSet, b: BitSet) = sha256(Values.join(sha256(Values.join(b, private)), private))
 
     override fun tagNotFound() {}
     override fun accept(ID: BitSet) {}
