@@ -34,7 +34,7 @@ class DroidTag : Tag() {
 
     override fun genNB() = sha256(easyBitSet("00101011"))
 
-    override fun f_x(private: BitSet, b: BitSet) = sha256(Values.join(arrayOf(b, private)))
+    override fun f_x(private: BitSet, b: BitSet) = sha256(Values.join(sha256(Values.join(b, private)), private))
 
     override fun receive1(): Pair<BitSet, BitSet> {
         return reader.readObject() as Pair<BitSet, BitSet>
