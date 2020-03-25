@@ -64,7 +64,7 @@
 \end{frame}
 
 \begin{frame}{Plan}
-  \tableofcontents
+  \tableofcontents[subsectionstyle=hide/hide/hide]
 \end{frame}
 
 \section{Introduction}
@@ -78,7 +78,7 @@
 
   \begin{itemize}
     \item Présence en réunion, en cours, à une conférence
-    \item Vérification effectuée par le Maître de Conférence (MDC)
+    \item Vérification effectuée par le maître de conférence (MDC)
   \end{itemize}
 
 \end{frame}
@@ -190,7 +190,7 @@
 
 \end{frame}
 
-\begin{frame}{Pourquoi le Wifi et le Son ?}
+\begin{frame}{Pourquoi le Wi-Fi et le Son ?}
 
   Test avec un programe de ping en C++, et le Protocole Délimiteur de Distance \textit{Swiss-Knife} implémenté en Kotlin
 
@@ -198,16 +198,16 @@
     \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
-    \textbf{Test}                                        & \textbf{Devices}             & \textbf{Distance Min} & \textbf{Moyenne} \\ \hline
-    \multicolumn{1}{|c|}{\multirow{2}{*}{Ping (en c++)}} & Localhost                    & 3KM                   & 10KM             \\ \cline{2-4} 
-    \multicolumn{1}{|c|}{}                               & PC $\leftrightarrow$ Routeur & 100KM                 & 140KM            \\ \hline
-    SK en Kotlin                                         & Localhost                    & 24KM                  & 39KM             \\ \hline
+    \textbf{Test}                                        & \textbf{Devices}             & \textbf{Distance Min} & \textbf{Moyenne}      \\ \hline
+    \multicolumn{1}{|c|}{\multirow{2}{*}{Ping (en c++)}} & Localhost                    & \SI{3}{\kilo\meter}   & \SI{10}{\kilo\meter}  \\ \cline{2-4} 
+    \multicolumn{1}{|c|}{}                               & PC $\leftrightarrow$ Routeur & \SI{100}{\kilo\meter} & \SI{140}{\kilo\meter} \\ \hline
+    SK en Kotlin                                         & Localhost                    & \SI{24}{\kilo\meter}  & \SI{39}{\kilo\meter}  \\ \hline
     \end{tabular}
   \end{table}
 
   \bigskip
 
-  La fréquence de calcul dans un processeur est proche de la vitesse de déplacement d'une Onde Electromagnétique
+  La fréquence de calcul dans un processeur est proche de la vitesse de déplacement d'une onde electromagnétique
   
   $\Rightarrow$ Les distances sont bien trop grandes pour être exploitables.
 
@@ -217,7 +217,7 @@
 
 \end{frame}
 
-\begin{frame}{Architecture du système}
+\begin{frame}{Architecture du Système}
   \centering
   \includegraphics[height=0.8\textheight]{../assets/architecture.png}
 \end{frame}
@@ -235,7 +235,7 @@
 \end{frame}
 
 \begin{frame}{Présentation}
-  Le raspberry Pi a plusieurs utilités dans notre projet, et sert de serveur pour certains composants.
+  Le Raspberry Pi a plusieurs utilités dans notre projet, et sert de serveur pour certains composants.
   \begin{itemize}
     \item Lecteur NFC géré par une librairie python (NxpPy)
     \item Backend de l'application web (node JS)
@@ -262,7 +262,7 @@
 \subsection{NFC}
 
 \begin{frame}{Présentation NFC}
-  Nous avons utilisé le module \textit{explore-nfc} de la société NXP qui se branche sur les GPIO du raspberry PI
+  Nous avons utilisé le module \textit{explore-nfc} de la société NXP qui se branche sur les GPIO du Raspberry PI
   \begin{figure}.
     \includegraphics[width=.5\textwidth]{../assets/explorenfc.png}
   \end{figure}
@@ -297,13 +297,13 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Type 1 (Verification à l'entrée)}
+\begin{frame}{Type 1 (Verification à l'Entrée)}
   \begin{figure}[]
     \includegraphics[height=.9\textheight]{../assets/nfcSeqEntry.png}
   \end{figure}
 \end{frame}
 
-\begin{frame}{Type 2 (Vérification à la sortie)}
+\begin{frame}{Type 2 (Vérification à la Sortie)}
   \begin{figure}[]
     \includegraphics[height=.9\textheight]{../assets/nfcSeqExit.png}
   \end{figure}
@@ -311,7 +311,7 @@
 
 \subsection{Application Web}
 
-\begin{frame}{Présentation de l'appli Web}
+\begin{frame}{Présentation de l'Appli Web}
   Application web permettant de gérer les utilisateurs, et l'entrée et sortie d'amphi.
   \begin{itemize}
     \item Framework \textbf{Express JS} en \textbf{Node}
@@ -326,7 +326,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Structure de l'appli Web}
+\begin{frame}{Structure de l'Appli Web}
   3 pages principales :
   \begin{itemize}
     \item \textbf{Users :} Gestion des utilisateurs
@@ -341,7 +341,7 @@
 
 \subsection{LDAP Parser}
 
-\begin{frame}{Présentation du parser LDAP}
+\begin{frame}{Présentation du Parser LDAP}
     Parser les fichier LDIF extraits du LDAP de l'école.
     \begin{itemize}
         \item Création des fichiers LDIF à partir du LDAP de l'école
@@ -372,7 +372,7 @@
    \end{itemize}
 \end{frame}
 
-\begin{frame}{Récapitulatif de l'architecture}
+\begin{frame}{Récapitulatif de l'Architecture}
     \begin{figure}
         \centering
         \includegraphics[width=.45\textwidth]{../assets/architectureraspberrypi.png}
@@ -383,7 +383,7 @@
 
 \subsection{Swiss-Knife}
 
-\begin{frame}{Le protocole Swiss-Knife}
+\begin{frame}{Le Protocole Swiss-Knife}
   Protocole délimiteur de distance proposé en 2008. \cite{SwissKnife}
 
   \bigskip
@@ -398,7 +398,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Le protocole Swiss-Knife}
+\begin{frame}{Le Protocole Swiss-Knife}
 
   \centering
   \begin{tikzpicture}
@@ -422,7 +422,7 @@
 
 \end{frame}
 
-\begin{frame}{Phase de préparation}
+\begin{frame}{Phase de Préparation}
   \begin{multicols}{2}
     \begin{minipage}[c]{\linewidth}
       \centering
@@ -442,7 +442,7 @@
   \end{multicols}
 \end{frame}
 
-\begin{frame}{Phase rapide}
+\begin{frame}{Phase Rapide}
   \begin{figure}[!htb]
     \centering
 
@@ -458,7 +458,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Phase de vérification}
+\begin{frame}{Phase de Vérification}
   \begin{multicols}{2}
     \begin{minipage}[c]{\linewidth}
       \centering
@@ -512,14 +512,14 @@
 
 \end{frame}
 
-\begin{frame}{Maquette de l'application}
+\begin{frame}{Maquette de l'Application}
   \begin{adjustwidth}{-1.8em}{2em}
     \centering
     \includegraphics[width=1.1\textwidth]{../assets/maquette.png}
   \end{adjustwidth}
 \end{frame}
 
-\begin{frame}{App actuelle}
+\begin{frame}{App Actuelle}
 
   \begin{minipage}{.4\textwidth}
     \begin{itemize}
@@ -540,12 +540,12 @@
 \end{frame}
 
 
-\begin{frame}{Traitement du signal}
+\begin{frame}{Traitement du Signal}
   \centering
   \includegraphics[height=.9\textheight]{../assets/uml_signal}
 \end{frame}
 
-\begin{frame}{Traitement du signal : rounds}
+\begin{frame}{Traitement du Signal : rounds}
   \centering
   \begin{tikzpicture}
 
@@ -618,7 +618,7 @@
 
 \subsection{Raspberry Pi}
 
-\begin{frame}{A Faire sur le raspberry pi}
+\begin{frame}{À Faire sur le Raspberry Pi}
 
   \begin{itemize}
     \item Améliorer le filtrage de l'interface web
@@ -630,7 +630,7 @@
 
 \subsection{SKoWA}
 
-\begin{frame}{A Faire sur le SKoWA}
+\begin{frame}{À Faire sur le SKoWA}
 
   \begin{itemize}
     \item Améliorer le traitement du signal
@@ -642,7 +642,7 @@
 
 \end{frame}
 
-\subsection{Mise en commun}
+\subsection{Mise en Commun}
 
 \begin{frame}
   \begin{minipage}{.7\textwidth}
