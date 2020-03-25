@@ -172,29 +172,18 @@
 
 \subsection{Choix technologiques}
 
-\begin{frame}{Résumé des études préliminaires}
-
-  \begin{table}[]
-    \begin{tabular}{|l|l|l|}
-      \hline
-      \textbf{Technologie} & \textbf{Avantages}         & \textbf{Inconvénients}           \\ \hline
-      RFID                 & \begin{tabular}[c]{@{}l@{}}Portée qui peut être adaptée \\ en fonction du protocole\end{tabular}  & Pas présent dans tous les appareils \\ \hline
-      NFC                  & \begin{tabular}[c]{@{}l@{}}Très simple à implémenter\\ Sécurité physique\end{tabular}  & Portée très courte               \\ \hline
-      Bluetooth            & Portée Idéale              & \begin{tabular}[c]{@{}l@{}}Pas du tout adapté pour  \\ plusieurs appareils\end{tabular}       \\ \hline
-      Wi-Fi                & \begin{tabular}[c]{@{}l@{}}Portée Idéale\\ Ok pour plusieurs appareils\end{tabular} & \begin{tabular}[c]{@{}l@{}}Collisions\\ Traverse les murs\\ À délimiter avec des PDD\end{tabular}       \\ \hline
-    \end{tabular}
-  \end{table}
-
-\end{frame}
-
 \begin{frame}{Choix Technologiques Globaux}
 
   Solution hybride à base de Wi-Fi, de son et de NFC :
   \begin{itemize}
     \item NFC pour vérifier l'entrée et la sortie des élèves dans la salle
-    \item Wi-Fi et son pour vérifier la présence effective pendant le cours (PDD)
-    \item Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
+    \item \textbf{Wi-Fi} et \textbf{Son} pour vérifier la présence effective pendant le cours (Protocoles Délimiteurs de Distance)
   \end{itemize}
+
+  \bigskip
+  
+  $\Rightarrow$ Modularité pour le MDC : permettrait de choisir la vérification permanente ou juste à l'entrée et la sortie
+
 
 \end{frame}
 
