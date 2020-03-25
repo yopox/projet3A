@@ -9,6 +9,9 @@ class SkowaTest {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            // Object init
+            Receiver.receive(1)
+
             // Use [receiveTest] to test frequency recognition
             //receiveTest()
 
