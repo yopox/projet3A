@@ -19,6 +19,7 @@
 \usepackage{siunitx}
 \usepackage{calc}
 \usepackage{multicol}
+\usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{verbatim}
@@ -187,29 +188,30 @@
 
 \end{frame}
 
-\begin{frame}{Mesure de distance équivalente}
+\begin{frame}{Pourquoi le Wifi et le Son ?}
 
-  Programme en C++ permettant de tester avec un ping :
-  \begin{itemize}
-    \item Localhost
-          \begin{itemize}
-            \item Min : \SI{3}{\kilo\meter}
-            \item Moyenne : \SI{10}{\kilo\meter}
-          \end{itemize}
-    \item Routeur d'une résidence étudiante
-          \begin{itemize}
-            \item Min : \SI{100}{\kilo\meter}
-            \item Moyenne : \SI{140}{\kilo\meter}
-          \end{itemize}
-  \end{itemize}
+  Test avec un programe de ping en C++, et le Protocole Délimiteur de Distance \textit{Swiss-Knife} implémenté en Kotlin
+
+  \begin{table}[]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Test}                                        & \textbf{Devices}             & \textbf{Distance Min} & \textbf{Moyenne} \\ \hline
+    \multicolumn{1}{|c|}{\multirow{2}{*}{Ping (en c++)}} & Localhost                    & 3KM                   & 10KM             \\ \cline{2-4} 
+    \multicolumn{1}{|c|}{}                               & PC $\leftrightarrow$ Routeur & 100KM                 & 140KM            \\ \hline
+    SK en Kotlin                                         & Localhost                    & 24KM                  & 39KM             \\ \hline
+    \end{tabular}
+  \end{table}
 
   \bigskip
 
-  Implémentation du Swiss-Knife en localhost :
-  \begin{itemize}
-    \item Min : \SI{24}{\kilo\meter}
-    \item Moyenne : \SI{39}{\kilo\meter}
-  \end{itemize}
+  La fréquence de calcul dans un processeur est proche de la vitesse de déplacement d'une Onde Electromagnétique
+  
+  $\Rightarrow$ Les distances sont bien trop grandes pour être exploitables.
+
+  \bigskip
+
+  Le son permet d'effacer ce problème, étant d'un ordre de grandeur bien inférieur.
 
 \end{frame}
 
